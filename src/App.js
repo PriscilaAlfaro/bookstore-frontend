@@ -1,15 +1,11 @@
 import './App.css';
-import Header from "./Components/Header";
-import Footer from "./Components/Footer";
-import BooksContainer from "./Components/BooksContainer";
+import Home from "./Pages/Home"
+import BookDetails from "./Pages/BookDetails";
 
 const App= () =>{
   return (
-      <>
-        <Header/>
-          <BooksContainer/>
-          <Footer/>
-      </>
+    // <Home/>
+      <BookDetails/>
   );
 }
 
