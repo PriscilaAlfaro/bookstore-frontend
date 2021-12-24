@@ -34,6 +34,7 @@ const ButtonHeader = styled.button`
 
 const HeaderIcons = ({handleOnClickSearch}) => {
 
+
     return (
             <HeaderBodyContainer>
                 <LeftContainer>

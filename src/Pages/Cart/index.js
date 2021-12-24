@@ -9,58 +9,41 @@ const Container= styled.section`
   flex-wrap: wrap;
   margin: 0 auto;
   justify-content: center;
-  width: 80%;
+  width: 90%;
+  flex-direction: column;
 `
-const Up= styled.div`
-  background: lightpink;
+
+const ItemDetails= styled.div`
+background-color: #61dafb;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
   align-items: center;
   justify-content: flex-start;
+  margin: 10px auto;
   @media (min-width: 768px){
-    flex-direction: row;
+    
   }
 `
 
 const CardImage= styled.img`
-  width: 30%;
+  width: 10%;
   height: auto;
   margin: 10px 20px;
 `
 
 const BookDetailsContainer= styled.div`
   display: flex;
-  flex-direction: column;
-  margin: auto 30px;
+  flex-direction: row;
+  margin: 10px auto;
+  align-items: center;
 `
 
-const Details= styled.p`
-  display: flex;
-  flex-direction: column;
-  color: gray;
-  margin: 5px;
-`
-
-const Synopsis= styled.div`
-  display: flex;
-  background: yellow;
-  flex-direction: column;
-`
-const Title= styled.h1`
-  font-size: 2rem;
-`
-
-const SubTitle= styled.h2`
+const Text= styled.h2`
   font-size: 1rem;
 `
 
-const Text= styled.p`
-  font-size: 1rem;
-`
-
-
-const AddToCardButton = styled.button`
+const DeleteButton = styled.button`
   color: white;
   background: rgb(186, 201, 100);
   border: none;
@@ -77,12 +60,6 @@ const AddToCardButton = styled.button`
   }
 `
 
-const Icons= styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-top: 30px;
-`
-
 
 const card = {
     title: "The beginning of everything",
@@ -93,37 +70,33 @@ const card = {
     synopsis: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 }
 
-const BookDetails= () =>{
+const Cart = ()=>{
     return (
         <>
             <Header/>
             <Link to="/">Return</Link>
-        <Container>
-            <Up>
-            <CardImage src={card.image} alt="card patron"/>
-            <BookDetailsContainer>
-                <Title>{card.title}</Title>
-                <Details>Author: {card.author}</Details>
-                <Details>Year: {card.year}</Details>
-                <Details>Editorial: {card.year}</Details>
-                <Details>Pages: {card.title}</Details>
-                <Details>Isbn: {card.title}</Details>
-                <SubTitle>Price: {card.price}</SubTitle>
-                <Counter/>
-                <Icons>
-                <AddToCardButton><i className="fas fa-shopping-cart"></i> Add to cart</AddToCardButton>
-                <AddToCardButton><i className="fas fa-heart"></i></AddToCardButton>
-                </Icons>
-            </BookDetailsContainer>
-            </Up>
+            <Container>
+                <ItemDetails>
+                    <BookDetailsContainer>
+                    <CardImage src={card.image} alt="card patron"/>
+                        <Text>{card.title}</Text>
+                        <Text>Price: {card.price}</Text>
+                        <Counter/>
+                        <DeleteButton><i className="fas fa-trash"></i></DeleteButton>
+                    </BookDetailsContainer>
 
-            <Synopsis>
-                <SubTitle>Synopsis:</SubTitle>
-                <Text>{card.synopsis}</Text>
-            </Synopsis>
-        </Container>
+                    <BookDetailsContainer>
+                        <CardImage src={card.image} alt="card patron"/>
+                        <Text>{card.title}</Text>
+                        <Text>Price: {card.price}</Text>
+                        <Counter/>
+                        <DeleteButton><i className="fas fa-trash"></i></DeleteButton>
+                    </BookDetailsContainer>
+                </ItemDetails>
+                Checkout
+            </Container>
         </>
     );
 }
 
-export default BookDetails;
+export default Cart;
