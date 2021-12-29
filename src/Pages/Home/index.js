@@ -9,11 +9,7 @@ const Home= () =>{
         <>
             <Header/>
             <Link to="/bookDetails">BookDetails     - </Link>
-            <Link to="/notFound">notFound  --- </Link>
-            <Link to="/cart">Cart ----</Link>
-            <Link to="/wishlist"> ---- Wishlist</Link>
-            <Link to="/signup"> ---- signup</Link>
-            <Link to="/login"> ---- Login</Link>
+            {/*<Link to="/notFound">notFound  --- </Link>*/}
             <BooksContainer/>
             <Footer/>
         </>

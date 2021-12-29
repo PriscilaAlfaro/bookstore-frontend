@@ -1,4 +1,6 @@
 import styled from 'styled-components/macro';
+import {Link, useNavigate} from "react-router-dom";
+import React from "react";
 
 
 const HeaderBodyContainer = styled.section`
@@ -33,7 +35,7 @@ const ButtonHeader = styled.button`
 `
 
 const HeaderIcons = ({handleOnClickSearch}) => {
-
+    const navigate = useNavigate();
 
     return (
             <HeaderBodyContainer>
@@ -41,9 +43,9 @@ const HeaderIcons = ({handleOnClickSearch}) => {
                     <ButtonHeader onClick={handleOnClickSearch}><i className="fas fa-search"></i> search</ButtonHeader>
                 </LeftContainer>
                 <RightContainer>
-                    <ButtonHeader ><i className="fas fa-user-circle"></i> </ButtonHeader>
-                    <ButtonHeader ><i className="fas fa-heart"></i></ButtonHeader>
-                    <ButtonHeader ><i className="fas fa-shopping-cart"></i> $0</ButtonHeader>
+                    <ButtonHeader><Link to={'/signup'}><i className="fas fa-user-circle"></i></Link></ButtonHeader>
+                    <ButtonHeader><Link to={'/wishlist'}><i className="fas fa-heart"></i></Link></ButtonHeader>
+                    <ButtonHeader ><Link to={'/cart'}><i className="fas fa-shopping-cart"></i>0</Link></ButtonHeader>
                 </RightContainer>
             </HeaderBodyContainer>
     )

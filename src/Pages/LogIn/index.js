@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import styled from "styled-components";
 
 
@@ -63,7 +63,7 @@ const Title= styled.h1`
 const SignUp= () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
+    const navigate = useNavigate();
 
     function validateForm() {
         return email.length > 0 && password.length > 0;
@@ -74,8 +74,8 @@ const SignUp= () => {
     }
     return (
         <>
-            <Link to="/">Return</Link>
-            <Title>Don't have an account? <Button>Sing up</Button></Title>
+            <Link to={"/"}><i className="fas fa-chevron-circle-left">Return</i></Link>
+            <Title>Don't have an account? <Button><Link to={"/signup"} >Sing up</Link></Button></Title>
             <Container>
                 <Form onSubmit={handleSubmit}>
                     <Label>
