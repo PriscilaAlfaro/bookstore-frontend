@@ -9,7 +9,6 @@ const Home = () =>{
     return (
         <>
             <Header/>
-            <Link to="/bookDetails">BookDetails </Link>
             <BooksContainer/>
             <Footer/>
         </>

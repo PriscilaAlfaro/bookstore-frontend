@@ -60,54 +60,53 @@ const Title= styled.h1`
   text-align: center;
 `
 
-const SignUp= () => {
-const [email, setEmail] = useState("");
-const [password, setPassword] = useState("");
-const navigate = useNavigate();
+const SignIn= () => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+
+    function validateForm() {
+        return email.length > 0 && password.length > 0;
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault();
+    }
 
 
-function validateForm() {
-return email.length > 0 && password.length > 0;
-}
+    return (
+        <>
+      <Link to={"/"}><i className="fas fa-chevron-circle-left">Return</i></Link>
+  
+          <Title>Don't have an account? <Link to={"/signup"}><Button>Sing up</Button></Link></Title> 
+         
+            <Container>
+                <Form onSubmit={handleSubmit}>
+                    <Label>
+                        <Text>Email</Text>
+                        <Input
+                            autoFocus
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                    </Label>
 
-function handleSubmit(event) {
-event.preventDefault();
-}
-return (
-    <>
-        <Link to={"/"}><i className="fas fa-chevron-circle-left">Return</i></Link>
-        <Title>Already have an account? <Button><Link to={"/login"}>Log in</Link></Button></Title>
-        <Container>
-        <Form onSubmit={handleSubmit}>
-            <label>
-                <Text>Username</Text>
-                <Input type="text" />
-            </label>
-                <Label>
-                    <Text>Email</Text>
-                    <Input
-                        autoFocus
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </Label>
-
-                <Label>
-                    <Text>Password</Text>
-                <Input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                </Label>
-            <Button block size="lg" type="submit" disabled={!validateForm()}>
-             Sing up
-            </Button>
-        </Form>
-    </Container>
-    </>
+                    <Label>
+                        <Text>Password</Text>
+                        <Input
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </Label>
+                    <Button block size="lg" type="submit" disabled={!validateForm()}>
+                        Log in
+                    </Button>
+                </Form>
+            </Container>
+        </>
     );
 }
 
-export default SignUp;
+export default SignIn;

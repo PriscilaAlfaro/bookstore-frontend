@@ -7,13 +7,14 @@ import BookDetails from "./Pages/BookDetails";
 import NotFound from "./Pages/NotFound";
 import Cart from "./Pages/Cart";
 import Wishlist from "./Pages/Wishlist";
-import SignUp from "./Pages/SignIn";
-import LogIn from "./Pages/LogIn";
+import SignIn from "./Pages/SignIn";
+import SignUp from './Pages/SignUp';
 
 import React, { useEffect } from "react";
 import { API_URL } from './utils/url';
 import { useDispatch } from 'react-redux';
 import { books } from './reducers/books';
+
 
 
 const App= () =>{
@@ -47,8 +48,8 @@ const App= () =>{
             <Route path="/bookDetails/:id" element={ <BookDetails/>} />
             <Route path="/cart" element={ <Cart/>} />
             <Route path="/wishlist" element={ <Wishlist/>} />
+            <Route path="/signin" element={ <SignIn/>} />
             <Route path="/signup" element={ <SignUp/>} />
-            <Route path="/login" element={ <LogIn/>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
