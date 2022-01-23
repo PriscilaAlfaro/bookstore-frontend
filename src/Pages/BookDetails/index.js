@@ -1,15 +1,20 @@
 import styled from "styled-components";
 import React from "react";
-import { Link } from "react-router-dom";
+import { useParams, Link } from 'react-router-dom'
 import Header from "../../Components/Header";
 import Counter from "../../Components/Counter";
+import { useSelector } from 'react-redux';
+import  NotFound from '../NotFound';
+import { Loader } from "../../Components/Loader";
+import moment from "moment";
 
 const Container= styled.section`
   display: flex;
   flex-wrap: wrap;
-  margin: 0 auto;
+  margin: 3rem auto;
   justify-content: center;
   width: 80%;
+  background-color: white;
 `
 const Up= styled.div`
   background: lightpink;
@@ -20,6 +25,7 @@ const Up= styled.div`
   justify-content: flex-start;
   @media (min-width: 768px){
     flex-direction: row;
+    width: 100%
   }
 `
 
@@ -33,6 +39,7 @@ const BookDetailsContainer= styled.div`
   display: flex;
   flex-direction: column;
   margin: auto 30px;
+  
 `
 
 const Details= styled.p`
@@ -46,6 +53,10 @@ const Synopsis= styled.div`
   display: flex;
   background: yellow;
   flex-direction: column;
+  @media (min-width: 768px){
+    width: 100%;
+  }
+
 `
 const Title= styled.h1`
   font-size: 2rem;
@@ -84,31 +95,40 @@ const Icons= styled.div`
 `
 
 
-const card = {
-    title: "The beginning of everything",
-    image: "https://images.unsplash.com/photo-1588666309990-d68f08e3d4a6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=685&q=80",
-    price: "$120",
-    year: 2020,
-    author: "Priscila Alfaro Segura",
-    synopsis: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-}
+const BookDetails = () =>{
+  const { id } = useParams();
+  const books = useSelector(store => store.books.bookItems);
+  let bookDetails={} 
 
-const BookDetails= () =>{
+ 
+    if (id) {
+      bookDetails = books.find(book => book._id === id)
+    } else {
+      return <NotFound />
+    }
+  
+
+  if (!bookDetails) {
+    return (< Loader />)
+  }
+
     return (
         <>
             <Header/>
             <Link to="/">Return</Link>
         <Container>
             <Up>
-            <CardImage src={card.image} alt="card patron"/>
+            <CardImage src={bookDetails.thumbnailUrl} alt="card patron"/>
             <BookDetailsContainer>
-                <Title>{card.title}</Title>
-                <Details>Author: {card.author}</Details>
-                <Details>Year: {card.year}</Details>
-                <Details>Editorial: {card.year}</Details>
-                <Details>Pages: {card.title}</Details>
-                <Details>Isbn: {card.title}</Details>
-                <SubTitle>Price: {card.price}</SubTitle>
+              <Title>{bookDetails.title}</Title>
+              <Details>Author: {bookDetails.authors.map(author=> author)}</Details>
+              <Details>Published: {moment(bookDetails.publishedDate).format('LL')}</Details>
+              <Details>Categories: {bookDetails.categories.map(cat=>cat)}</Details>
+              <Details>Language: {bookDetails.language}</Details>
+              <Details>Pages: {bookDetails.pageCount}</Details>
+              <Details>Isbn: {bookDetails.isbn}</Details>
+              <Details>Availability: {bookDetails.availability}</Details>
+              <SubTitle>Price: ${bookDetails.price}</SubTitle>
                 <Counter/>
                 <Icons>
                 <AddToCardButton><i className="fas fa-shopping-cart"></i> Add to cart</AddToCardButton>
@@ -119,7 +139,7 @@ const BookDetails= () =>{
 
             <Synopsis>
                 <SubTitle>Synopsis:</SubTitle>
-                <Text>{card.synopsis}</Text>
+            <Text>{bookDetails.longDescription}</Text>
             </Synopsis>
         </Container>
         </>

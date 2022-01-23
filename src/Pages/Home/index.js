@@ -4,12 +4,12 @@ import BooksContainer from "../../Components/BooksContainer";
 import {Link} from "react-router-dom";
 import React from "react";
 
-const Home= () =>{
+const Home = () =>{
+  
     return (
         <>
             <Header/>
-            <Link to="/bookDetails">BookDetails     - </Link>
-            {/*<Link to="/notFound">notFound  --- </Link>*/}
+            <Link to="/bookDetails">BookDetails </Link>
             <BooksContainer/>
             <Footer/>
         </>

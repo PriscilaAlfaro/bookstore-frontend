@@ -40,9 +40,9 @@ const Overlay= styled.div`
   }
 `
 
-const IconHeart= styled.i`
+const Details= styled.p`
   cursor: pointer;
-  font-size: 30px;
+  font-size: 20px;
   filter: invert(1);
   &:hover {
     transform: scale(1.2);
@@ -93,28 +93,24 @@ const BookInfo = styled.h2`
   }
 `
 
-const card = {
-    title: "The beginning of everything",
-    image: "https://images.unsplash.com/photo-1588666309990-d68f08e3d4a6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=685&q=80",
-    price: "$120",
-    author: "Priscila Alfaro Segura"
-}
-
-const Book = () => {
+const Book = ({book}) => {
+  if(book){
     return (
         <Container>
         <ImageContainer href="https://www.todostuslibros.com/" target="_blank">
-            <CardImage src={card.image} alt="card patron"/>
+          <CardImage src={book.thumbnailUrl} alt={book.title}/>
             <Overlay>
-              <IconHeart className="fas fa-heart"></IconHeart>
+              {/* <IconHeart className="fas fa-heart"></IconHeart> */}
+            <Details>More details</Details>
             </Overlay>
         </ImageContainer>
             <AddToCartButton >Add to cart</AddToCartButton>
-            <CardTitle >{card.title}</CardTitle>
-            <CardSubTitle>{card.author}</CardSubTitle>
-            <BookInfo>{card.price}</BookInfo>
+            <CardTitle >{book.title}</CardTitle>
+            <CardSubTitle>{book.authors.map(author => author)}</CardSubTitle>
+            <BookInfo>${book.price}</BookInfo>
         </Container>
     );
+  }
 }
 
 export default Book;

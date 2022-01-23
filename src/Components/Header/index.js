@@ -10,7 +10,7 @@ const HeaderContainer = styled.section`
   background: rgb(67, 111, 138);
   font-family: 'Roboto Condensed', sans-serif;
   width: 100%;
-  height: 250px;
+  height: 350px;
   margin: 0 auto 2rem auto;
   display: flex;
   flex-direction: column;
@@ -32,7 +32,7 @@ const HeaderMainTitle = styled.h1`
 
 const SearchBarContainer = styled.div`
   width: 100%;
-  margin: 0 auto;
+  margin: 1rem auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
