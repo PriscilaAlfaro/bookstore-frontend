@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import styled from 'styled-components/macro';
-
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { cart } from '../../reducers/cart';
 
 const Container = styled.section`
   display: flex;
@@ -20,14 +22,22 @@ const Count = styled.p`
   margin: auto 10px;
 `
 
-const Counter = () => {
-    const [count, setCount] = useState(0);
+const Counter = ({ quantity, productId}) => {
+  const dispatch = useDispatch();
+
+const handleOnClickPlus = () => {
+  dispatch(cart.actions.addItemToCart({ productId }));
+}
+
+const handleOnClickReduce = () => {
+  dispatch(cart.actions.removeItemFromCart({ productId })); 
+}
 
     return (
         <Container>
-            <Button onClick={() => setCount(count - 1)}>-</Button>
-            <Count>{count}</Count>
-            <Button onClick={() => setCount(count + 1)}>+</Button>
+        <Button onClick={handleOnClickReduce}>-</Button>
+        <Count>{quantity}</Count>
+        <Button onClick={handleOnClickPlus}>+</Button>
         </Container>
     );
 }

@@ -1,5 +1,6 @@
 import styled from 'styled-components/macro';
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
+import { useSelector } from 'react-redux';
 import React from "react";
 
 
@@ -26,6 +27,7 @@ const ButtonHeader = styled.button`
   border-radius: 10px;
   font-family: 'Roboto Condensed', sans-serif;
   font-size: 0.8rem;
+  text-decoration: none;
   @media (min-width: 768px){
     font-size: 1rem;
   }
@@ -35,7 +37,9 @@ const ButtonHeader = styled.button`
 `
 
 const HeaderIcons = ({handleOnClickSearch}) => {
-    const navigate = useNavigate();
+  const cartItems = useSelector(store => store.cart.items);
+  console.log("cartItems from store",cartItems)
+  const totalItems = cartItems?.reduce((acc, curr) => acc + curr.quantity, 0)
 
     return (
             <HeaderBodyContainer>
@@ -43,9 +47,9 @@ const HeaderIcons = ({handleOnClickSearch}) => {
                     <ButtonHeader onClick={handleOnClickSearch}><i className="fas fa-search"></i> search</ButtonHeader>
                 </LeftContainer>
                 <RightContainer>
-                    <ButtonHeader><Link to={'/signup'}><i className="fas fa-user-circle"></i></Link></ButtonHeader>
-                    <ButtonHeader><Link to={'/wishlist'}><i className="fas fa-heart"></i></Link></ButtonHeader>
-                    <ButtonHeader ><Link to={'/cart'}><i className="fas fa-shopping-cart"></i>0</Link></ButtonHeader>
+          <ButtonHeader><Link to={'/signup'} style={{ color: 'white' }} activestyle={{ color: 'red' }}><i className="fas fa-user-circle"></i></Link></ButtonHeader>
+          <ButtonHeader><Link to={'/wishlist'} style={{ color: 'white'}} activestyle={{ color: 'red' }}><i className="fas fa-heart"></i></Link></ButtonHeader>
+          <ButtonHeader ><Link to={'/cart'} style={{ color: 'white', textDecoration: 'none' }} activestyle={{ color: 'red' }}><i className="fas fa-shopping-cart"></i> &nbsp;{totalItems}</Link></ButtonHeader>
                 </RightContainer>
             </HeaderBodyContainer>
     )

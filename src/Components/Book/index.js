@@ -1,10 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { cart } from '../../reducers/cart';
 
 const Container= styled.section`
   width: 200px;
   height: auto;
-  margin: 1rem;
+  margin: 1.5rem;
   text-align: center;
   box-sizing: border-box;
 `
@@ -20,7 +23,6 @@ const CardImage= styled.img`
   width: 100%;
   height: auto;
   z-index: 0;
-
 `
 
 const Overlay= styled.div`
@@ -57,57 +59,75 @@ const AddToCartButton= styled.button`
   height: 30px;
   border: none;
   color: azure;
+  margin: 10px auto;
 `
 
 const CardTitle = styled.h1`
-  font-family: Rosarivo;
+  // font-family: Rosarivo;
   width: 100%;
   font-style: normal;
   font-weight: normal;
   font-size: 1rem;
+  color: black;
+  text-align: left;
+  margin: 0;
   @media (min-width: 768px){
-    font-size: 1.5rem;
+    // font-size: 1.2rem;
   }
 `
 
 const CardSubTitle = styled.h2`
-  font-family: Rosarivo;
+  // font-family: Rosarivo;
   color: gray;
   width: 100%;
   font-style: normal;
   font-weight: normal;
   font-size: 1rem;
+  text-align: left;
+  margin: 0;
   @media (min-width: 768px){
-    font-size: 1.5rem;
+    // font-size: 1.2rem;
   }
 `
 
 const BookInfo = styled.h2`
-  font-family: Roboto;
+  // font-family: Roboto;
   font-style: normal;
   font-weight: bold;
   font-size: 1rem;
   width: 100%;
+  color: black;
+  margin: 0;
+  text-align: left;
   @media (min-width: 768px){
-    font-size: 1.5rem;
+    // font-size: 1.2rem;
   }
 `
 
 const Book = ({book}) => {
+  const dispatch = useDispatch();
+
+  const handleAddToCartFromHome = () => {
+    dispatch(cart.actions.addItemToCart({ productId: book._id, quantity: 1 }));
+  }
+
+
   if(book){
     return (
         <Container>
-        <ImageContainer href="https://www.todostuslibros.com/" target="_blank">
+        <Link style={{ textDecoration: 'none' }} to={`/bookDetails/${book._id}`}>
+        <ImageContainer>
           <CardImage src={book.thumbnailUrl} alt={book.title}/>
             <Overlay>
               {/* <IconHeart className="fas fa-heart"></IconHeart> */}
             <Details>More details</Details>
             </Overlay>
         </ImageContainer>
-            <AddToCartButton >Add to cart</AddToCartButton>
+        </Link> 
+            <AddToCartButton onClick={handleAddToCartFromHome}>Add to cart</AddToCartButton>
             <CardTitle >{book.title}</CardTitle>
             <CardSubTitle>{book.authors.map(author => author)}</CardSubTitle>
-            <BookInfo>${book.price}</BookInfo>
+            <BookInfo>Price: ${book.price}</BookInfo>
         </Container>
     );
   }

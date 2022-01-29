@@ -77,9 +77,7 @@ const SignIn= () => {
     return (
         <>
       <Link to={"/"}><i className="fas fa-chevron-circle-left">Return</i></Link>
-  
           <Title>Don't have an account? <Link to={"/signup"}><Button>Sing up</Button></Link></Title> 
-         
             <Container>
                 <Form onSubmit={handleSubmit}>
                     <Label>

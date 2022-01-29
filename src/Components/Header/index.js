@@ -50,7 +50,7 @@ const Header = () => {
 
     return (
         <HeaderContainer>
-            <HeaderMainTitle>Manuscritos</HeaderMainTitle>
+            <HeaderMainTitle>Sweden Tech Library</HeaderMainTitle>
             <HeaderIcons handleOnClickSearch={ handleOnClickSearch}/>
             {showSearchBar && <SearchBarContainer>
                 <SearchBar/>

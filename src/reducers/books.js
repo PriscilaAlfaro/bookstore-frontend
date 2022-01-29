@@ -19,15 +19,6 @@ export const books = createSlice({
             store.error = action.payload;
         },
 
-        // setBookDetails: (store, action) => {
-        //     store.bookdetails = action.payload;
-        // },
-
-        // setclearBooks: () => {
-        //     return initialState
-        // }
-
-
         //For backoffice
         // addBook
         // updateBook
