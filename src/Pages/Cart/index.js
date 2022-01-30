@@ -80,7 +80,7 @@ const Cart = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-  fetch(API_URL('carts/61cc5dd60c70b047c55cb0fe'))//userId
+    fetch(API_URL('carts/61cc5f51a71db84845a46bc2/userId'))//userId
     .then(res => res.json())
     .then(data => {
       console.log(data)

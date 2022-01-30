@@ -24,9 +24,10 @@ const Count = styled.p`
 
 const Counter = ({ quantity, productId}) => {
   const dispatch = useDispatch();
+  const userId = useSelector(store => store.cart.userId);
 
 const handleOnClickPlus = () => {
-  dispatch(cart.actions.addItemToCart({ productId }));
+  dispatch(cart.actions.addItemToCart({ productId, userId }));
 }
 
 const handleOnClickReduce = () => {

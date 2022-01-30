@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { cart } from '../../reducers/cart';
 
+
 const Container= styled.section`
   width: 200px;
   height: auto;
@@ -105,10 +106,14 @@ const BookInfo = styled.h2`
 `
 
 const Book = ({book}) => {
+
+  // const userId =  useSelector(store => store.cart.userId);
   const dispatch = useDispatch();
 
+
   const handleAddToCartFromHome = () => {
-    dispatch(cart.actions.addItemToCart({ productId: book._id, quantity: 1 }));
+    dispatch(cart.actions.addItemToCart({ productId: book._id, userId: "61cc5f51a71db84845a46bc2" }));
+    
   }
 
 

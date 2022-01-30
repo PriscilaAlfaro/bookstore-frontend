@@ -38,7 +38,7 @@ const ButtonHeader = styled.button`
 
 const HeaderIcons = ({handleOnClickSearch}) => {
   const cartItems = useSelector(store => store.cart.items);
-  console.log("cartItems from store",cartItems)
+
   const totalItems = cartItems?.reduce((acc, curr) => acc + curr.quantity, 0)
 
     return (

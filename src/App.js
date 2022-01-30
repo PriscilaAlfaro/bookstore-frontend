@@ -37,7 +37,7 @@ const App= () => {
       });
 
 
-      fetch(API_URL('carts/61cc5dd60c70b047c55cb0fe'))//userId
+    fetch(API_URL('carts/61cc5f51a71db84845a46bc2/userId'))//userId
         .then(res => res.json())
         .then(data => {
           console.log(data)
@@ -51,6 +51,8 @@ const App= () => {
         }).catch((error) => {
           console.log('Error in Fetch:' + error.message);
         });
+
+
 
 }, [dispatch]);
 
