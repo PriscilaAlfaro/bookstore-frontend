@@ -7,6 +7,7 @@ import Header from "../../Components/Header";
 import Counter from "../../Components/Counter";
 import { cart } from "../../reducers/cart";
 import { API_URL } from '../../utils/url';
+import { readCookie } from "../../utils/cookies";
 
 const Container= styled.section`
   display: flex;
@@ -76,35 +77,53 @@ const DeleteButton = styled.button`
 
 const Cart = () => {
   const itemsInCart = useSelector(store => store.cart.items);
-  
+  // const userId = useSelector(store => store.user.id);
+  const cartId = readCookie("cartId");
+  const userId = readCookie("id");
+  const accessToken = readCookie("accessToken");
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch(API_URL('carts/61cc5f51a71db84845a46bc2/userId'))//userId
-    .then(res => res.json())
-    .then(data => {
-      console.log(data)
-      if (data.success) {
-        dispatch(cart.actions.setCart(data.response));
-        dispatch(cart.actions.setError(null));
-      } else {
-        dispatch(cart.actions.setCart([]));
-        dispatch(cart.actions.setError(data.response));
+    const options = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: accessToken,
       }
-    }).catch((error) => {
-      console.log('Error in Fetch:' + error.message);
-    });
-  }, [dispatch]);
+    }
+
+    if (userId && accessToken && cartId !== "undefined") {
+
+      fetch(API_URL(`carts/${userId}/userId`), options)//userId
+      // fetch(API_URL(`carts/61cc5f51a71db84845a46bc2/userId`), options)//userId
+        .then(res => res.json())
+        .then(data => {
+          console.log(data)
+          if (data.success) {
+            dispatch(cart.actions.setCart(data.response));
+            dispatch(cart.actions.setError(null));
+          } else {
+            dispatch(cart.actions.setCart([]));
+            dispatch(cart.actions.setError(data.response));
+          }
+        }).catch((error) => {
+          console.log('Error in Fetch:' + error.message);
+        });
+    }
+    
+  }, [accessToken, cartId, dispatch, userId]);
 
   //fetch al backend para traer el carrito hidratado y caerle encima a los items del redux
 
     return (
-        <>
+        <React.Fragment>
         <Header/>
         <Link to={"/"}><i className="fas fa-chevron-circle-left">Return</i></Link>
             <Container>
                 <ItemDetails>
-            {itemsInCart.map(item=>{
+            {!itemsInCart && "sorry no hay items en este cart"}
+            {itemsInCart && itemsInCart.map(item=>{
               return(
               <BookDetailsContainer key={item.productId}>
                 <CardImage src={item.url} alt={item.title} />
@@ -117,7 +136,7 @@ const Cart = () => {
                 </ItemDetails>
                 Checkout
             </Container>
-        </>
+        </React.Fragment>
     );
 }
 

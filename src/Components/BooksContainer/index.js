@@ -7,7 +7,7 @@ import { Loader } from "../Loader";
 const BooksMainContainer= styled.div`
   display: flex;
   flex-wrap: wrap;
-  margin: 3rem auto;
+  margin: 4.5rem auto;
   justify-content: center;
   text-decoration: none;
 `

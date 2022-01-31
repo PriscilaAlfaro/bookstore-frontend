@@ -4,6 +4,7 @@ import React, {useState} from "react";
 import styled from 'styled-components/macro';
 import SearchBar from "../SearchBar";
 import HeaderIcons from "../HeaderIcons";
+import { readCookie } from "../../utils/cookies";
 
 const HeaderContainer = styled.section`
   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
@@ -42,6 +43,12 @@ const SearchBarContainer = styled.div`
 const Header = () => {
     const [showSearchBar, setShowSearchBar]=  useState(false);
 
+  const user = readCookie("username");
+  const email = readCookie("email");
+  const accessToken = readCookie("accessToken");
+  const cartIdFromCookie = readCookie("cartId");
+
+
     const handleOnClickSearch = () => {
         console.log(showSearchBar)
         setShowSearchBar(!showSearchBar)
@@ -51,6 +58,7 @@ const Header = () => {
     return (
         <HeaderContainer>
             <HeaderMainTitle>Sweden Tech Library</HeaderMainTitle>
+        Hello {user} |  email: {email} | cartId: {cartIdFromCookie} | aToken: {accessToken}
             <HeaderIcons handleOnClickSearch={ handleOnClickSearch}/>
             {showSearchBar && <SearchBarContainer>
                 <SearchBar/>

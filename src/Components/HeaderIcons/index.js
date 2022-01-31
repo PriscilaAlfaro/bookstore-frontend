@@ -1,5 +1,6 @@
 import styled from 'styled-components/macro';
-import {Link} from "react-router-dom";
+import {Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import React from "react";
 
@@ -37,9 +38,19 @@ const ButtonHeader = styled.button`
 `
 
 const HeaderIcons = ({handleOnClickSearch}) => {
+  const navigate = useNavigate();
   const cartItems = useSelector(store => store.cart.items);
+  const totalItems = cartItems?.reduce((acc, curr) => acc + curr.quantity, 0);
+  // const userId = useSelector(store => store.user.id);
+  const cartId = useSelector(store => store.cart._id);
 
-  const totalItems = cartItems?.reduce((acc, curr) => acc + curr.quantity, 0)
+  const handleCart = () => {
+    if (cartId){
+      navigate('/cart'); 
+    }else{
+      navigate('/signup'); 
+    }
+  }
 
     return (
             <HeaderBodyContainer>
@@ -49,7 +60,7 @@ const HeaderIcons = ({handleOnClickSearch}) => {
                 <RightContainer>
           <ButtonHeader><Link to={'/signup'} style={{ color: 'white' }} activestyle={{ color: 'red' }}><i className="fas fa-user-circle"></i></Link></ButtonHeader>
           <ButtonHeader><Link to={'/wishlist'} style={{ color: 'white'}} activestyle={{ color: 'red' }}><i className="fas fa-heart"></i></Link></ButtonHeader>
-          <ButtonHeader ><Link to={'/cart'} style={{ color: 'white', textDecoration: 'none' }} activestyle={{ color: 'red' }}><i className="fas fa-shopping-cart"></i> &nbsp;{totalItems}</Link></ButtonHeader>
+          <ButtonHeader onClick={handleCart}><Link to={'/cart'} style={{ color: 'white', textDecoration: 'none' }} activestyle={{ color: 'red' }}><i className="fas fa-shopping-cart"></i> &nbsp;{totalItems > 0 ? totalItems : "" }</Link></ButtonHeader>
                 </RightContainer>
             </HeaderBodyContainer>
     )

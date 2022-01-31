@@ -1,6 +1,6 @@
 import './App.css';
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { readCookie } from './utils/cookies';
 
 import Home from "./Pages/Home"
 import BookDetails from "./Pages/BookDetails";
@@ -12,17 +12,22 @@ import SignUp from './Pages/SignUp';
 
 import React, { useEffect } from "react";
 import { API_URL } from './utils/url';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { books } from './reducers/books';
 import { cart } from './reducers/cart';
+// import { cart } from './reducers/cart';
 
 
 
 const App= () => {
   const dispatch = useDispatch();
+  // const email = readCookie("email");
+  const accessToken = readCookie("accessToken");
+  const cartIdFromCookie = readCookie("cartId");
+  const userId = readCookie("id");
 
-  useEffect(()=>
-    { fetch(API_URL('books/?limit=20'))
+  useEffect(() => { 
+    fetch(API_URL('books/?limit=20'))
       .then(res => res.json())
       .then(data => {
         if (data.success) {
@@ -37,24 +42,23 @@ const App= () => {
       });
 
 
-    fetch(API_URL('carts/61cc5f51a71db84845a46bc2/userId'))//userId
-        .then(res => res.json())
-        .then(data => {
-          console.log(data)
-          if (data.success) {
-            dispatch(cart.actions.setCart(data.response));
-            dispatch(cart.actions.setError(null));
-          } else {
-            dispatch(cart.actions.setCart([]));
-            dispatch(cart.actions.setError(data.response));
-          }
-        }).catch((error) => {
-          console.log('Error in Fetch:' + error.message);
-        });
+    if (accessToken && userId && cartIdFromCookie !== "undefined") {
+      fetch(API_URL(`carts/${cartIdFromCookie}`))//userId
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        if (data.success) {
+          dispatch(cart.actions.setCart(data.response));
+          dispatch(cart.actions.setError(null));
+        } else {
+          dispatch(cart.actions.setCart([]));
+          dispatch(cart.actions.setError(data.response));
+        }
+      }).catch((error) => {
+        console.log('Error in Fetch:' + error.message);
+      });}
 
-
-
-}, [dispatch]);
+}, [accessToken, cartIdFromCookie, dispatch, userId]);
 
   return (
       <BrowserRouter>
