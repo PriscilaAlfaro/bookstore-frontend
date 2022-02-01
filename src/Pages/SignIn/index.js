@@ -1,27 +1,62 @@
 import React, {useState, useEffect} from "react";
-import {Link, useNavigate} from "react-router-dom";
 import styled from "styled-components";
-import { API_URL } from "../../utils/url";
+
+import {Link, useNavigate} from "react-router-dom";
 import { useDispatch, batch, useSelector } from 'react-redux';
+
+import { API_URL } from "../../utils/url";
 import { user } from "../../reducers/user";
 import { createCookie } from "../../utils/cookies";
 
+import Lottie from "react-lottie";
+import animationData from "../../lotties/bookgirl.json";
 
-const Container= styled.section`
+const MainContainer = styled.section`
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  border-radius: 10px;
+  width: 90%;
+  margin: 2rem auto 4rem auto;
+  @media (min-width: 768px){
+    flex-direction: row;
+  }
+  @media (min-width: 992px) {
+    width: 60%;
+  }
+`
+
+const Container = styled.section`
   display: flex;
   flex-wrap: wrap;
   margin: 0 auto;
   align-items: center;
   flex-direction: column;
   background: silver;
-  border-radius: 10px;
-  width: 80%;
+  border-radius: 10px 10px 0 0;
+  width: 90%;
   @media (min-width: 768px){
-    width: 60%;
+    width: 50%;
+    border-radius: 10px 0 0 10px ;
   }
-  @media (min-width: 992px) {
-    width: 40%;
+`
+
+const Aside = styled.section`
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  min-height: 450px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: green;
+  border-radius: 0 0 10px 10px ;
+  width: 90%;
+  @media (min-width: 768px){
+    width: 50%;
+    border-radius: 0 10px 10px 0;
   }
+ 
 `
 
 const Form= styled.form`
@@ -63,6 +98,18 @@ const Title= styled.h1`
   margin: 2rem;
   text-align: center;
 `
+const ImageContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  width: 50%;
+  @media (min-width: 768px){
+    width: 40%;
+  }
+  @media (min-width: 992px) {
+    width: 30%;
+  }
+`
 
 const SignIn= () => {
   const dispatch = useDispatch();
@@ -73,10 +120,18 @@ const SignIn= () => {
   const accessToken = useSelector((store) => store.user.accessToken);
   const error = useSelector((store) => store.user.error);
 
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice"
+    }
+  }
+
   useEffect(() => {
     if (accessToken) {
-      console.log('navitating to home ...')
-      navigate('/'); //TODO: deberia navegar a donde estaba el usuario
+      navigate('/'); 
     }
   }, [accessToken, navigate]);
 
@@ -99,7 +154,6 @@ const SignIn= () => {
       .then(res => res.json())
       .then(data => {
         console.log(data)
-
         if (data.success) {
           batch(() => {
             dispatch(user.actions.setUser({
@@ -125,8 +179,9 @@ const SignIn= () => {
 
   return (
     <React.Fragment>
-      <Link to={"/"}><i className="fas fa-chevron-circle-left">Return</i></Link>
-      <Title>Don't have an account? <Link to={"/signup"}><Button>Sing up</Button></Link></Title> 
+      <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
+    <MainContainer>
+     
       <Container>
         <Form onSubmit={onFormSubmit}>
           <Label htmlFor="email">
@@ -160,6 +215,15 @@ const SignIn= () => {
           </Button>
         </Form>
       </Container>
+        <Aside>
+          <Title>Don't have an account? </Title> 
+          <Link to={"/signup"}><Button>Sing up</Button></Link>
+          <ImageContainer>
+            <Lottie options={defaultOptions} />
+          </ImageContainer>
+        </Aside>
+      </MainContainer>
+
     </React.Fragment>
   );
 }

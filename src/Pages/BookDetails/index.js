@@ -3,9 +3,10 @@ import React from "react";
 import { useParams, Link } from 'react-router-dom'
 import Header from "../../Components/Header";
 import Counter from "../../Components/Counter";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import  NotFound from '../NotFound';
 import { Loader } from "../../Components/Loader";
+import { cart } from "../../reducers/cart";
 import moment from "moment";
 
 const Container= styled.section`
@@ -17,7 +18,6 @@ const Container= styled.section`
   background-color: white;
 `
 const Up= styled.div`
-  background: lightpink;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -30,9 +30,13 @@ const Up= styled.div`
 `
 
 const CardImage= styled.img`
-  width: 30%;
+  width: 230px;
   height: auto;
-  margin: 10px 20px;
+  padding: 50px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  @media (min-width: 768px){
+    width: 250px;
+  }
 `
 
 const BookDetailsContainer= styled.div`
@@ -51,8 +55,10 @@ const Details= styled.p`
 
 const Synopsis= styled.div`
   display: flex;
-  background: yellow;
+  background: linear-gradient(0deg, rgba(79,238,148,0.11528361344537819) 28%, rgba(197,233,94,0.14237570028011204) 100%);
   flex-direction: column;
+  margin-top: 2rem;
+  padding: 20px;
   @media (min-width: 768px){
     width: 100%;
   }
@@ -71,7 +77,7 @@ const Text= styled.p`
 `
 
 
-const AddToCardButton = styled.button`
+const AddButton = styled.button`
   color: white;
   background: rgb(186, 201, 100);
   border: none;
@@ -93,11 +99,21 @@ const Icons= styled.div`
   flex-direction: row;
   margin-top: 30px;
 `
+const CounterWrapper = styled.div`
+  display: flex;
+
+`
 
 
 const BookDetails = () =>{
   const { id } = useParams();
+  const dispatch = useDispatch();
+
   const books = useSelector(store => store.books.bookItems);
+  const itemsInCart = useSelector(store => store.cart.items);
+  const item = itemsInCart?.find(item => item.productId === id);
+  const userId = useSelector(store => store.user.id);
+
   let bookDetails={} 
 
  
@@ -112,37 +128,45 @@ const BookDetails = () =>{
     return (< Loader />)
   }
 
+  const handleAddToCart = () => {
+    dispatch(cart.actions.addItemToCart({ productId: id, userId }));
+  }
+
     return (
-        <>
-            <Header/>
-        <Link to={"/"}><i className="fas fa-chevron-circle-left">Return</i></Link>
-        <Container>
+        <React.Fragment>
+          <Header/>
+          <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
+          <Container>
             <Up>
-            <CardImage src={bookDetails.thumbnailUrl} alt="card patron"/>
-            <BookDetailsContainer>
-              <Title>{bookDetails.title}</Title>
-              <Details>Author: {bookDetails.authors.map(author=> author)}</Details>
-              <Details>Published: {moment(bookDetails.publishedDate).format('LL')}</Details>
-              <Details>Categories: {bookDetails.categories.map(cat=>cat)}</Details>
-              <Details>Language: {bookDetails.language}</Details>
-              <Details>Pages: {bookDetails.pageCount}</Details>
-              <Details>Isbn: {bookDetails.isbn}</Details>
-              <Details>Availability: {bookDetails.availability}</Details>
-              <SubTitle>Price: ${bookDetails.price}</SubTitle>
-                <Counter/>
-                <Icons>
-                <AddToCardButton><i className="fas fa-shopping-cart"></i> Add to cart</AddToCardButton>
-                <AddToCardButton><i className="fas fa-heart"></i></AddToCardButton>
-                </Icons>
-            </BookDetailsContainer>
+              <CardImage src={bookDetails.thumbnailUrl} alt="card patron"/>
+              <BookDetailsContainer>
+                <Title>{bookDetails.title}</Title>
+                <Details>Author: {bookDetails.authors.map(author=> author)}</Details>
+                <Details>Published: {moment(bookDetails.publishedDate).format('LL') || "No details available"}</Details>
+                <Details>Categories: {bookDetails.categories.map(cat=>cat)}</Details>
+                <Details>Language: {bookDetails.language}</Details>
+              <Details>Pages: {bookDetails.pageCount || "No details available"}</Details>
+                <Details>Isbn: {bookDetails.isbn}</Details>
+                <Details>Availability: {bookDetails.availability}</Details>
+                <SubTitle>Price: ${bookDetails.price}</SubTitle>
+                <CounterWrapper>
+                  <Counter quantity={(item && item.quantity) || 0} productId={bookDetails._id} />
+                </CounterWrapper>
+                  <Icons>
+                <AddButton onClick={handleAddToCart}><i className="fas fa-shopping-cart"></i> Add to cart</AddButton>
+                  <AddButton><i className="fas fa-heart"></i>Add to wishlist</AddButton>
+                  </Icons>
+              </BookDetailsContainer>
             </Up>
 
             <Synopsis>
-                <SubTitle>Synopsis:</SubTitle>
-            <Text>{bookDetails.longDescription}</Text>
+              <SubTitle>Synopsis:</SubTitle>
+            <Text>{(bookDetails.longDescription && bookDetails.longDescription) || 
+              (bookDetails.shortDescription && bookDetails.shortDescription) || 
+            "There is no sinopsis available"}</Text>
             </Synopsis>
-        </Container>
-        </>
+          </Container>
+        </React.Fragment>
     );
 }
 

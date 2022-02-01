@@ -21,7 +21,7 @@ const RightContainer = styled.div`
 
 const ButtonHeader = styled.button`
   color: white;
-  background: rgb(186, 201, 100);
+  background: rgb(110, 203, 99);
   border: none;
   padding: 10px;
   margin: 10px;
@@ -41,14 +41,13 @@ const HeaderIcons = ({handleOnClickSearch}) => {
   const navigate = useNavigate();
   const cartItems = useSelector(store => store.cart.items);
   const totalItems = cartItems?.reduce((acc, curr) => acc + curr.quantity, 0);
-  // const userId = useSelector(store => store.user.id);
   const cartId = useSelector(store => store.cart._id);
 
   const handleCart = () => {
     if (cartId){
       navigate('/cart'); 
     }else{
-      navigate('/signup'); 
+      navigate('/register'); 
     }
   }
 
@@ -58,7 +57,7 @@ const HeaderIcons = ({handleOnClickSearch}) => {
                     <ButtonHeader onClick={handleOnClickSearch}><i className="fas fa-search"></i> search</ButtonHeader>
                 </LeftContainer>
                 <RightContainer>
-          <ButtonHeader><Link to={'/signup'} style={{ color: 'white' }} activestyle={{ color: 'red' }}><i className="fas fa-user-circle"></i></Link></ButtonHeader>
+          <ButtonHeader><Link to={'/register'} style={{ color: 'white' }} activestyle={{ color: 'red' }}><i className="fas fa-user-circle"></i></Link></ButtonHeader>
           <ButtonHeader><Link to={'/wishlist'} style={{ color: 'white'}} activestyle={{ color: 'red' }}><i className="fas fa-heart"></i></Link></ButtonHeader>
           <ButtonHeader onClick={handleCart}><Link to={'/cart'} style={{ color: 'white', textDecoration: 'none' }} activestyle={{ color: 'red' }}><i className="fas fa-shopping-cart"></i> &nbsp;{totalItems > 0 ? totalItems : "" }</Link></ButtonHeader>
                 </RightContainer>

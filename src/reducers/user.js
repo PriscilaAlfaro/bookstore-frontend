@@ -25,14 +25,6 @@ export const user = createSlice({
                 store.email = email;
                 store.accessToken = accessToken;
                 store.error = null;
-            
-            // if (errorFromBackend)
-            //     store.id = null;
-            //     store.username = null;
-            //     store.email = null;
-            //     store.accessToken = null;
-            //     store.error = errorFromBackend.response;
-            // }
         },
 
         setError: (store, action) => {

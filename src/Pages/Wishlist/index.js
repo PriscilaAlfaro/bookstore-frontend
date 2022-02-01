@@ -8,7 +8,7 @@ const Wishlist= () =>{
     return (
         <>
             <Header/>
-            <Link to={"/"}><i className="fas fa-chevron-circle-left">Return</i></Link>
+            <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
             <BooksContainer/>
             <Footer/>
         </>

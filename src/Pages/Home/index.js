@@ -1,17 +1,51 @@
+import React from "react";
+import styled from "styled-components";
+
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
 import BooksContainer from "../../Components/BooksContainer";
-import {Link} from "react-router-dom";
-import React from "react";
+
+import Lottie from "react-lottie";
+import animationData from "../../lotties/books-draw.json";
+
+import { useSelector } from 'react-redux';
+
+
+const ImageContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin: 5rem auto;
+  width: 100%;
+  @media (min-width: 768px){
+    width: 50%;
+  }
+  @media (min-width: 992px) {
+    width: 30%;
+  }
+`
 
 const Home = () =>{
-  
+    const books = useSelector(store => store.books.bookItems);
+
+    const defaultOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: animationData,
+        rendererSettings: {
+            preserveAspectRatio: "xMidYMid slice"
+        }
+    }
+
     return (
-        <>
+        <React.Fragment>
             <Header/>
-            <BooksContainer/>
+            {books.length > 0 ? <BooksContainer/> :
+                <ImageContainer>
+                    <Lottie options={defaultOptions} />
+                </ImageContainer>
+             }            
             <Footer/>
-        </>
+        </React.Fragment>
     );
 }
 

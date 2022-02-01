@@ -11,7 +11,7 @@ const SearchBarContainer = styled.div`
 `
 
 const SearchBarInput = styled.input`
-  background-color: rgb(247, 251, 225);
+  background-color: D1D4C9
   font-size: 1.1rem;
   width: 80%;
   border-radius: 8px 0 0 8px;

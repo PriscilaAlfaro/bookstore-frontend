@@ -1,14 +1,33 @@
 import React, {useState, useEffect} from "react";
-import {Link} from "react-router-dom";
 import styled from "styled-components";
-import { API_URL } from "../../utils/url";
+
+import { Link, useNavigate } from "react-router-dom";
 import { createCookie, deleteCookie } from "../../utils/cookies";
-import { useDispatch, batch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { user } from "../../reducers/user";
-import { cart } from "../../reducers/cart";
+import { useDispatch, useSelector } from 'react-redux';
 import { createNewUser, createCartWithItem, createSession } from "../../utils/helper";
 
+import Lottie from "react-lottie";
+import animationData from "../../lotties/bookgirl.json";
+
+import { user } from "../../reducers/user";
+import { cart } from "../../reducers/cart";
+import Header from "../../Components/Header";
+import Footer from "../../Components/Footer";
+
+const MainContainer = styled.section`
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  border-radius: 10px;
+  width: 90%;
+  margin: 2rem auto 4rem auto;
+  @media (min-width: 768px){
+    flex-direction: row;
+  }
+  @media (min-width: 992px) {
+    width: 60%;
+  }
+`
 const Container= styled.section`
   display: flex;
   flex-wrap: wrap;
@@ -16,14 +35,31 @@ const Container= styled.section`
   align-items: center;
   flex-direction: column;
   background: silver;
-  border-radius: 10px;
-  width: 80%;
+  border-radius: 10px 10px 0 0;
+  width: 90%;
   @media (min-width: 768px){
-    width: 60%;
+    width: 50%;
+    border-radius: 10px 0 0 10px ;
   }
-  @media (min-width: 992px) {
-    width: 40%;
+ 
+`
+
+const Aside = styled.section`
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  min-height: 450px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: green;
+  border-radius: 0 0 10px 10px ;
+  width: 90%;
+  @media (min-width: 768px){
+    width: 50%;
+    border-radius: 0 10px 10px 0;
   }
+ 
 `
 
 const Form= styled.form`
@@ -55,15 +91,34 @@ const Button= styled.button`
 `
 
 const Text= styled.p`
-  font-size: 1.3rem;
+  font-size: 1rem;
   color: dimgrey;
   margin: 2rem 0 0.5rem 0;
+   @media (min-width: 768px){
+     font-size: 1.3rem;
+  }
 `
 
 const Title= styled.h1`
-  font-size: 1.3rem;
+  font-size: 1rem;
   margin: 2rem;
   text-align: center;
+  color: white;
+  @media (min-width: 768px){
+     font-size: 1.3rem;
+  }
+`
+const ImageContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  width: 50%;
+  @media (min-width: 768px){
+    width: 40%;
+  }
+  @media (min-width: 992px) {
+    width: 30%;
+  }
 `
 
 const SignUp = () => {
@@ -128,12 +183,21 @@ const SignUp = () => {
 
   }, [accessToken, cartId, dispatch, navigate, productId, userId]);
 
-
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice"
+    }
+  }
 
 return (
   <React.Fragment>
-    <Link to={"/"}><i className="fas fa-chevron-circle-left">Return</i></Link>
-    <Title>Already have an account?<Link to={"/signin"}><Button>Sign in</Button></Link></Title>
+    <Header/>
+    <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
+    <MainContainer>
+  
     <Container>
       <Form onSubmit={handleSubmit}>
 
@@ -180,6 +244,15 @@ return (
         </Button>
       </Form>
     </Container>
+    <Aside>
+      <Title>Already have an account?</Title>
+      <Link to={"/signin"}><Button>Sign in</Button></Link>
+      <ImageContainer>
+        <Lottie options={defaultOptions} />
+      </ImageContainer>
+    </Aside>
+    </MainContainer>
+    <Footer/>
   </React.Fragment>
     );
 }

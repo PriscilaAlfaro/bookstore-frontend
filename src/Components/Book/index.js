@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { cart } from '../../reducers/cart';
 import { readCookie, createCookie } from '../../utils/cookies';
-import { createCartWithItem, fetchCart } from '../../utils/helper';
+import { createCartWithItem } from '../../utils/helper';
 
 
 const Container= styled.section`
@@ -109,13 +109,11 @@ const BookInfo = styled.h2`
 
 const Book = ({book}) => {
   const navigate = useNavigate();
-  // const userId =  useSelector(store => store.user.id);
   const dispatch = useDispatch();
 
   const userId = readCookie("id");
   const cartIdFromCookie = readCookie("cartId");
   const accessToken = readCookie("accessToken");
-  // const userId = useSelector(store => store.user.id);
   const cartId = useSelector(store => store.cart._id);
 
   const handleAddToCartFromHome = async () => {
@@ -126,11 +124,9 @@ const Book = ({book}) => {
     // dispatch(cart.actions.setCart(cart));
 
     if (accessToken && userId && cartIdFromCookie ){ //case user and cart
- 
         dispatch(cart.actions.addItemToCart({ productId: book._id }));
 
     } else if (accessToken && userId && !cartId && !cartIdFromCookie) { //case user and no cart
-
       const createCartReponse = await createCartWithItem(book._id, userId);
       const newCart = createCartReponse.response;
 
@@ -144,24 +140,8 @@ const Book = ({book}) => {
 
     } else { // case no user no car
 
-      navigate('/signup');
+      navigate('/register');
     }
-
-   
-
-
-
-    // if (userId && accessToken && cartId){//just add an item to cart
-    //   dispatch(cart.actions.addItemToCart({ productId: book._id, userId: userId }));
-    // } else if (userId && !cartId && accessToken){ //first time add to cart/ user logged 
-    //   dispatch(cart.actions.setTemporalItem({ productId: book._id }));
-    //   dispatch(cart.actions.createNewCart({ productId: book._id, userId: userId }));
-    //   // dispatch(cart.actions.addItemToCart({ productId: book._id, userId: userId }));
-    //   navigate('/cart');
-    // } else {
-    //   dispatch(cart.actions.setTemporalItem({ productId: book._id }));
-    //   navigate('/signup');
-    // }
     
   }
 

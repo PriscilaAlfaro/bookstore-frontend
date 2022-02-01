@@ -7,27 +7,27 @@ import BookDetails from "./Pages/BookDetails";
 import NotFound from "./Pages/NotFound";
 import Cart from "./Pages/Cart";
 import Wishlist from "./Pages/Wishlist";
-import SignIn from "./Pages/SignIn";
+
 import SignUp from './Pages/SignUp';
 
 import React, { useEffect } from "react";
 import { API_URL } from './utils/url';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { books } from './reducers/books';
 import { cart } from './reducers/cart';
-// import { cart } from './reducers/cart';
+import Register from './Pages/Register';
+
 
 
 
 const App= () => {
   const dispatch = useDispatch();
-  // const email = readCookie("email");
   const accessToken = readCookie("accessToken");
   const cartIdFromCookie = readCookie("cartId");
   const userId = readCookie("id");
 
   useEffect(() => { 
-    fetch(API_URL('books/?limit=20'))
+    fetch(API_URL('books/?limit=450'))
       .then(res => res.json())
       .then(data => {
         if (data.success) {
@@ -67,8 +67,9 @@ const App= () => {
             <Route path="/bookDetails/:id" element={ <BookDetails/>} />
             <Route path="/cart" element={ <Cart/>} />
             <Route path="/wishlist" element={ <Wishlist/>} />
-            <Route path="/signin" element={ <SignIn/>} />
+        {/* <Route path="/signin" element={ <SignIn/>} />*/}
             <Route path="/signup" element={ <SignUp/>} />
+            <Route path="/register" element={<Register />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
