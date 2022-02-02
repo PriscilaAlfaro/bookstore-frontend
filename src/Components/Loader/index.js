@@ -1,10 +1,8 @@
 import React from 'react';
 import styled from "styled-components";
 
-
 import Lottie from "react-lottie";
 import animationData from "../../lotties/books-draw.json";
-
 
 const ImageContainer = styled.div`
   display: flex;

@@ -5,6 +5,7 @@ import styled from 'styled-components/macro';
 import SearchBar from "../SearchBar";
 import HeaderIcons from "../HeaderIcons";
 import { readCookie } from "../../utils/cookies";
+import LogoutButton from "../LogoutButton";
 
 const HeaderContainer = styled.section`
   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
@@ -14,7 +15,7 @@ const HeaderContainer = styled.section`
   background-position: center;
   font-family: 'Roboto Condensed', sans-serif;
   width: 100%;
-  height: 450px;
+  height: 470px;
   margin: 0 auto 2rem auto;
   display: flex;
   flex-direction: column;
@@ -31,13 +32,19 @@ const HeaderMainTitle = styled.h1`
     font-size: 4rem;
   }
 `
+const UserContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`
 
-const HelloUser = styled.p`
+const UserGreeting = styled.p`
   font-size: 1rem;
   font-weight: 700;
-  text-align: left;
-  margin: 0 20px;
   color: white;
+  margin: 1rem;
   @media (min-width: 768px){
     font-size: 1.3rem;
   }
@@ -57,17 +64,19 @@ const Header = () => {
   const user = readCookie("username");
 
     const handleOnClickSearch = () => {
-        console.log(showSearchBar)
         setShowSearchBar(!showSearchBar)
-        console.log(showSearchBar)
     }
 
     return (
         <HeaderContainer>
             <HeaderMainTitle>Sweden Tech Library</HeaderMainTitle>
-            <HelloUser>Hello {user}</HelloUser> 
-            <HeaderIcons handleOnClickSearch={ handleOnClickSearch}/>
-            {showSearchBar && <SearchBarContainer>
+            <UserContainer>
+              {user && <UserGreeting>Hello {user}</UserGreeting> }
+              <LogoutButton/>
+            </UserContainer>
+            <HeaderIcons handleOnClickSearch={handleOnClickSearch}/>
+            {showSearchBar && 
+            <SearchBarContainer>
                 <SearchBar/>
             </SearchBarContainer>}
         </HeaderContainer>

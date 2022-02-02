@@ -57,8 +57,6 @@ export const fetchCart = (cartId) => {
 }
 
 
-
-
 export const createSession = (user) => {
     createCookie("accessToken", user.accessToken);
     createCookie("username", user.username);

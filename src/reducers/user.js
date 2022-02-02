@@ -4,12 +4,13 @@ import { API_URL } from "../utils/url";
 // import { createaNewUser } from "../utils/helper";
 // import { store } from "../store";
 
-const initialState= {
+const initialState = {
     id: null,
     username: null,
     email: null,
     accessToken: null,
     error: null,
+    showSignIn: false,
 }
 export const user = createSlice({
     name: 'user',
@@ -34,7 +35,12 @@ export const user = createSlice({
         
         setclearUser: () => {
             return initialState;
+        },
+        
+        showSignIn: (store) => {
+            store.showSignIn = !store.showSignIn;
         }
+
     }
 
 });

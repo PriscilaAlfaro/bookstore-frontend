@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import styled from "styled-components";
 
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { createCookie, deleteCookie } from "../../utils/cookies";
 import { useDispatch, useSelector } from 'react-redux';
 import { createNewUser, createCartWithItem, createSession } from "../../utils/helper";
@@ -11,30 +11,14 @@ import animationData from "../../lotties/bookgirl.json";
 
 import { user } from "../../reducers/user";
 import { cart } from "../../reducers/cart";
-import Header from "../../Components/Header";
-import Footer from "../../Components/Footer";
 
-const MainContainer = styled.section`
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  border-radius: 10px;
-  width: 90%;
-  margin: 2rem auto 4rem auto;
-  @media (min-width: 768px){
-    flex-direction: row;
-  }
-  @media (min-width: 992px) {
-    width: 60%;
-  }
-`
 const Container= styled.section`
   display: flex;
   flex-wrap: wrap;
   margin: 0 auto;
   align-items: center;
   flex-direction: column;
-  background: silver;
+  background: linear-gradient(180deg ,rgb(0 0 0 / 60%) 0%,rgb(68 119 143 / 66%) 95%);
   border-radius: 10px 10px 0 0;
   width: 90%;
   @media (min-width: 768px){
@@ -52,7 +36,7 @@ const Aside = styled.section`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background: green;
+  background: linear-gradient(0deg, rgba(53,131,59,0.3267682072829131) 0%, rgba(68,96,143,0.7805497198879552) 95%);
   border-radius: 0 0 10px 10px ;
   width: 90%;
   @media (min-width: 768px){
@@ -78,6 +62,7 @@ const Input= styled.input`
   background-color: rgb(247, 251, 225);
   height: 1.7rem;
   border: none;
+  border-radius: 5px;
 `
 
 const Button= styled.button`
@@ -92,7 +77,7 @@ const Button= styled.button`
 
 const Text= styled.p`
   font-size: 1rem;
-  color: dimgrey;
+  color: white;
   margin: 2rem 0 0.5rem 0;
    @media (min-width: 768px){
      font-size: 1.3rem;
@@ -146,7 +131,6 @@ const SignUp = () => {
     try {
       const createUserResponse = await createNewUser(username, email, password);
 
-      
       const newUser = createUserResponse.response;
 
       if (createUserResponse.success) {
@@ -192,12 +176,12 @@ const SignUp = () => {
     }
   }
 
+  const goToSingIn = () => {
+    dispatch(user.actions.showSignIn());
+  }
+
 return (
   <React.Fragment>
-    <Header/>
-    <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
-    <MainContainer>
-  
     <Container>
       <Form onSubmit={handleSubmit}>
 
@@ -246,13 +230,11 @@ return (
     </Container>
     <Aside>
       <Title>Already have an account?</Title>
-      <Link to={"/signin"}><Button>Sign in</Button></Link>
+    <Button onClick={goToSingIn}>Sign in</Button>
       <ImageContainer>
         <Lottie options={defaultOptions} />
       </ImageContainer>
     </Aside>
-    </MainContainer>
-    <Footer/>
   </React.Fragment>
     );
 }
