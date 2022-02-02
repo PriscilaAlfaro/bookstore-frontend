@@ -1,6 +1,11 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 
+import { API_URL } from '../../utils/url';
+import { books } from '../../reducers/books';
+import { useDispatch } from 'react-redux';
+
+
 const SearchBarContainer = styled.div`
   font-family: Roboto;
   display: flex;
@@ -38,37 +43,62 @@ const SearchBarButton = styled.button`
   border: none;
 `
 
-const SearchBarOutput = styled.div`
-    justify-content: center;
-    text-align: center;
-    display: flex;
-    width: 80%;
-    margin: 0 auto;
-    min-height: 30px;
-    font-size: 15px;
-`
+// const SearchBarOutput = styled.div`
+//     justify-content: center;
+//     text-align: center;
+//     display: flex;
+//     width: 80%;
+//     margin: 0 auto;
+//     min-height: 30px;
+//     font-size: 15px;
+// `
 
 const SearchBar = () => {
-    const [search, setSearch]= useState("");
+  const dispatch = useDispatch();
+  const [userInput, setUserInput]= useState("");
 
-    const onChange = (e) => {
-        const inputValue = e.target.value;
-        setSearch(inputValue)
+  const onChange = (e) => {
+    const inputValue = e.target.value;
+    setUserInput(inputValue)
+  }
+
+ 
+  const searchBooksInDataBase = () => {
+    fetch(API_URL(`books/topic/?topic=${userInput}`))
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          dispatch(books.actions.setBookSearch(data.response));
+          dispatch(books.actions.setError(null));
+        } else {
+          dispatch(books.actions.setBookSearch([]));
+          dispatch(books.actions.setError(data.response));
+        }
+      }).catch((error) => {
+        console.log('Error in Fetch:' + error.message);
+      });
+
+
     }
 
     return (
-        <>
+        <React.Fragment>
             <SearchBarContainer>
                 <SearchBarInput
                     placeholder="Search..."
                     type="text"
                     onChange={onChange}
-                    value={search}
+                    value={userInput}
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      searchBooksInDataBase();
+                    }
+                  }}
                 />
-                <SearchBarButton ><i className="fas fa-search"></i></SearchBarButton>
+          <SearchBarButton onClick={searchBooksInDataBase}><i className="fas fa-search"></i></SearchBarButton>
             </SearchBarContainer>
-            <SearchBarOutput>Search output: {search}</SearchBarOutput>
-        </>
+            {/* <SearchBarOutput>Search output: {userInput}</SearchBarOutput> */}
+        </React.Fragment>
     );
 }
 

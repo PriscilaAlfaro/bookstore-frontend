@@ -1,8 +1,11 @@
-import styled from 'styled-components/macro';
-import {Link } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import React from "react";
+import styled from 'styled-components/macro';
+
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
+
+import { books } from "../../reducers/books";
+
 
 
 const HeaderBodyContainer = styled.section`
@@ -39,6 +42,7 @@ const ButtonHeader = styled.button`
 
 const HeaderIcons = ({handleOnClickSearch}) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const cartItems = useSelector(store => store.cart.items);
   const totalItems = cartItems?.reduce((acc, curr) => acc + curr.quantity, 0);
   const cartId = useSelector(store => store.cart._id);
@@ -51,12 +55,19 @@ const HeaderIcons = ({handleOnClickSearch}) => {
     }
   }
 
+  const goHome = () =>{
+    dispatch(books.actions.setBookSearch([]));
+    dispatch(books.actions.setError(null));
+  }
+
+
     return (
             <HeaderBodyContainer>
                 <LeftContainer>
                     <ButtonHeader onClick={handleOnClickSearch}><i className="fas fa-search"></i> search</ButtonHeader>
                 </LeftContainer>
                 <RightContainer>
+          <ButtonHeader onClick={goHome}><Link to={'/'} style={{ color: 'white' }} activestyle={{ color: 'red' }}><i class="fas fa-home"></i></Link></ButtonHeader>
           <ButtonHeader><Link to={'/register'} style={{ color: 'white' }} activestyle={{ color: 'red' }}><i className="fas fa-user-circle"></i></Link></ButtonHeader>
           <ButtonHeader><Link to={'/wishlist'} style={{ color: 'white'}} activestyle={{ color: 'red' }}><i className="fas fa-heart"></i></Link></ButtonHeader>
           <ButtonHeader onClick={handleCart}><Link to={'/cart'} style={{ color: 'white', textDecoration: 'none' }} activestyle={{ color: 'red' }}><i className="fas fa-shopping-cart"></i> &nbsp;{totalItems > 0 ? totalItems : "" }</Link></ButtonHeader>

@@ -1,13 +1,18 @@
 import styled from "styled-components";
 import React from "react";
-import { useParams, Link } from 'react-router-dom'
+import moment from "moment";
+
 import Header from "../../Components/Header";
 import Counter from "../../Components/Counter";
+import NotFound from '../NotFound';
+
 import { useSelector, useDispatch } from 'react-redux';
-import  NotFound from '../NotFound';
+import { useParams, Link } from 'react-router-dom'
+
+
 import { Loader } from "../../Components/Loader";
 import { cart } from "../../reducers/cart";
-import moment from "moment";
+
 
 const Container= styled.section`
   display: flex;
@@ -143,7 +148,7 @@ const BookDetails = () =>{
                 <Title>{bookDetails.title}</Title>
                 <Details>Author: {bookDetails.authors.map(author=> author)}</Details>
                 <Details>Published: {moment(bookDetails.publishedDate).format('LL') || "No details available"}</Details>
-                <Details>Categories: {bookDetails.categories.map(cat=>cat)}</Details>
+              <Details>Categories: {bookDetails.categories.length > 0 ? bookDetails.categories.map(cat=>cat) : "No categories available"}</Details>
                 <Details>Language: {bookDetails.language}</Details>
               <Details>Pages: {bookDetails.pageCount || "No details available"}</Details>
                 <Details>Isbn: {bookDetails.isbn}</Details>

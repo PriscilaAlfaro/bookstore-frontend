@@ -66,7 +66,6 @@ const AddToCartButton= styled.button`
 `
 
 const CardTitle = styled.h1`
-  // font-family: Rosarivo;
   width: 100%;
   font-style: normal;
   font-weight: normal;
@@ -74,13 +73,9 @@ const CardTitle = styled.h1`
   color: black;
   text-align: left;
   margin: 0;
-  @media (min-width: 768px){
-    // font-size: 1.2rem;
-  }
 `
 
 const CardSubTitle = styled.h2`
-  // font-family: Rosarivo;
   color: gray;
   width: 100%;
   font-style: normal;
@@ -88,13 +83,10 @@ const CardSubTitle = styled.h2`
   font-size: 1rem;
   text-align: left;
   margin: 0;
-  @media (min-width: 768px){
-    // font-size: 1.2rem;
-  }
 `
 
 const BookInfo = styled.h2`
-  // font-family: Roboto;
+  font-family: Roboto;
   font-style: normal;
   font-weight: bold;
   font-size: 1rem;
@@ -102,9 +94,6 @@ const BookInfo = styled.h2`
   color: black;
   margin: 0;
   text-align: left;
-  @media (min-width: 768px){
-    // font-size: 1.2rem;
-  }
 `
 
 const Book = ({book}) => {

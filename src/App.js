@@ -27,7 +27,7 @@ const App= () => {
   const userId = readCookie("id");
 
   useEffect(() => { 
-    fetch(API_URL('books/?limit=450'))
+    fetch(API_URL('books/?limit=50'))
       .then(res => res.json())
       .then(data => {
         if (data.success) {

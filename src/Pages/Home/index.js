@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux';
 const ImageContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  margin: 5rem auto;
+  margin: 8rem auto;
   width: 100%;
   @media (min-width: 768px){
     width: 50%;
@@ -26,6 +26,7 @@ const ImageContainer = styled.div`
 
 const Home = () =>{
     const books = useSelector(store => store.books.bookItems);
+    const booksInSearch = useSelector(store => store.books.searchedItems);
 
     const defaultOptions = {
         loop: true,
@@ -39,11 +40,12 @@ const Home = () =>{
     return (
         <React.Fragment>
             <Header/>
-            {books.length > 0 ? <BooksContainer/> :
+            {(books.length > 0 || booksInSearch.length > 0)  ? <BooksContainer/> :
                 <ImageContainer>
                     <Lottie options={defaultOptions} />
                 </ImageContainer>
-             }            
+             }  
+                       
             <Footer/>
         </React.Fragment>
     );

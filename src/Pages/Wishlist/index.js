@@ -6,12 +6,12 @@ import React from "react";
 
 const Wishlist= () =>{
     return (
-        <>
+        <React.Fragment>
             <Header/>
             <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
             <BooksContainer/>
             <Footer/>
-        </>
+        </React.Fragment>
     );
 }
 
