@@ -6,7 +6,7 @@ import { useDispatch, batch, useSelector } from 'react-redux';
 
 import { API_URL } from "../../utils/url";
 import { user } from "../../reducers/user";
-import { createCookie } from "../../utils/cookies";
+import { createSession } from "../../utils/helper";
 
 import Lottie from "react-lottie";
 import animationData from "../../lotties/two-girls-with-books-and-a-skateboard.json";
@@ -152,7 +152,12 @@ const SignIn = () => {
             }));
             dispatch(user.actions.setError(null));
           });
-          createCookie("accessToken", data.response.accessToken)
+          createSession({
+            id: data.response.id,
+            username: data.response.username,
+            email: data.response.email,
+            accessToken: data.response.accessToken,
+          })
         } else {
           dispatch(user.actions.setUser({
             id: null,

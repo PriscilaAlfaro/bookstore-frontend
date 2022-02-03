@@ -67,7 +67,7 @@ const HeaderIcons = ({handleOnClickSearch}) => {
                     <ButtonHeader onClick={handleOnClickSearch}><i className="fas fa-search"></i> search</ButtonHeader>
                 </LeftContainer>
                 <RightContainer>
-          <ButtonHeader onClick={goHome}><Link to={'/'} style={{ color: 'white' }} activestyle={{ color: 'red' }}><i class="fas fa-home"></i></Link></ButtonHeader>
+          <ButtonHeader onClick={goHome}><Link to={'/'} style={{ color: 'white' }} activestyle={{ color: 'red' }}><i className="fas fa-home"></i></Link></ButtonHeader>
           <ButtonHeader><Link to={'/register'} style={{ color: 'white' }} activestyle={{ color: 'red' }}><i className="fas fa-user-circle"></i></Link></ButtonHeader>
           <ButtonHeader><Link to={'/wishlist'} style={{ color: 'white'}} activestyle={{ color: 'red' }}><i className="fas fa-heart"></i></Link></ButtonHeader>
           <ButtonHeader onClick={handleCart}><Link to={'/cart'} style={{ color: 'white', textDecoration: 'none' }} activestyle={{ color: 'red' }}><i className="fas fa-shopping-cart"></i> &nbsp;{totalItems > 0 ? totalItems : "" }</Link></ButtonHeader>

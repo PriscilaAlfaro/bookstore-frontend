@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createCookie } from "../utils/cookies";
-import { API_URL } from "../utils/url";
+// import { createCookie } from "../utils/cookies";
+// import { API_URL } from "../utils/url";
 // import { createaNewUser } from "../utils/helper";
 // import { store } from "../store";
 

@@ -19,7 +19,7 @@ export const cart = createSlice({
     reducers: {
         setCart: (store, action) => {
           const {items, userId, _id } = action.payload;
-    
+         
             store.items = items;
             store.userId = userId;
             store._id = _id;
@@ -54,6 +54,7 @@ export const cart = createSlice({
                     .then((res) => res.json())
                     .then(data => {
                         console.log(data)
+                        
                     }).catch((error) => {
                         console.log('Error in Fetch:' + error.message);
                     });
@@ -65,7 +66,7 @@ export const cart = createSlice({
                 });
                 store.items = updatedItems
 
-                } else {
+            } else {
 
                    //CASE 2. add new book to items 
             
@@ -86,9 +87,11 @@ export const cart = createSlice({
                     }).catch((error) => {
                         console.log('Error in Fetch:' + error.message);
                 });
+
+                store.items.push({ productId, quantity: 1 })
             }
 
-            store.items.push({ productId, quantity: 1 })
+          
       
          
         },

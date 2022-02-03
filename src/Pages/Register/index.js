@@ -39,7 +39,8 @@ return (
         <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
         <MainContainer>
             {user && email && accessToken && <Profile />}
-            {!user && !email && !accessToken && showSignIn ? <SignIn /> : <SignUp />  }
+            {!showSignIn && !user && !email && !accessToken &&  <SignUp /> }
+            {showSignIn && !user && !email && !accessToken && <SignIn />}
         </MainContainer>
         <Footer />
     </React.Fragment>

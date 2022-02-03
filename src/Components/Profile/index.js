@@ -99,9 +99,6 @@ const Profile = () => {
     }
 
     return (
-        <React.Fragment>
-            <Header/>
-            <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
             <ProfileMainContainer>
                 <TextContainer>
                     <Title>Your profile</Title>
@@ -113,9 +110,6 @@ const Profile = () => {
                     <Lottie options={defaultOptions} />
                 </ImageContainer>
             </ProfileMainContainer>
-      
-            <Footer/>
-        </React.Fragment>
     );
 }
 

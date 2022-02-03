@@ -22,13 +22,11 @@ const Container= styled.section`
     flex-direction: row;
   }
 `
-
 const ItemDetails= styled.div`
   background: linear-gradient(0deg, rgba(79,172,238,0.20960259103641454) 28%, rgba(197,233,94,0.14237570028011204) 100%);
   display: block;
   margin: 0 auto;
 `
-
 const CardImage= styled.img`
   width: 10%;
   height: auto;
@@ -37,7 +35,6 @@ const CardImage= styled.img`
   margin: 10px 20px;
   }
 `
-
 const BookDetailsContainer= styled.div`
   display: flex;
   flex-direction: row;
@@ -69,7 +66,6 @@ const Text= styled.h2`
        margin: 0 1rem;
   }
 `
-
 const DeleteButton = styled.button`
   color: white;
   background: rgb(85, 110, 83);
@@ -85,7 +81,6 @@ const DeleteButton = styled.button`
     padding: 10px;
   }
 `
-
 const Checkout = styled.div`
   heigth: 500px;
   width: 80%;
@@ -96,7 +91,6 @@ const Checkout = styled.div`
     width: 50%;
   }
 `
-
 const Image = styled.img`
   width: 80%;
 `
@@ -150,7 +144,7 @@ const deleteBookFromCart = (productId)=>{
         <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
             <Container>
               <ItemDetails>
-              {!itemsInCart && "sorry no hay items en este cart"}
+              {!itemsInCart && "There are no items in this cart"}
               {itemsInCart && itemsInCart.map(item=>{
               return(
               <BookDetailsContainer key={item.productId}>
