@@ -2,8 +2,6 @@ import { readCookie, createCookie } from "./cookies";
 import { API_URL } from "./url";
 
 
-
-
 export const createCartWithItem = (productId, userId) => {
     const accessToken = readCookie("accessToken");
     const newCart = { userId, items: [{ productId, quantity: 1 }] }

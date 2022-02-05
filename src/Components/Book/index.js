@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch} from 'react-redux'
 import { cart } from '../../reducers/cart';
 import { readCookie, createCookie } from '../../utils/cookies';
-import { createCartWithItem } from '../../utils/helper';
+import { addItemToCart } from '../../managers/cartManager';
 
 
 const Container= styled.section`
@@ -103,32 +103,23 @@ const Book = ({book}) => {
   const userId = readCookie("id");
   const cartIdFromCookie = readCookie("cartId");
   const accessToken = readCookie("accessToken");
-  const cartId = useSelector(store => store.cart._id);
 
   const handleAddToCartFromHome = async () => {
+    if (accessToken && userId ){ 
+      const addItemToCartReponse = await addItemToCart(book._id, userId);
+      const newCart = addItemToCartReponse.response;
+      // dispatch(cart.actions.addItemToCart({ productId: book._id }));
 
-    // const fetchCartResponse = await fetchCart(cartIdFromCookie);
-    // const cart = fetchCartResponse.response;
-    // console.log(cart)
-    // dispatch(cart.actions.setCart(cart));
-
-    if (accessToken && userId && cartIdFromCookie ){ //case user and cart
-        dispatch(cart.actions.addItemToCart({ productId: book._id }));
-
-    } else if (accessToken && userId && !cartId && !cartIdFromCookie) { //case user and no cart
-      const createCartReponse = await createCartWithItem(book._id, userId);
-      const newCart = createCartReponse.response;
-
-      if (createCartReponse.success) {
-        createCookie("cartId", newCart._id);
+      if (addItemToCartReponse.success) {
         dispatch(cart.actions.setCart(newCart));
+        cartIdFromCookie === "undefined" &&  createCookie("cartId", newCart._id);
+
 
       } else {
-        throw new Error('Error creating cart')
+        throw new Error('Error adding item to cart')
       }
 
-    } else { // case no user no car
-
+    } else {
       navigate('/register');
     }
     

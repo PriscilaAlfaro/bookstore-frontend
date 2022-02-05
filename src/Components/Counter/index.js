@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 
-import { useDispatch, useSelector  } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { cart } from '../../reducers/cart';
+import { addItemToCart, removeItemFromCart } from '../../managers/cartManager';
+import { readCookie } from '../../utils/cookies';
 
 const Container = styled.section`
   display: flex;
@@ -36,14 +38,33 @@ const Count = styled.p`
 
 const Counter = ({ quantity, productId}) => {
   const dispatch = useDispatch();
-  const userId = useSelector(store => store.user.id);
+  const userId = readCookie("id");
 
-  const handleOnClickPlus = () => {
-    dispatch(cart.actions.addItemToCart({ productId, userId }));
+  const handleOnClickPlus = async () => {
+    const addItemToCartReponse = await addItemToCart(productId, userId);
+    const newCart = addItemToCartReponse.response;
+
+    if (addItemToCartReponse.success) {
+      dispatch(cart.actions.setCart(newCart));
+
+    } else {
+      dispatch(cart.actions.setError(addItemToCartReponse.response));
+      throw new Error('Error adding item to cart')
+      
+    }
   }
 
-  const handleOnClickReduce = () => {
-    dispatch(cart.actions.removeItemFromCart({ productId })); 
+  const handleOnClickReduce = async() => {
+    const removeItemToCartReponse = await removeItemFromCart(productId, userId);
+    const newCart = removeItemToCartReponse.response;
+
+    if (removeItemToCartReponse.success) {
+      dispatch(cart.actions.setCart(newCart));
+
+    } else {
+      dispatch(cart.actions.setError(removeItemToCartReponse.response));
+      throw new Error('Error adding item to cart')
+    }
   }
 
   return (

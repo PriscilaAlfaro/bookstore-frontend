@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 
 import { books } from "../../reducers/books";
-
+import { readCookie } from '../../utils/cookies';
 
 
 const HeaderBodyContainer = styled.section`
@@ -45,10 +45,10 @@ const HeaderIcons = ({handleOnClickSearch}) => {
   const dispatch = useDispatch();
   const cartItems = useSelector(store => store.cart.items);
   const totalItems = cartItems?.reduce((acc, curr) => acc + curr.quantity, 0);
-  const cartId = useSelector(store => store.cart._id);
+  const userId =  readCookie("id");
 
   const handleCart = () => {
-    if (cartId){
+    if (userId){
       navigate('/cart'); 
     }else{
       navigate('/register'); 

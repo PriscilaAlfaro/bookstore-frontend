@@ -10,6 +10,7 @@ import Counter from "../../Components/Counter";
 import { cart } from "../../reducers/cart";
 import { API_URL } from '../../utils/url';
 import { readCookie } from "../../utils/cookies";
+import { removeItemFromCart } from "../../managers/cartManager";
 
 const Container= styled.section`
   display: flex;
@@ -112,7 +113,7 @@ const Cart = () => {
       }
     }
 
-    if (userId && accessToken && cartId !== "undefined") {
+    if (userId && accessToken) {
 
       fetch(API_URL(`carts/${userId}/userId`), options)
         .then(res => res.json())
@@ -132,8 +133,18 @@ const Cart = () => {
     
   }, [accessToken, cartId, dispatch, userId]);
 
-const deleteBookFromCart = (productId)=>{
-  dispatch(cart.actions.removeSpecificItemFromCart({productId}));
+  const deleteBookFromCart = async (productId) => {
+  const removeLine = true;
+    const removeItemToCartReponse = await removeItemFromCart(productId, userId, removeLine);
+  const newCart = removeItemToCartReponse.response;
+
+  if (removeItemToCartReponse.success) {
+    dispatch(cart.actions.setCart(newCart));
+
+  } else {
+    dispatch(cart.actions.setError(removeItemToCartReponse.response));
+    throw new Error('Error adding item to cart')
+  }
 }
 
   
@@ -144,7 +155,7 @@ const deleteBookFromCart = (productId)=>{
         <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
             <Container>
               <ItemDetails>
-              {!itemsInCart && "There are no items in this cart"}
+              {itemsInCart.length === 0  && "There are no items in this cart"}
               {itemsInCart && itemsInCart.map(item=>{
               return(
               <BookDetailsContainer key={item.productId}>
