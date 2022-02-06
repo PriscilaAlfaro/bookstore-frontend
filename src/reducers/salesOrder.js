@@ -6,7 +6,7 @@ const initialState = {
     details: [],
     timestamp: null,
     checkoutOrder: null,
-    klarnaOrderId: null,
+    confirmationOrder: null,
     error: null,
 };
 
@@ -30,8 +30,8 @@ export const salesOrder = createSlice({
             store.checkoutOrder = action.payload;
         },
 
-        setklarnaOrderId: (store, action) => {
-            store.klarnaOrderId = action.payload;
+        setconfirmationOrder: (store, action) => {
+            store.confirmationOrder = action.payload;
         },
 
         setError: (store, action) => {

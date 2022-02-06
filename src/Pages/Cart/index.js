@@ -11,7 +11,7 @@ import PrePurchaseSalesOrder from "../../Components/PrePurchaseSalesOrder";
 import { cart } from "../../reducers/cart";
 import { salesOrder } from "../../reducers/salesOrder";
 import { API_URL } from '../../utils/url';
-import { readCookie } from "../../utils/cookies";
+import { createCookie, readCookie, deleteCookie } from "../../utils/cookies";
 import { removeItemFromCart } from "../../managers/cartManager";
 import { createOrderInKlarna } from "../../managers/checkoutManager";
 import Footer from "../../Components/Footer";
@@ -183,6 +183,8 @@ const Cart = () => {
 const callKlarnaAPI = async () => {
   const callCheckoutReponse = await createOrderInKlarna(userId);
   dispatch(salesOrder.actions.setCheckoutOrder(callCheckoutReponse.response));
+  deleteCookie("klarnaOrderId");
+  createCookie("klarnaOrderId", callCheckoutReponse.response.order_id);
   navigate('/payment');
 }
   

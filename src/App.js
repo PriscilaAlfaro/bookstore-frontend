@@ -17,6 +17,7 @@ import SignUp from './Pages/SignUp';
 
 import { books } from './reducers/books';
 import { cart } from './reducers/cart';
+import PaymentConfirmation from "./Pages/PaymentConfirmation";
 
 
 
@@ -71,8 +72,9 @@ const App = () => {
             <Route path="/wishlist" element={ <Wishlist/>} />
         {/* <Route path="/signin" element={ <SignIn/>} />*/}
             <Route path="/signup" element={ <SignUp/>} />
-            <Route path="/payment" element={<Payment/>} />
-        <Route path="/register" element={<Register />} />
+           <Route path="/register" element={<Register />} />
+        <Route path="/payment" element={<Payment />} />
+        <Route path="/paymentConfirmation" element={<PaymentConfirmation />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
