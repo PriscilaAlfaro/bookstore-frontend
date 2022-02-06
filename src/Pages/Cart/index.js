@@ -1,21 +1,27 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 
 import Header from "../../Components/Header";
 import Counter from "../../Components/Counter";
+import PrePurchaseSalesOrder from "../../Components/PrePurchaseSalesOrder";
 
 import { cart } from "../../reducers/cart";
+import { salesOrder } from "../../reducers/salesOrder";
 import { API_URL } from '../../utils/url';
 import { readCookie } from "../../utils/cookies";
 import { removeItemFromCart } from "../../managers/cartManager";
+import { createOrderInKlarna } from "../../managers/checkoutManager";
+import Footer from "../../Components/Footer";
 
-const Container= styled.section`
+
+const ContainerItems= styled.section`
+  // background: hotpink;
   display: flex;
   flex-wrap: wrap;
-  margin: 1rem auto;
+  margin: 2rem auto;
   justify-content: center;
   width: 95%;
   flex-direction: column;
@@ -23,10 +29,31 @@ const Container= styled.section`
     flex-direction: row;
   }
 `
-const ItemDetails= styled.div`
+const ContainerCheckout = styled.div`
+  align-self: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0.8rem auto;
+  padding: 0.4rem;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 10px;
+  width: 100%;
+   @media (min-width: 768px){
+     max-width: 30%;
+  }
+`
+
+const ContainerItemDetails= styled.div`
   background: linear-gradient(0deg, rgba(79,172,238,0.20960259103641454) 28%, rgba(197,233,94,0.14237570028011204) 100%);
   display: block;
-  margin: 0 auto;
+  margin: 0.2rem auto;
+  width: 95%;
+   border-radius: 10px;
+   @media (min-width: 768px){
+    max-width: 65%;
+  }
+
 `
 const CardImage= styled.img`
   width: 10%;
@@ -82,27 +109,32 @@ const DeleteButton = styled.button`
     padding: 10px;
   }
 `
-const Checkout = styled.div`
-  heigth: 500px;
-  width: 80%;
-  display: block;
-  margin: 1rem;
-
+const Button = styled.button`
+  color: white;
+  background: black;
+  border: none;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  margin: 0 auto;
+  width: 100%;
   @media (min-width: 768px){
+    font-size: 1rem;
+    padding: 10px;
     width: 50%;
-  }
-`
-const Image = styled.img`
-  width: 80%;
-`
+  }`
+
+
+
 
 const Cart = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const itemsInCart = useSelector(store => store.cart.items);
   const cartId = readCookie("cartId");
   const userId = readCookie("id");
   const accessToken = readCookie("accessToken");
 
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const options = {
@@ -147,14 +179,20 @@ const Cart = () => {
   }
 }
 
+
+const callKlarnaAPI = async () => {
+  const callCheckoutReponse = await createOrderInKlarna(userId);
+  dispatch(salesOrder.actions.setCheckoutOrder(callCheckoutReponse.response));
+  navigate('/payment');
+}
   
 
     return (
         <React.Fragment>
         <Header/>
         <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
-            <Container>
-              <ItemDetails>
+            <ContainerItems>
+              <ContainerItemDetails>
               {itemsInCart.length === 0  && "There are no items in this cart"}
               {itemsInCart && itemsInCart.map(item=>{
               return(
@@ -166,14 +204,15 @@ const Cart = () => {
                 <DeleteButton onClick={() => deleteBookFromCart(item.productId)}><i className="fas fa-trash"></i></DeleteButton>
               </BookDetailsContainer>
             )})}
-                </ItemDetails>
-          <Checkout>
-            <TextTitle>Checkout</TextTitle>
-          <Image src= "./assets/keyboard.jpeg" alt= "keyboard"/>
-
-          </Checkout>
-            </Container>
+                </ContainerItemDetails>
+              <ContainerCheckout>
+                <PrePurchaseSalesOrder />
+                <Button onClick={callKlarnaAPI}>Go to Checkout</Button>
+              </ContainerCheckout >     
+            </ContainerItems>
+           <Footer/>
         </React.Fragment>
+
     );
 }
 

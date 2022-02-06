@@ -108,7 +108,6 @@ const Book = ({book}) => {
     if (accessToken && userId ){ 
       const addItemToCartReponse = await addItemToCart(book._id, userId);
       const newCart = addItemToCartReponse.response;
-      // dispatch(cart.actions.addItemToCart({ productId: book._id }));
 
       if (addItemToCartReponse.success) {
         dispatch(cart.actions.setCart(newCart));

@@ -43,16 +43,6 @@ const SearchBarButton = styled.button`
   border: none;
 `
 
-// const SearchBarOutput = styled.div`
-//     justify-content: center;
-//     text-align: center;
-//     display: flex;
-//     width: 80%;
-//     margin: 0 auto;
-//     min-height: 30px;
-//     font-size: 15px;
-// `
-
 const SearchBar = () => {
   const dispatch = useDispatch();
   const [userInput, setUserInput]= useState("");
@@ -97,7 +87,6 @@ const SearchBar = () => {
                 />
           <SearchBarButton onClick={searchBooksInDataBase}><i className="fas fa-search"></i></SearchBarButton>
             </SearchBarContainer>
-            {/* <SearchBarOutput>Search output: {userInput}</SearchBarOutput> */}
         </React.Fragment>
     );
 }

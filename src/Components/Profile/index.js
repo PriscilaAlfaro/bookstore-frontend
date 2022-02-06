@@ -1,13 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { readCookie } from "../../utils/cookies";
-import { Link } from "react-router-dom";
 
 import Lottie from "react-lottie";
 import animationData from "../../lotties/astronaut-read-book.json";
 
-import Footer from "../Footer";
-import Header from "../Header";
 
 const ProfileMainContainer = styled.div`
   display: flex;

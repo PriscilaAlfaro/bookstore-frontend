@@ -4,7 +4,8 @@ import styled from "styled-components";
 import {  useNavigate } from "react-router-dom";
 import { createCookie, deleteCookie } from "../../utils/cookies";
 import { useDispatch, useSelector } from 'react-redux';
-import { createNewUser, createCartWithItem, createSession } from "../../utils/helper";
+import { createNewUser, createSession } from "../../utils/helper";
+import { addItemToCart } from "../../managers/cartManager";
 
 import Lottie from "react-lottie";
 import animationData from "../../lotties/bookgirl.json";
@@ -130,7 +131,6 @@ const SignUp = () => {
 
     try {
       const createUserResponse = await createNewUser(username, email, password);
-
       const newUser = createUserResponse.response;
 
       if (createUserResponse.success) {
@@ -143,15 +143,17 @@ const SignUp = () => {
       }
       
       if(productId) {
-        const createCartReponse = await createCartWithItem({ productId, userId: newUser.id });
+        const addItemToCartReponse = await addItemToCart(productId, userId);
+        const newCart = addItemToCartReponse.response;
 
-        const newCart = createCartReponse.response;
-
-        if (createCartReponse.success) {
+        if (addItemToCartReponse.success) {
           createCookie(cartId, newCart._id)
           dispatch(cart.actions.setCart(newCart));
+
         } else {
-          throw new Error('Error creating cart')
+          dispatch(cart.actions.setError(addItemToCartReponse.response));
+          throw new Error('Error adding item to cart')
+
         }
       }
       navigate('/')
@@ -162,7 +164,7 @@ const SignUp = () => {
 
   useEffect(() => {
     if (accessToken && cartId) {
-        navigate('/cart')
+        navigate('/')
     }
 
   }, [accessToken, cartId, dispatch, navigate, productId, userId]);
