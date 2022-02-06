@@ -48,7 +48,7 @@ const SpecialText = styled.p`
 
 const PrePurchaseSalesOrder = () => {
     const itemsInCart = useSelector(store => store.cart.items);
-    const subTotal = itemsInCart?.reduce((acc, curr) => acc + curr.price, 0);
+  const subTotal = itemsInCart?.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0);
     const taxes = subTotal * 0.13;
     const total = subTotal + taxes;
 
