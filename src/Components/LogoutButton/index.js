@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
-import { deleteCookie, readCookie } from "../../utils/cookies";
 import { useNavigate } from "react-router-dom";
-
 import {useDispatch } from 'react-redux';
+
+import { deleteCookie, readCookie } from "../../utils/cookies";
 
 const Button = styled.button`
   display: flex;
@@ -37,15 +37,14 @@ const LogoutButton = () => {
         navigate('/')
     }
 
-
     return (
-        <React.Fragment>
-            {user && email && accessToken && id && 
-            <Button onClick={handleLogout}>
-                Log out
-            </Button>
-            }
-        </React.Fragment>
+      <React.Fragment>
+        {user && email && accessToken && id && 
+        <Button onClick={handleLogout}>
+            Log out
+        </Button>
+        }
+      </React.Fragment>
     );
 }
 

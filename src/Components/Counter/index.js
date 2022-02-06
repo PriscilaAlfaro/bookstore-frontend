@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 
 import { useDispatch } from 'react-redux';
 import { cart } from '../../reducers/cart';
+
 import { addItemToCart, removeItemFromCart } from '../../managers/cartManager';
 import { readCookie } from '../../utils/cookies';
 

@@ -1,4 +1,3 @@
-
 export const createCookie= (cookieName, value)=> {
     document.cookie = cookieName + "=" + value +";path=/";
 }

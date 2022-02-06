@@ -1,10 +1,10 @@
 import React, {useState} from "react";
-// import moment from 'moment';
-// import { useSelector, useDispatch } from "react-redux";
 import styled from 'styled-components/macro';
+
+import { readCookie } from "../../utils/cookies";
+
 import SearchBar from "../SearchBar";
 import HeaderIcons from "../HeaderIcons";
-import { readCookie } from "../../utils/cookies";
 import LogoutButton from "../LogoutButton";
 
 const HeaderContainer = styled.section`
@@ -21,7 +21,6 @@ const HeaderContainer = styled.section`
   flex-direction: column;
   justify-content: space-between;
 `
-
 const HeaderMainTitle = styled.h1`
   font-family: 'Dancing Script', cursive;
   font-size: 3.5rem;
@@ -39,7 +38,6 @@ const UserContainer = styled.div`
   align-items: center;
   justify-content: space-between;
 `
-
 const UserGreeting = styled.p`
   font-size: 1rem;
   font-weight: 700;
@@ -49,7 +47,6 @@ const UserGreeting = styled.p`
     font-size: 1.3rem;
   }
 `
-
 const SearchBarContainer = styled.div`
   width: 100%;
   margin: 1rem auto;

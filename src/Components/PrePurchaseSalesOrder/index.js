@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
 
+import { useSelector } from "react-redux";
 
 const MainContainer = styled.div`
   display: flex;
@@ -13,7 +13,6 @@ const MainContainer = styled.div`
   border-radius: 10px;
   background: linear-gradient(180deg, rgba(249,250,245,0.25442051820728295) 0%, rgba(153,150,187,0.5765493697478992) 72%);
 `
-
 const Title = styled.h1`
   width: 100%;
   font-weight: bold;
@@ -22,7 +21,6 @@ const Title = styled.h1`
   text-align: left;
   margin: 1rem auto;
 `
-
 const Text = styled.p`
   width: 100%;
   font-style: normal;
@@ -34,7 +32,6 @@ const Text = styled.p`
    font-size: 1rem;
   }
 `
-
 const SpecialText = styled.p`
   width: 50%;
   font-weight: bold;
@@ -47,21 +44,21 @@ const SpecialText = styled.p`
 `
 
 const PrePurchaseSalesOrder = () => {
-    const itemsInCart = useSelector(store => store.cart.items);
+  const itemsInCart = useSelector(store => store.cart.items);
   const subTotal = itemsInCart?.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0);
-    const taxes = subTotal * 0.13;
-    const total = subTotal + taxes;
+  const taxes = subTotal * 0.13;
+  const total = subTotal + taxes;
 
 
-    return (
-        <MainContainer>
-                <Title>Order Summary</Title>
-                <Text>Subtotal: ${subTotal || 0}</Text>
-                <Text>Shipping: 0</Text>
-                <Text>Estimated tax: ${taxes}</Text>
-                <SpecialText>TOTAL: ${total}</SpecialText>
-        </MainContainer>
-    );
+  return (
+    <MainContainer>
+      <Title>Order Summary</Title>
+      <Text>Subtotal: ${subTotal || 0}</Text>
+      <Text>Shipping: 0</Text>
+      <Text>Estimated tax: ${taxes}</Text>
+      <SpecialText>TOTAL: ${total}</SpecialText>
+    </MainContainer>
+  );
 }
 
 export default PrePurchaseSalesOrder;

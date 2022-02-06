@@ -1,14 +1,14 @@
 
 import { readCookie } from "../utils/cookies";
-import { useSelector } from 'react-redux';
 import { API_URL } from "../utils/url";
 
 export const createOrderInKlarna = (userId) => {
+    const accessToken = readCookie("accessToken");
     const options = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            Authorization : ''
+            Authorization: accessToken
         }
 
     }
@@ -20,11 +20,12 @@ export const createOrderInKlarna = (userId) => {
 
 
 export const getConfirmationFromKlarna = (klarnaOrderId) => {
+    const accessToken = readCookie("accessToken");
     const options = {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: ''
+            Authorization: accessToken
         }
 
     }

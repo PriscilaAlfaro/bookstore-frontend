@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch} from 'react-redux'
+
 import { cart } from '../../reducers/cart';
 import { readCookie, createCookie } from '../../utils/cookies';
 import { addItemToCart } from '../../managers/cartManager';
@@ -112,7 +114,6 @@ const Book = ({book}) => {
       if (addItemToCartReponse.success) {
         dispatch(cart.actions.setCart(newCart));
         cartIdFromCookie === "undefined" &&  createCookie("cartId", newCart._id);
-
 
       } else {
         throw new Error('Error adding item to cart')

@@ -1,8 +1,12 @@
 import React from 'react';
 import styled from 'styled-components/macro';
+
+import { Link } from "react-router-dom";
+
 import Lottie from "react-lottie";
 import animationData from "../../lotties/website-error-404-animation.json";
-import { Link } from "react-router-dom";
+
+
 
 const NotFoundContainer = styled.footer`
   width: 80%;
@@ -19,29 +23,29 @@ const NotFoundContainer = styled.footer`
     width: 30%;
   }
 `
-
 const LinkWrapper = styled.footer`
   margin: 2rem auto;
 `
 
 const NotFound = () => {
-    const defaultOptions = {
-        loop: true,
-        autoplay: true,
-        animationData: animationData,
-        rendererSettings: {
-            preserveAspectRatio: "xMidYMid slice"
-        }
-    }
 
-    return (
-        <NotFoundContainer>
-            <LinkWrapper>
-            <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
-            </LinkWrapper>
-            <Lottie options={defaultOptions} maxHeight={100} maxWidth={100} />
-        </NotFoundContainer>
-    );
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+        preserveAspectRatio: "xMidYMid slice"
+    }
+  }
+
+  return (
+    <NotFoundContainer>
+      <LinkWrapper>
+        <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
+      </LinkWrapper>
+      <Lottie options={defaultOptions} maxHeight={100} maxWidth={100} />
+    </NotFoundContainer>
+  );
 }
 
 export default NotFound;

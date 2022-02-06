@@ -1,7 +1,8 @@
 import React from "react";
-import Book from "../Book";
 import styled from "styled-components";
+
 import { useSelector } from 'react-redux';
+import Book from "../Book";
 
 import Lottie from "react-lottie";
 import animationData from "../../lotties/books-draw.json";

@@ -15,13 +15,11 @@ const FooterCenter = styled.p`
   width: 100%;
   font-weight: bold;
 `
-
 const FooterSubCenter = styled.p`
   font-size: 0.7rem;
   width: 100%;
   font-style: italic;
 `
-
 const FooterColumns = styled.div`
   display: block;
   height: auto;
@@ -48,7 +46,7 @@ const FooterElement = styled.p`
   font-size: 1rem;
 `
 
-const Footer=()=> {
+const Footer = () => {
     return (
         <FooterContainer>
         <FooterCenter>Sweden Tech Library</FooterCenter>

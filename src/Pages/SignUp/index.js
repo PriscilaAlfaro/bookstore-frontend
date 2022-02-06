@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from "react";
 import styled from "styled-components";
 
-import {  useNavigate } from "react-router-dom";
-import { createCookie, deleteCookie } from "../../utils/cookies";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
+
+import { createCookie, deleteCookie } from "../../utils/cookies";
 import { createNewUser, createSession } from "../../utils/helper";
 import { addItemToCart } from "../../managers/cartManager";
 
@@ -26,9 +27,7 @@ const Container= styled.section`
     width: 50%;
     border-radius: 10px 0 0 10px ;
   }
- 
 `
-
 const Aside = styled.section`
   display: flex;
   flex-wrap: wrap;
@@ -44,20 +43,16 @@ const Aside = styled.section`
     width: 50%;
     border-radius: 0 10px 10px 0;
   }
- 
 `
-
 const Form= styled.form`
   display: flex;
   justify-content: center;
   flex-direction: column;
   width: 80%;
 `
-
 const Label= styled.label`
   width: 100%;
 `
-
 const Input= styled.input`
   width: 100%;
   background-color: rgb(247, 251, 225);
@@ -65,7 +60,6 @@ const Input= styled.input`
   border: none;
   border-radius: 5px;
 `
-
 const Button= styled.button`
   margin: 1.5rem;
   background: rgb(67, 111, 138);
@@ -75,23 +69,21 @@ const Button= styled.button`
   border-radius: 5px;
   border: none;
 `
-
 const Text= styled.p`
   font-size: 1rem;
   color: white;
   margin: 2rem 0 0.5rem 0;
-   @media (min-width: 768px){
-     font-size: 1.3rem;
+  @media (min-width: 768px){
+    font-size: 1.3rem;
   }
 `
-
 const Title= styled.h1`
   font-size: 1rem;
   margin: 2rem;
   text-align: center;
   color: white;
   @media (min-width: 768px){
-     font-size: 1.3rem;
+    font-size: 1.3rem;
   }
 `
 const ImageContainer = styled.div`
@@ -121,7 +113,7 @@ const SignUp = () => {
   const productId = useSelector((store) => store.cart.temporalItem);
   const userId = useSelector((store) => store.user.id);
 
-  function validateForm() {
+ const validateForm = () => {
   return email.length > 0 && password.length > 0;
   }
 
@@ -149,11 +141,9 @@ const SignUp = () => {
         if (addItemToCartReponse.success) {
           createCookie(cartId, newCart._id)
           dispatch(cart.actions.setCart(newCart));
-
         } else {
           dispatch(cart.actions.setError(addItemToCartReponse.response));
           throw new Error('Error adding item to cart')
-
         }
       }
       navigate('/')
@@ -166,7 +156,6 @@ const SignUp = () => {
     if (accessToken && cartId) {
         navigate('/')
     }
-
   }, [accessToken, cartId, dispatch, navigate, productId, userId]);
 
   const defaultOptions = {
@@ -182,62 +171,62 @@ const SignUp = () => {
     dispatch(user.actions.showSignIn());
   }
 
-return (
-  <React.Fragment>
-    <Container>
-      <Form onSubmit={handleSubmit}>
+  return (
+    <React.Fragment>
+      <Container>
 
-        <Label htmlFor="username">
-          <Text>Username</Text>
-          <Input 
-            id="username"
-            type="text"
-            value={username}
-            required
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </Label>
-
-        <Label htmlFor="email">
-          <Text>Email</Text>
-          <Input
-              autoFocus
-              id="email"
-              type="email"
-              value={email}
+        <Form onSubmit={handleSubmit}>
+          <Label htmlFor="username">
+            <Text>Username</Text>
+            <Input 
+              id="username"
+              type="text"
+              value={username}
               required
-              onChange={(e) => setEmail(e.target.value)}
-          />
-        </Label>
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </Label>
 
-        <Label htmlFor="passsword">
-          <Text>Password</Text>
-          <Input
-            id="passsword"
-            type="password"
-            value={password}
-            minlength="5"
-            required
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Label>
+          <Label htmlFor="email">
+            <Text>Email</Text>
+            <Input
+                autoFocus
+                id="email"
+                type="email"
+                value={email}
+                required
+                onChange={(e) => setEmail(e.target.value)}
+            />
+          </Label>
 
-        {error && error.keyValue.name && <p className="error">Name {error.keyValue.name} already exists</p>}
-        {error && error.keyValue.email && <p className="error">Email {error.keyValue.email} already exists</p>}
+          <Label htmlFor="passsword">
+            <Text>Password</Text>
+            <Input
+              id="passsword"
+              type="password"
+              value={password}
+              minlength="5"
+              required
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Label>
 
-        <Button block size="lg" type="submit" disabled={!validateForm()}>
-          Sing up
-        </Button>
-      </Form>
-    </Container>
-    <Aside>
-      <Title>Already have an account?</Title>
-    <Button onClick={goToSingIn}>Sign in</Button>
-      <ImageContainer>
-        <Lottie options={defaultOptions} />
-      </ImageContainer>
-    </Aside>
-  </React.Fragment>
+          {error && error.keyValue.name && <p className="error">Name {error.keyValue.name} already exists</p>}
+          {error && error.keyValue.email && <p className="error">Email {error.keyValue.email} already exists</p>}
+
+          <Button block size="lg" type="submit" disabled={!validateForm()}>
+            Sing up
+          </Button>
+        </Form>
+      </Container>
+      <Aside>
+        <Title>Already have an account?</Title>
+        <Button onClick={goToSingIn}>Sign in</Button>
+        <ImageContainer>
+          <Lottie options={defaultOptions} />
+        </ImageContainer>
+      </Aside>
+    </React.Fragment>
     );
 }
 

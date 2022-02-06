@@ -18,19 +18,20 @@ const ImageContainer = styled.div`
 `
 export const Loader = () => {
 
-    const defaultOptions = {
-        loop: true,
-        autoplay: true,
-        animationData: animationData,
-        rendererSettings: {
-            preserveAspectRatio: "xMidYMid slice"
-        }
-    }
-    return (
-
-            <ImageContainer>
-                <Lottie options={defaultOptions} />
-            </ImageContainer>
+  const defaultOptions = {
+      loop: true,
+      autoplay: true,
+      animationData: animationData,
+      rendererSettings: {
+          preserveAspectRatio: "xMidYMid slice"
+      }
+  }
   
-    );
+  return (
+
+          <ImageContainer>
+              <Lottie options={defaultOptions} />
+          </ImageContainer>
+
+  );
 }

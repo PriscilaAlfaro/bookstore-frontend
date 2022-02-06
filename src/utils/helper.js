@@ -28,7 +28,7 @@ export const createNewUser = (username, email, password) => {
         headers: {
             'Content-type': 'application/json'
         },
-        body: JSON.stringify({ username, email, password }) //save in cookie with access Token
+        body: JSON.stringify({ username, email, password }) 
     }
 
         return fetch(API_URL('users/signup'), optionsUser)
@@ -40,7 +40,7 @@ export const createNewUser = (username, email, password) => {
 export const fetchCart = (cartId) => {
     const accessToken = readCookie("accessToken");
 
-    // fetch cart by Id
+
     const options = {
         method: 'GET',
         headers: {

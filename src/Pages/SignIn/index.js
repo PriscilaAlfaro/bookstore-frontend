@@ -27,7 +27,6 @@ const Container = styled.section`
     border-radius: 0 10px 10px 0;
   }
 `
-
 const Aside = styled.section`
   display: flex;
   flex-wrap: wrap;
@@ -43,21 +42,17 @@ const Aside = styled.section`
   @media (min-width: 768px){
     width: 50%;
     border-radius: 10px 0 0 10px ;
- 
   }
 `
-
 const Form= styled.form`
   display: flex;
   justify-content: center;
   flex-direction: column;
   width: 80%;
 `
-
 const Label= styled.label`
   width: 100%;
 `
-
 const Input= styled.input`
   width: 100%;
   background-color: rgb(247, 251, 225);
@@ -65,7 +60,6 @@ const Input= styled.input`
   border: none;
   border-radius: 5px;
 `
-
 const Button= styled.button`
   margin: 1.5rem;
   background: rgb(67, 111, 138);
@@ -75,13 +69,11 @@ const Button= styled.button`
   border-radius: 5px;
   border: none;
 `
-
 const Text= styled.p`
   font-size: 1.3rem;
   color: white;
   margin: 2rem 0 0.5rem 0;
 `
-
 const Title= styled.h1`
   font-size: 1.3rem;
   margin: 2rem;
@@ -124,7 +116,7 @@ const SignIn = () => {
     }
   }, [accessToken, navigate]);
 
-  function validateForm() {
+  const validateForm = () => {
     return email.length > 0 && password.length > 0;
   }
 
@@ -217,8 +209,6 @@ const SignIn = () => {
           </Button>
         </Form>
       </Container>
-       
-
     </React.Fragment>
   );
 }

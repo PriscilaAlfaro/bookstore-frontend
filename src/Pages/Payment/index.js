@@ -1,12 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
-// import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 
-
-// import SignUp from "../SignUp";
-// import SignIn from "../SignIn";
 import Footer from "../../Components/Footer";
 import Header from "../../Components/Header";
 import Checkout from "../../Components/Checkout";
@@ -28,16 +24,16 @@ const MainContainer = styled.section`
 `
 
 const Payment = () => {
-    return (
-        <React.Fragment>
-            <Header />
-            <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
-            <MainContainer>
-                <Checkout/>
-            </MainContainer>
-            <Footer />
-        </React.Fragment>
-    )
+  return (
+    <React.Fragment>
+      <Header />
+      <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
+      <MainContainer>
+          <Checkout/>
+      </MainContainer>
+      <Footer />
+    </React.Fragment>
+  )
 }
 
 

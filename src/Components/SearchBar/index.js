@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 
+import { useDispatch } from 'react-redux';
+
 import { API_URL } from '../../utils/url';
 import { books } from '../../reducers/books';
-import { useDispatch } from 'react-redux';
+
 
 
 const SearchBarContainer = styled.div`
@@ -12,9 +14,7 @@ const SearchBarContainer = styled.div`
   margin: 1.5rem auto;
   width: 80%;
   height: 50px;
-
 `
-
 const SearchBarInput = styled.input`
   background-color: D1D4C9
   font-size: 1.1rem;
@@ -28,18 +28,17 @@ const SearchBarInput = styled.input`
     border: 1px solid cadetblue;
   }
 `
-
 const SearchBarButton = styled.button`
-    background: rgb(67, 138, 94);
-    font-size: 0.8rem;
-    align-items: center;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    color: white;
-    width: 50px;
-     border-radius:  0 8px 8px 0 ;
-    cursor: pointer;
+  background: rgb(67, 138, 94);
+  font-size: 0.8rem;
+  align-items: center;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  color: white;
+  width: 50px;
+  border-radius:  0 8px 8px 0 ;
+  cursor: pointer;
   border: none;
 `
 
@@ -72,22 +71,22 @@ const SearchBar = () => {
     }
 
     return (
-        <React.Fragment>
-            <SearchBarContainer>
-                <SearchBarInput
-                    placeholder="Search..."
-                    type="text"
-                    onChange={onChange}
-                    value={userInput}
-                  onKeyPress={(e) => {
-                    if (e.key === "Enter") {
-                      searchBooksInDataBase();
-                    }
-                  }}
-                />
-          <SearchBarButton onClick={searchBooksInDataBase}><i className="fas fa-search"></i></SearchBarButton>
-            </SearchBarContainer>
-        </React.Fragment>
+      <React.Fragment>
+        <SearchBarContainer>
+          <SearchBarInput
+              placeholder="Search..."
+              type="text"
+              onChange={onChange}
+              value={userInput}
+              onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                searchBooksInDataBase();
+              }
+            }}
+          />
+      <SearchBarButton onClick={searchBooksInDataBase}><i className="fas fa-search"></i></SearchBarButton>
+      </SearchBarContainer>
+      </React.Fragment>
     );
 }
 

@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-// import { readCookie } from "../../utils/cookies";
 
 import { useSelector } from "react-redux";
 
@@ -10,10 +9,6 @@ const CheckoutMainContainer = styled.div`
   width: 80%;
   display: block;
   margin: 1rem auto;
-
-  @media (min-width: 768px){
-    // width: 0%;
-  }
 `
 
 const Title = styled.h1`

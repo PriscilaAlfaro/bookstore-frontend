@@ -40,15 +40,3 @@ export const salesOrder = createSlice({
 
     },
 });
-
-                //Inside details
-                // type: "physical",
-                // reference: "19-402-USA",
-                // name: "Red T-Shirt",
-                // quantity: 5,
-                // quantity_unit: "pcs",
-                // unit_price: 10000,
-                // tax_rate: 1000,
-                // total_amount: 50000,
-                // total_discount_amount: 0,
-                // total_tax_amount: 4545

@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
+import './App.css';
+
 import { API_URL } from './utils/url';
 import { useDispatch } from 'react-redux';
-import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { readCookie } from './utils/cookies';
+
 
 import Home from "./Pages/Home"
 import BookDetails from "./Pages/BookDetails";
@@ -13,14 +14,11 @@ import Wishlist from "./Pages/Wishlist";
 import Register from './Pages/Register';
 import Payment from './Pages/Payment';
 import SignUp from './Pages/SignUp';
-
+import PaymentConfirmation from "./Pages/PaymentConfirmation";
 
 import { books } from './reducers/books';
 import { cart } from './reducers/cart';
-import PaymentConfirmation from "./Pages/PaymentConfirmation";
-
-
-
+import { readCookie } from './utils/cookies'; 
 
 
 const App = () => {
@@ -64,20 +62,19 @@ const App = () => {
 }, [accessToken, cartIdFromCookie, dispatch, userId]);
 
   return (
-      <BrowserRouter>
-        <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/bookDetails/:id" element={ <BookDetails/>} />
-            <Route path="/cart" element={ <Cart/>} />
-            <Route path="/wishlist" element={ <Wishlist/>} />
-        {/* <Route path="/signin" element={ <SignIn/>} />*/}
-            <Route path="/signup" element={ <SignUp/>} />
-           <Route path="/register" element={<Register />} />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/bookDetails/:id" element={ <BookDetails/>} />
+        <Route path="/cart" element={ <Cart/>} />
+        <Route path="/wishlist" element={ <Wishlist/>} />
+        <Route path="/signup" element={ <SignUp/>} />
+        <Route path="/register" element={<Register />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/paymentConfirmation" element={<PaymentConfirmation />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
 
   );
 }

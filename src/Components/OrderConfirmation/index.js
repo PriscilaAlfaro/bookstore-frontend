@@ -1,24 +1,18 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-// import { readCookie } from "../../utils/cookies";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
+
 import { readCookie } from "../../utils/cookies";
 import { getConfirmationFromKlarna } from "../../managers/checkoutManager";
 import { salesOrder } from "../../reducers/salesOrder";
-
 
 const CheckoutMainContainer = styled.div`
   heigth: auto;
   width: 80%;
   display: block;
   margin: 1rem auto;
-
-  @media (min-width: 768px){
-    // width: 0%;
-  }
 `
-
 const Title = styled.h1`
   width: 100%;
   font-style: normal;
@@ -29,15 +23,14 @@ const Title = styled.h1`
   margin: 1rem auto;
 `
 
-
-
-const OrderConfirmation = () => {
+const OrderConfirmation = () => { 
+    
     const dispatch = useDispatch();
     const klarnaOrderId = readCookie("klarnaOrderId");
 
 useEffect(()=> {
+    
     getConfirmationFromKlarna(klarnaOrderId).then(confirmationPaymentResponse => {
-
 
         if(confirmationPaymentResponse.success){
         const confirmationPayment = confirmationPaymentResponse.response;

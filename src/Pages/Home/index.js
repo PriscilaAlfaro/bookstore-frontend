@@ -1,15 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 
+import { useSelector } from 'react-redux';
+
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
 import BooksContainer from "../../Components/BooksContainer";
 
 import Lottie from "react-lottie";
 import animationData from "../../lotties/books-draw.json";
-
-import { useSelector } from 'react-redux';
-
 
 const ImageContainer = styled.div`
   display: flex;
@@ -44,8 +43,7 @@ const Home = () =>{
                 <ImageContainer>
                     <Lottie options={defaultOptions} />
                 </ImageContainer>
-             }  
-                       
+             }          
             <Footer/>
         </React.Fragment>
     );

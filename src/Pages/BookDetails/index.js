@@ -72,16 +72,12 @@ const Synopsis= styled.div`
 const Title= styled.h1`
   font-size: 2rem;
 `
-
 const SubTitle= styled.h2`
   font-size: 1rem;
 `
-
 const Text= styled.p`
   font-size: 1rem;
 `
-
-
 const AddButton = styled.button`
   color: white;
   background: rgb(186, 201, 100);
@@ -98,7 +94,6 @@ const AddButton = styled.button`
     font-size: 1.3rem;
   }
 `
-
 const Icons= styled.div`
   display: flex;
   flex-direction: row;
@@ -106,7 +101,6 @@ const Icons= styled.div`
 `
 const CounterWrapper = styled.div`
   display: flex;
-
 `
 
 
@@ -119,18 +113,16 @@ const BookDetails = () =>{
   const item = itemsInCart?.find(item => item.productId === id);
   const userId = useSelector(store => store.user.id);
 
-  let bookDetails={} 
+  let bookDetails = {}; 
 
- 
-    if (id) {
-      bookDetails = books.find(book => book._id === id)
-    } else {
-      return <NotFound />
-    }
+  if (id) {
+    bookDetails = books.find(book => book._id === id);
+  } else {
+    return <NotFound />
+  }
   
-
   if (!bookDetails) {
-    return (< Loader />)
+    return (< Loader />);
   }
 
   const handleAddToCart = () => {
@@ -138,39 +130,41 @@ const BookDetails = () =>{
   }
 
     return (
-        <React.Fragment>
-          <Header/>
-          <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
-          <Container>
-            <Up>
-              <CardImage src={bookDetails.thumbnailUrl} alt="card patron"/>
-              <BookDetailsContainer>
-                <Title>{bookDetails.title}</Title>
-                <Details>Author: {bookDetails.authors.map(author=> author)}</Details>
-                <Details>Published: {moment(bookDetails.publishedDate).format('LL') || "No details available"}</Details>
+      <React.Fragment>
+        <Header/>
+        <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
+        <Container>
+          
+          <Up>
+            <CardImage src={bookDetails.thumbnailUrl} alt="card patron"/>
+            <BookDetailsContainer>
+              <Title>{bookDetails.title}</Title>
+              <Details>Author: {bookDetails.authors.map(author=> author)}</Details>
+              <Details>Published: {moment(bookDetails.publishedDate).format('LL') || "No details available"}</Details>
               <Details>Categories: {bookDetails.categories.length > 0 ? bookDetails.categories.map(cat=>cat) : "No categories available"}</Details>
-                <Details>Language: {bookDetails.language}</Details>
+              <Details>Language: {bookDetails.language}</Details>
               <Details>Pages: {bookDetails.pageCount || "No details available"}</Details>
-                <Details>Isbn: {bookDetails.isbn}</Details>
-                <Details>Availability: {bookDetails.availability}</Details>
-                <SubTitle>Price: ${bookDetails.price}</SubTitle>
-                <CounterWrapper>
-                  <Counter quantity={(item && item.quantity) || 0} productId={bookDetails._id} />
-                </CounterWrapper>
-                  <Icons>
+              <Details>Isbn: {bookDetails.isbn}</Details>
+              <Details>Availability: {bookDetails.availability}</Details>
+              <SubTitle>Price: ${bookDetails.price}</SubTitle>
+              <CounterWrapper>
+                <Counter quantity={(item && item.quantity) || 0} productId={bookDetails._id} />
+              </CounterWrapper>
+              <Icons>
                 <AddButton onClick={handleAddToCart}><i className="fas fa-shopping-cart"></i> Add to cart</AddButton>
-                  <AddButton><i className="fas fa-heart"></i>Add to wishlist</AddButton>
-                  </Icons>
-              </BookDetailsContainer>
-            </Up>
+                <AddButton><i className="fas fa-heart"></i>Add to wishlist</AddButton>
+              </Icons>
+            </BookDetailsContainer>
+          </Up>
 
-            <Synopsis>
-              <SubTitle>Synopsis:</SubTitle>
+          <Synopsis>
+            <SubTitle>Synopsis:</SubTitle>
             <Text>{(bookDetails.longDescription && bookDetails.longDescription) || 
-              (bookDetails.shortDescription && bookDetails.shortDescription) || 
+            (bookDetails.shortDescription && bookDetails.shortDescription) || 
             "There is no sinopsis available"}</Text>
-            </Synopsis>
-          </Container>
+          </Synopsis>
+
+        </Container>
         </React.Fragment>
     );
 }

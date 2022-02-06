@@ -5,20 +5,20 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 
 import Header from "../../Components/Header";
+import Footer from "../../Components/Footer";
 import Counter from "../../Components/Counter";
 import PrePurchaseSalesOrder from "../../Components/PrePurchaseSalesOrder";
 
+import { API_URL } from '../../utils/url';
 import { cart } from "../../reducers/cart";
 import { salesOrder } from "../../reducers/salesOrder";
-import { API_URL } from '../../utils/url';
 import { createCookie, readCookie, deleteCookie } from "../../utils/cookies";
 import { removeItemFromCart } from "../../managers/cartManager";
 import { createOrderInKlarna } from "../../managers/checkoutManager";
-import Footer from "../../Components/Footer";
+
 
 
 const ContainerItems= styled.section`
-  // background: hotpink;
   display: flex;
   flex-wrap: wrap;
   margin: 2rem auto;
@@ -43,17 +43,15 @@ const ContainerCheckout = styled.div`
      max-width: 30%;
   }
 `
-
 const ContainerItemDetails= styled.div`
   background: linear-gradient(0deg, rgba(79,172,238,0.20960259103641454) 28%, rgba(197,233,94,0.14237570028011204) 100%);
   display: block;
   margin: 0.2rem auto;
   width: 95%;
-   border-radius: 10px;
-   @media (min-width: 768px){
+  border-radius: 10px;
+  @media (min-width: 768px){
     max-width: 65%;
   }
-
 `
 const CardImage= styled.img`
   width: 10%;
@@ -61,7 +59,7 @@ const CardImage= styled.img`
   margin: 10px auto;
   @media (min-width: 768px){
   margin: 10px 20px;
-  }
+}
 `
 const BookDetailsContainer= styled.div`
   display: flex;
@@ -125,8 +123,6 @@ const Button = styled.button`
   }`
 
 
-
-
 const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -166,56 +162,55 @@ const Cart = () => {
   }, [accessToken, cartId, dispatch, userId]);
 
   const deleteBookFromCart = async (productId) => {
-  const removeLine = true;
+    const removeLine = true;
     const removeItemToCartReponse = await removeItemFromCart(productId, userId, removeLine);
-  const newCart = removeItemToCartReponse.response;
+    const newCart = removeItemToCartReponse.response;
 
-  if (removeItemToCartReponse.success) {
-    dispatch(cart.actions.setCart(newCart));
+    if (removeItemToCartReponse.success) {
+      dispatch(cart.actions.setCart(newCart));
 
-  } else {
-    dispatch(cart.actions.setError(removeItemToCartReponse.response));
-    throw new Error('Error adding item to cart')
+    } else {
+      dispatch(cart.actions.setError(removeItemToCartReponse.response));
+      throw new Error('Error adding item to cart')
+    }
   }
-}
 
 
-const callKlarnaAPI = async () => {
-  const callCheckoutReponse = await createOrderInKlarna(userId);
-  dispatch(salesOrder.actions.setCheckoutOrder(callCheckoutReponse.response));
-  deleteCookie("klarnaOrderId");
-  createCookie("klarnaOrderId", callCheckoutReponse.response.order_id);
-  navigate('/payment');
-}
+  const callKlarnaAPI = async () => {
+    const callCheckoutReponse = await createOrderInKlarna(userId);
+    dispatch(salesOrder.actions.setCheckoutOrder(callCheckoutReponse.response));
+    deleteCookie("klarnaOrderId");
+    createCookie("klarnaOrderId", callCheckoutReponse.response.order_id);
+    navigate('/payment');
+  }
   
 
-    return (
-        <React.Fragment>
+  return (
+      <React.Fragment>
         <Header/>
         <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
-            <ContainerItems>
-              <ContainerItemDetails>
+        <ContainerItems>
+            <ContainerItemDetails>
               {itemsInCart.length === 0  && "There are no items in this cart"}
               {itemsInCart && itemsInCart.map(item=>{
-              return(
-              <BookDetailsContainer key={item.productId}>
-                <CardImage src={item.url} alt={item.title} />
-                <TextTitle>{item.title}</TextTitle> 
-                <Text>Price: ${item.price}</Text>
-                <Counter quantity={item.quantity} productId={item.productId}/>
-                <DeleteButton onClick={() => deleteBookFromCart(item.productId)}><i className="fas fa-trash"></i></DeleteButton>
-              </BookDetailsContainer>
-            )})}
-                </ContainerItemDetails>
+                return(
+                <BookDetailsContainer key={item.productId}>
+                  <CardImage src={item.url} alt={item.title} />
+                  <TextTitle>{item.title}</TextTitle> 
+                  <Text>Price: ${item.price}</Text>
+                  <Counter quantity={item.quantity} productId={item.productId}/>
+                  <DeleteButton onClick={() => deleteBookFromCart(item.productId)}><i className="fas fa-trash"></i></DeleteButton>
+                </BookDetailsContainer>
+              )})}
+              </ContainerItemDetails>
               <ContainerCheckout>
                 <PrePurchaseSalesOrder />
                 <Button onClick={callKlarnaAPI}>Go to Checkout</Button>
               </ContainerCheckout >     
-            </ContainerItems>
-           <Footer/>
-        </React.Fragment>
-
-    );
+        </ContainerItems>
+        <Footer/>
+      </React.Fragment>
+  );
 }
 
 export default Cart;
