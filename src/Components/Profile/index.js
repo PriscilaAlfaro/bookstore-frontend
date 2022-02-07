@@ -3,6 +3,8 @@ import styled from "styled-components";
 
 import { readCookie } from "../../utils/cookies";
 
+import LogoutButton from "../../Components/LogoutButton";
+
 import Lottie from "react-lottie";
 import animationData from "../../lotties/astronaut-read-book.json";
 
@@ -21,7 +23,7 @@ const ProfileMainContainer = styled.div`
     width: 80%;
   }
   @media (min-width: 992px) {
-    width: 50%;
+    width: 80%;
   }
 `
 const Title = styled.h1`
@@ -73,7 +75,7 @@ const ImageContainer = styled.div`
     width: 60%;
   }
   @media (min-width: 992px) {
-    width: 30%;
+    width: 40%;
   }
 `
 
@@ -102,6 +104,7 @@ const Profile = () => {
       <ImageContainer>
         <Lottie options={defaultOptions} />
       </ImageContainer>
+      <LogoutButton/>
     </ProfileMainContainer>
   );
 }

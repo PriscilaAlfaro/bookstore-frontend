@@ -113,9 +113,6 @@ const SignUp = () => {
   const productId = useSelector((store) => store.cart.temporalItem);
   const userId = useSelector((store) => store.user.id);
 
- const validateForm = () => {
-  return email.length > 0 && password.length > 0;
-  }
 
 
   const handleSubmit = async(event) => {
@@ -214,7 +211,7 @@ const SignUp = () => {
           {error && error.keyValue.name && <p className="error">Name {error.keyValue.name} already exists</p>}
           {error && error.keyValue.email && <p className="error">Email {error.keyValue.email} already exists</p>}
 
-          <Button block size="lg" type="submit" disabled={!validateForm()}>
+          <Button block size="lg" type="submit">
             Sing up
           </Button>
         </Form>

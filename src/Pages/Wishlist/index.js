@@ -22,6 +22,7 @@ const MainContainer = styled.section`
     width: 60%;
   }
 `
+
 const Wishlist = () => {
     return (
         <React.Fragment>

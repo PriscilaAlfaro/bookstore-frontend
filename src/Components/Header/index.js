@@ -1,11 +1,10 @@
-import React, {useState} from "react";
+import React from "react";
 import styled from 'styled-components/macro';
 
 import { readCookie } from "../../utils/cookies";
 
-import SearchBar from "../SearchBar";
 import HeaderIcons from "../HeaderIcons";
-import LogoutButton from "../LogoutButton";
+// import LogoutButton from "../LogoutButton";
 
 const HeaderContainer = styled.section`
   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
@@ -31,8 +30,11 @@ const HeaderMainTitle = styled.h1`
     font-size: 4rem;
   }
 `
+const HorizontalContainer = styled.div`
+  display: flex;
+  justify-content:space-between;
+`
 const UserContainer = styled.div`
-  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -43,39 +45,29 @@ const UserGreeting = styled.p`
   font-weight: 700;
   color: white;
   margin: 1rem;
+  text-transform: capitalize;
   @media (min-width: 768px){
     font-size: 1.3rem;
   }
 `
-const SearchBarContainer = styled.div`
-  width: 100%;
-  margin: 1rem auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background-color: darkgray;
-`
+
+
 
 const Header = () => {
-  const [showSearchBar, setShowSearchBar]=  useState(false);
   const user = readCookie("username");
-
-    const handleOnClickSearch = () => {
-        setShowSearchBar(!showSearchBar)
-    }
 
     return (
         <HeaderContainer>
             <HeaderMainTitle>Sweden Tech Library</HeaderMainTitle>
+
+        <HorizontalContainer>
             <UserContainer>
               {user && <UserGreeting>Hello {user}</UserGreeting> }
-              <LogoutButton/>
+              {/* <LogoutButton/> */}
             </UserContainer>
-            <HeaderIcons handleOnClickSearch={handleOnClickSearch}/>
-            {showSearchBar && 
-            <SearchBarContainer>
-                <SearchBar/>
-            </SearchBarContainer>}
+ 
+            <HeaderIcons />
+        </HorizontalContainer>
         </HeaderContainer>
     )
 }

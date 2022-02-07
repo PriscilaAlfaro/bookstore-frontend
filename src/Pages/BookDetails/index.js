@@ -9,7 +9,7 @@ import NotFound from '../NotFound';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, Link } from 'react-router-dom'
 
-
+import { addItemToCart } from "../../managers/cartManager";
 import { Loader } from "../../Components/Loader";
 import { cart } from "../../reducers/cart";
 
@@ -57,7 +57,6 @@ const Details= styled.p`
   color: gray;
   margin: 5px;
 `
-
 const Synopsis= styled.div`
   display: flex;
   background: linear-gradient(0deg, rgba(79,238,148,0.11528361344537819) 28%, rgba(197,233,94,0.14237570028011204) 100%);
@@ -74,6 +73,7 @@ const Title= styled.h1`
 `
 const SubTitle= styled.h2`
   font-size: 1rem;
+  margin: 1rem 5px;
 `
 const Text= styled.p`
   font-size: 1rem;
@@ -97,21 +97,22 @@ const AddButton = styled.button`
 const Icons= styled.div`
   display: flex;
   flex-direction: row;
-  margin-top: 30px;
+  margin: 0;
 `
 const CounterWrapper = styled.div`
   display: flex;
+  margin: 1rem 0;
 `
 
 
 const BookDetails = () =>{
   const { id } = useParams();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const books = useSelector(store => store.books.bookItems);
   const itemsInCart = useSelector(store => store.cart.items);
   const item = itemsInCart?.find(item => item.productId === id);
-  const userId = useSelector(store => store.user.id);
+  // const userId = useSelector(store => store.user.id);
 
   let bookDetails = {}; 
 
@@ -125,9 +126,6 @@ const BookDetails = () =>{
     return (< Loader />);
   }
 
-  const handleAddToCart = () => {
-    dispatch(cart.actions.addItemToCart({ productId: id, userId }));
-  }
 
     return (
       <React.Fragment>
@@ -151,7 +149,6 @@ const BookDetails = () =>{
                 <Counter quantity={(item && item.quantity) || 0} productId={bookDetails._id} />
               </CounterWrapper>
               <Icons>
-                <AddButton onClick={handleAddToCart}><i className="fas fa-shopping-cart"></i> Add to cart</AddButton>
                 <AddButton><i className="fas fa-heart"></i>Add to wishlist</AddButton>
               </Icons>
             </BookDetailsContainer>

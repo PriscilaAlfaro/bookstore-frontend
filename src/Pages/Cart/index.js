@@ -16,6 +16,8 @@ import { createCookie, readCookie, deleteCookie } from "../../utils/cookies";
 import { removeItemFromCart } from "../../managers/cartManager";
 import { createOrderInKlarna } from "../../managers/checkoutManager";
 
+import Lottie from "react-lottie";
+import animationData from "../../lotties/no-search-item-available.json";
 
 
 const ContainerItems= styled.section`
@@ -46,7 +48,7 @@ const ContainerCheckout = styled.div`
 const ContainerItemDetails= styled.div`
   background: linear-gradient(0deg, rgba(79,172,238,0.20960259103641454) 28%, rgba(197,233,94,0.14237570028011204) 100%);
   display: block;
-  margin: 0.2rem auto;
+  margin: 1rem auto;
   width: 95%;
   border-radius: 10px;
   @media (min-width: 768px){
@@ -87,9 +89,9 @@ const TextTitle = styled.div`
 const Text= styled.h2`
   font-size: 0.7rem;
   margin: 0.1rem;
-   @media (min-width: 768px){
-      font-size: 1rem;
-       margin: 0 1rem;
+  @media (min-width: 768px){
+    font-size: 1rem;
+    margin: 0 1rem;
   }
 `
 const DeleteButton = styled.button`
@@ -120,8 +122,30 @@ const Button = styled.button`
     font-size: 1rem;
     padding: 10px;
     width: 50%;
-  }`
-
+  }
+`
+const ImageContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin: 3rem auto;
+  width: 60%;
+  @media (min-width: 768px){
+    width: 50%;
+  }
+  @media (min-width: 992px) {
+    width: 40%;
+  }
+`
+const ErrorText = styled.h2`
+  font-size: 0.7rem;
+  margin: 1rem auto;
+  padding: 2rem;
+  text-align: center;
+  @media (min-width: 768px){
+    font-size: 1rem;
+  
+  }
+`
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -130,7 +154,16 @@ const Cart = () => {
   const cartId = readCookie("cartId");
   const userId = readCookie("id");
   const accessToken = readCookie("accessToken");
+  const error = useSelector(store => store.cart.error);
 
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice"
+    }
+  }
 
   useEffect(() => {
     const options = {
@@ -141,7 +174,7 @@ const Cart = () => {
       }
     }
 
-    if (userId && accessToken) {
+    if (userId && accessToken && (cartId !== "" || cartId !== "undefined")) {
 
       fetch(API_URL(`carts/${userId}/userId`), options)
         .then(res => res.json())
@@ -184,6 +217,23 @@ const Cart = () => {
     navigate('/payment');
   }
   
+  if(error){
+    return (
+      <React.Fragment>
+        <Header />
+        <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
+        <ContainerItemDetails>
+          <ErrorText>There are no items in this cart</ErrorText>
+          <ImageContainer>
+            <Lottie options={defaultOptions} />
+          </ImageContainer>
+          <ErrorText><Link to={"/"}>Go Home and start buying!</Link></ErrorText>
+        </ContainerItemDetails>
+        <Footer />
+      </React.Fragment>
+    )
+  }
+
 
   return (
       <React.Fragment>
@@ -191,8 +241,15 @@ const Cart = () => {
         <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
         <ContainerItems>
             <ContainerItemDetails>
-              {itemsInCart.length === 0  && "There are no items in this cart"}
-              {itemsInCart && itemsInCart.map(item=>{
+                {itemsInCart && itemsInCart.length === 0  && 
+                  <React.Fragment>
+                    <ErrorText>There are no items in this cart</ErrorText>
+                    <ImageContainer>
+                      <Lottie options={defaultOptions} />
+                    </ImageContainer>
+                    <ErrorText><Link to={"/"}>Go Home and start buying!</Link></ErrorText>
+                  </React.Fragment>}
+                {itemsInCart && itemsInCart.length > 0 && itemsInCart.map(item=>{
                 return(
                 <BookDetailsContainer key={item.productId}>
                   <CardImage src={item.url} alt={item.title} />
@@ -203,11 +260,13 @@ const Cart = () => {
                 </BookDetailsContainer>
               )})}
               </ContainerItemDetails>
-              <ContainerCheckout>
+              { itemsInCart && itemsInCart.length > 0 && 
+                  <ContainerCheckout>
                 <PrePurchaseSalesOrder />
                 <Button onClick={callKlarnaAPI}>Go to Checkout</Button>
-              </ContainerCheckout >     
+              </ContainerCheckout> }
         </ContainerItems>
+
         <Footer/>
       </React.Fragment>
   );

@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { Link } from "react-router-dom";
+
 const FooterContainer = styled.div`
   width: 100%;
   height: auto;
@@ -9,16 +11,19 @@ const FooterContainer = styled.div`
   align-items: center;
   text-align: center;
   flex-direction: column;
+  margin-top: 2rem;
 `
 const FooterCenter = styled.p`
   font-size: 1rem;
   width: 100%;
   font-weight: bold;
+  margin: 2rem auto;
 `
 const FooterSubCenter = styled.p`
   font-size: 0.7rem;
   width: 100%;
   font-style: italic;
+  margin 2rem auto;
 `
 const FooterColumns = styled.div`
   display: block;
@@ -45,6 +50,15 @@ const FooterColumn = styled.div`
 const FooterElement = styled.p`
   font-size: 1rem;
 `
+const ColumnTitle = styled.h2`
+  font-size: 1rem;
+`
+const Ancor = styled.a`
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  color: #323232;
+`
 
 const Footer = () => {
     return (
@@ -52,25 +66,25 @@ const Footer = () => {
         <FooterCenter>Sweden Tech Library</FooterCenter>
             <FooterColumns>
                 <FooterColumn>
-                    <FooterElement> BookPAS Project</FooterElement>
+                    <ColumnTitle>BookStore Project</ColumnTitle>
+                    <FooterElement><Ancor href="https://github.com/PriscilaAlfaro/bookstore-frontend" target="_blank" rel="noreferrer noopener">Frontend</Ancor></FooterElement>
+                    <FooterElement><Ancor href="https://github.com/PriscilaAlfaro/bookstore-backend" target="_blank" rel="noreferrer noopener">Backend</Ancor></FooterElement>
                     <FooterElement>Stockholm, Sweden</FooterElement>
-                    <FooterElement>priscila24n@hotmail.com</FooterElement>
-                    <FooterElement>+46 70 296 4775</FooterElement>
                 </FooterColumn>
                 <FooterColumn>
-                    <FooterElement>Contact</FooterElement>
-                    <FooterElement>Facebook</FooterElement>
-                    <FooterElement>Instagram</FooterElement>
-                    <FooterElement>YouTube</FooterElement>
+                    <ColumnTitle>Contact</ColumnTitle>
+                    <FooterElement><Ancor href="https://www.linkedin.com/in/priscila24n/" target="_blank" rel="noreferrer noopener">LinkedIn</Ancor></FooterElement>
+                    <FooterElement><Ancor href="https://github.com/PriscilaAlfaro?tab=repositories" target="_blank" rel="noreferrer noopener">GitHub</Ancor></FooterElement>
+                    <FooterElement><Ancor href="mailto:priscila24n@hotmail.com" target="_blank" rel="noreferrer noopener">Email</Ancor></FooterElement>
                 </FooterColumn>
                 <FooterColumn>
-                    <FooterElement>My account</FooterElement>
-                    <FooterElement>Sing in</FooterElement>
-                    <FooterElement>My wishlist</FooterElement>
-                    <FooterElement>My history</FooterElement>
+                    <ColumnTitle>My account</ColumnTitle>
+                    <Link to={"/cart"} style={{ textDecoration: "none", color: "#323232", cursor: "pointer" }}><FooterElement>Cart</FooterElement></Link>
+                    <Link to={"/wishlist"} style={{ textDecoration: "none", color: "#323232", cursor: "pointer" }}><FooterElement>Wishlist</FooterElement></Link>
+                    <Link to={"/register"} style={{ textDecoration: "none", color: "#323232", cursor: "pointer" }}><FooterElement>Profile</FooterElement></Link>
                 </FooterColumn>
             </FooterColumns>
-            <FooterSubCenter>©Copyright 2021/bookPAS</FooterSubCenter>
+            <FooterSubCenter>©Copyright 2022/bookStore Project</FooterSubCenter>
         </FooterContainer>
     );
 }

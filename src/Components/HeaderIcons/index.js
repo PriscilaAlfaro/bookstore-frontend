@@ -13,11 +13,9 @@ const HeaderBodyContainer = styled.section`
   display: flex;
   justify-content: space-between;
 `
-const LeftContainer = styled.div`
-  display: flex;
-`
 const RightContainer = styled.div`
   display: flex;
+  margin: 0 1rem;
 `
 const ButtonHeader = styled.button`
   color: white;
@@ -60,9 +58,6 @@ const HeaderIcons = ({handleOnClickSearch}) => {
 
     return (
             <HeaderBodyContainer>
-              <LeftContainer>
-                <ButtonHeader onClick={handleOnClickSearch}><i className="fas fa-search"></i> search</ButtonHeader>
-              </LeftContainer>
               <RightContainer>
                 <ButtonHeader onClick={goHome}><Link to={'/'} style={{ color: 'white' }} activestyle={{ color: 'red' }}><i className="fas fa-home"></i></Link></ButtonHeader>
                 <ButtonHeader><Link to={'/register'} style={{ color: 'white' }} activestyle={{ color: 'red' }}><i className="fas fa-user-circle"></i></Link></ButtonHeader>

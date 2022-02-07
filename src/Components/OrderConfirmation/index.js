@@ -56,7 +56,7 @@ useEffect(()=> {
 
     return (
         <CheckoutMainContainer>
-            <Title> Proceed with your payment</Title>
+            <Title> Order confirmation</Title>
             <div id="my-checkout-container"></div>
         </CheckoutMainContainer>
     );

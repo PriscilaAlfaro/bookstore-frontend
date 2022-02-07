@@ -4,8 +4,8 @@ import styled from "styled-components";
 import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 
-import SignUp from "../SignUp";
-import SignIn from "../SignIn";
+import SignUp from "../../Components/SignUp";
+import SignIn from "../../Components/SignIn";
 import Footer from "../../Components/Footer";
 import Header from "../../Components/Header";
 import Profile from "../../Components/Profile"

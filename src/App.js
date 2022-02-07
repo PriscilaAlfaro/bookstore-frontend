@@ -13,8 +13,8 @@ import Cart from "./Pages/Cart";
 import Wishlist from "./Pages/Wishlist";
 import Register from './Pages/Register';
 import Payment from './Pages/Payment';
-import SignUp from './Pages/SignUp';
-import PaymentConfirmation from "./Pages/PaymentConfirmation";
+// import SignUp from './Pages/SignUp';
+import PaymentConfirmation from "./Pages/paymentConfirmation";
 
 import { books } from './reducers/books';
 import { cart } from './reducers/cart';
@@ -68,7 +68,7 @@ const App = () => {
         <Route path="/bookDetails/:id" element={ <BookDetails/>} />
         <Route path="/cart" element={ <Cart/>} />
         <Route path="/wishlist" element={ <Wishlist/>} />
-        <Route path="/signup" element={ <SignUp/>} />
+        {/* <Route path="/signup" element={ <SignUp/>} /> */}
         <Route path="/register" element={<Register />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/paymentConfirmation" element={<PaymentConfirmation />} />

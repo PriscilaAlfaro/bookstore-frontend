@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { useSelector } from 'react-redux';
 import Book from "../Book";
 
+import { sorting } from "../../utils/helper";
+
 import Lottie from "react-lottie";
 import animationData from "../../lotties/books-draw.json";
 import animationDataNoBook from "../../lotties/no-search-item-available.json";
@@ -15,7 +17,6 @@ const BooksMainContainer= styled.div`
   justify-content: center;
   text-decoration: none;
 `
-
 const ImageContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -28,7 +29,6 @@ const ImageContainer = styled.div`
     width: 30%;
   }
 `
-
 const Results = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -42,13 +42,13 @@ const Text = styled.p`
   @media(min - width: 768px) {
       font - size: 1.3rem;
   }
-  `
+`
 
 const BooksContainer = () => {
   const books = useSelector(store => store.books.bookItems);
   const booksInSearch = useSelector(store => store.books.searchedItems);
   const error = useSelector(store => store.books.error);
-
+  
   const defaultOptions = {
       loop: true,
       autoplay: true,
@@ -71,7 +71,7 @@ const BooksContainer = () => {
     return (
       <React.Fragment>
         <Results>
-        <Text>{ booksInSearch.length} results for your search</Text>
+        <Text>{booksInSearch.length} results for your search</Text>
         </Results>
         <BooksMainContainer>
           {booksInSearch.map(book => {

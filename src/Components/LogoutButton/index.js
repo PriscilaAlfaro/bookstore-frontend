@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import {useDispatch } from 'react-redux';
 
 import { deleteCookie, readCookie } from "../../utils/cookies";
+import { user } from "../../reducers/user";
 
 const Button = styled.button`
   display: flex;
@@ -14,18 +15,26 @@ const Button = styled.button`
   font-size: 1.2rem;
   border-radius: 5px;
   border: none;
-  margin: 1rem;
+  margin: 1rem auto;
   cursor: pointer;
+  width: 90%;
+  @media (min-width: 768px){
+     width: 50%;
+  }
+`
+const Text = styled.p`
+  color: white;
+  margin: 0 auto;
 `
 
 const LogoutButton = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const user = readCookie("username");
-    const email = readCookie("email");
-    const accessToken = readCookie("accessToken");
-    const id = readCookie("id");
+    const userFromCookie = readCookie("username");
+    const emailFromCookie = readCookie("email");
+    const accessTokenFromCookie = readCookie("accessToken");
+    const idFromCookie = readCookie("id");
 
     const handleLogout = () => {
         deleteCookie("username");
@@ -39,9 +48,9 @@ const LogoutButton = () => {
 
     return (
       <React.Fragment>
-        {user && email && accessToken && id && 
+        {userFromCookie && emailFromCookie && accessTokenFromCookie && idFromCookie && 
         <Button onClick={handleLogout}>
-            Log out
+            <Text>Log out</Text> 
         </Button>
         }
       </React.Fragment>

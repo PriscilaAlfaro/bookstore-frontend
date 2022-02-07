@@ -7,13 +7,14 @@ import { API_URL } from '../../utils/url';
 import { books } from '../../reducers/books';
 
 
-
 const SearchBarContainer = styled.div`
   font-family: Roboto;
   display: flex;
-  margin: 1.5rem auto;
+  margin: 2rem auto;
   width: 80%;
   height: 50px;
+  justify-content: center;
+}
 `
 const SearchBarInput = styled.input`
   background-color: D1D4C9
