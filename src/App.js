@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import './App.css';
 
 import { API_URL } from './utils/url';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
@@ -16,6 +16,7 @@ import Payment from './Pages/Payment';
 import PaymentConfirmation from "./Pages/paymentConfirmation";
 
 import { books } from './reducers/books';
+import { getBooksFromDataBase } from "./managers/bookManager";
 import { cart } from './reducers/cart';
 import { wishlist } from "./reducers/wishlist";
 import { readCookie } from './utils/cookies'; 
@@ -28,23 +29,9 @@ const App = () => {
   const accessToken = readCookie("accessToken");
   const cartIdFromCookie = readCookie("cartId");
   const userId = readCookie("id");
+  const booksArray = useSelector(store => store.books.bookItems);
 
   useEffect(() => { 
-    fetch(API_URL('books/?limit=50'))
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          dispatch(books.actions.setBooks(data.response));
-          dispatch(books.actions.setError(null));
-        } else {
-          dispatch(books.actions.setBooks([]));
-          dispatch(books.actions.setError(data.response));
-        }
-      }).catch((error) => {
-        console.log('Error in Fetch:' + error.message);
-      });
-
-
     if (accessToken && userId && cartIdFromCookie !== "undefined") {
       getCartFromDataBase(userId).then(data => {
         if (data.success) {
@@ -74,6 +61,24 @@ const App = () => {
       }
    
 }, [accessToken, cartIdFromCookie, dispatch, userId]);
+
+
+useEffect(() => {
+  getBooksFromDataBase(booksArray).then(data => {
+    if (data.success) {
+      const newArray = [...booksArray, ...data.response]
+      dispatch(books.actions.setBooks(newArray));
+      dispatch(books.actions.setError(null));
+
+    } else {
+      dispatch(books.actions.setBooks([]));
+      dispatch(books.actions.setError(data.response));
+    }
+  }).catch((error) => {
+    console.log('Error in Fetch:' + error.message);
+  });
+// eslint-disable-next-line react-hooks/exhaustive-deps
+},[]);
 
   return (
     <BrowserRouter>

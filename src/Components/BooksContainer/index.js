@@ -4,8 +4,6 @@ import styled from "styled-components";
 import { useSelector } from 'react-redux';
 import Book from "../Book";
 
-import { sorting } from "../../utils/helper";
-
 import Lottie from "react-lottie";
 import animationData from "../../lotties/books-draw.json";
 import animationDataNoBook from "../../lotties/no-search-item-available.json";
