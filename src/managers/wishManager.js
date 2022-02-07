@@ -2,46 +2,45 @@ import { readCookie } from "../utils/cookies";
 import { API_URL } from "../utils/url";
 
 
-export const addItemToCart = (productId, userId) => {
+export const addItemToWishList = (productId, userId) => {
     const accessToken = readCookie("accessToken");
-    const newCart = { userId, productId}
+    const newWishlist = { userId, productId }
     const options = {
         method: 'POST',
-        body: JSON.stringify(newCart),
+        body: JSON.stringify(newWishlist),
         headers: {
             'Content-Type': 'application/json',
             Authorization: accessToken,
         }
     }
 
-    return fetch(API_URL(`carts/${userId}/items/${productId}`), options)
+
+    return fetch(API_URL(`wishlists/${userId}/items/${productId}`), options)
         .then(res => res.json());
 
 }
 
 
-export const removeItemFromCart = (productId, userId, removeLine) => {
+export const removeItemFromWishList = (productId, userId) => {
     const accessToken = readCookie("accessToken");
-    const newCart = { userId, productId }
+    const newWishlist = { userId, productId }
     const options = {
         method: 'DELETE',
-        body: JSON.stringify(newCart),
+        body: JSON.stringify(newWishlist),
         headers: {
             'Content-Type': 'application/json',
             Authorization: accessToken,
         }
     }
-    const url = `carts/${userId}/items/${productId}` + (removeLine !== undefined ? `?removeLine=${removeLine}` : "");
 
-    return fetch(API_URL(url), options)
+    return fetch(API_URL(`wishlists/${userId}/items/${productId}`), options)
         .then(res => res.json());
 
 }
 
 
-export const getCartFromDataBase = (userId) =>{
+export const getWishlistFromDatabase = (userId) => {
     const accessToken = readCookie("accessToken");
-    
     const options = {
         method: 'GET',
         headers: {
@@ -49,7 +48,9 @@ export const getCartFromDataBase = (userId) =>{
             Authorization: accessToken,
         }
     }
-    return fetch(API_URL(`carts/${userId}/userId`), options)//userId
-        .then(res => res.json())
+
+    return fetch(API_URL(`wishlists/${userId}/userId`), options)
+            .then(res => res.json())
+
 
 }

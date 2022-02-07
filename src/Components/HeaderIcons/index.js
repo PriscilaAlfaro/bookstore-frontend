@@ -39,7 +39,11 @@ const HeaderIcons = ({handleOnClickSearch}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cartItems = useSelector(store => store.cart.items);
-  const totalItems = cartItems?.reduce((acc, curr) => acc + curr.quantity, 0);
+  const totalItemsInCart = cartItems?.reduce((acc, curr) => acc + curr.quantity, 0);
+
+  const wishItems = useSelector(store => store.wishlist.items);
+  const totalItemsInWislist = wishItems?.length;
+
   const userId =  readCookie("id");
 
   const handleCart = () => {
@@ -59,10 +63,10 @@ const HeaderIcons = ({handleOnClickSearch}) => {
     return (
             <HeaderBodyContainer>
               <RightContainer>
-                <ButtonHeader onClick={goHome}><Link to={'/'} style={{ color: 'white' }} activestyle={{ color: 'red' }}><i className="fas fa-home"></i></Link></ButtonHeader>
-                <ButtonHeader><Link to={'/register'} style={{ color: 'white' }} activestyle={{ color: 'red' }}><i className="fas fa-user-circle"></i></Link></ButtonHeader>
-                <ButtonHeader><Link to={'/wishlist'} style={{ color: 'white'}} activestyle={{ color: 'red' }}><i className="fas fa-heart"></i></Link></ButtonHeader>
-                <ButtonHeader onClick={handleCart}><Link to={'/cart'} style={{ color: 'white', textDecoration: 'none' }} activestyle={{ color: 'red' }}><i className="fas fa-shopping-cart"></i> &nbsp;{totalItems > 0 ? totalItems : "" }</Link></ButtonHeader>
+                <ButtonHeader onClick={goHome}><Link to={'/'} style={{ color: 'white' }}><i className="fas fa-home"></i></Link></ButtonHeader>
+                <ButtonHeader><Link to={'/register'} style={{ color: 'white' }}><i className="fas fa-user-circle"></i></Link></ButtonHeader>
+          <ButtonHeader><Link to={'/wishlist'} style={{ color: 'white', textDecoration: 'none' }}><i className="fas fa-heart"></i>&nbsp;{totalItemsInWislist > 0 ? totalItemsInWislist : ""}</Link></ButtonHeader>
+                <ButtonHeader onClick={handleCart}><Link to={'/cart'} style={{ color: 'white', textDecoration: 'none' }} activestyle={{ color: 'red' }}><i className="fas fa-shopping-cart"></i> &nbsp;{totalItemsInCart > 0 ? totalItemsInCart : "" }</Link></ButtonHeader>
               </RightContainer>
             </HeaderBodyContainer>
     )

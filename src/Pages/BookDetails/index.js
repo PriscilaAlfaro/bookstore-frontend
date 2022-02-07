@@ -9,9 +9,12 @@ import NotFound from '../NotFound';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, Link } from 'react-router-dom'
 
-import { addItemToCart } from "../../managers/cartManager";
+// import { addItemToCart } from "../../managers/cartManager";
+import { addItemToWishList } from "../../managers/wishManager";
 import { Loader } from "../../Components/Loader";
-import { cart } from "../../reducers/cart";
+// import { cart } from "../../reducers/cart";
+import { wishlist } from "../../reducers/wishlist";
+import { readCookie } from "../../utils/cookies";
 
 
 const Container= styled.section`
@@ -22,6 +25,7 @@ const Container= styled.section`
   width: 80%;
   background-color: white;
 `
+
 const Up= styled.div`
   display: flex;
   flex-direction: column;
@@ -57,6 +61,7 @@ const Details= styled.p`
   color: gray;
   margin: 5px;
 `
+
 const Synopsis= styled.div`
   display: flex;
   background: linear-gradient(0deg, rgba(79,238,148,0.11528361344537819) 28%, rgba(197,233,94,0.14237570028011204) 100%);
@@ -68,16 +73,20 @@ const Synopsis= styled.div`
   }
 
 `
+
 const Title= styled.h1`
   font-size: 2rem;
 `
+
 const SubTitle= styled.h2`
   font-size: 1rem;
   margin: 1rem 5px;
 `
+
 const Text= styled.p`
   font-size: 1rem;
 `
+
 const AddButton = styled.button`
   color: white;
   background: rgb(186, 201, 100);
@@ -94,25 +103,26 @@ const AddButton = styled.button`
     font-size: 1.3rem;
   }
 `
+
 const Icons= styled.div`
   display: flex;
   flex-direction: row;
   margin: 0;
 `
+
 const CounterWrapper = styled.div`
   display: flex;
   margin: 1rem 0;
 `
 
-
 const BookDetails = () =>{
   const { id } = useParams();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const books = useSelector(store => store.books.bookItems);
   const itemsInCart = useSelector(store => store.cart.items);
   const item = itemsInCart?.find(item => item.productId === id);
-  // const userId = useSelector(store => store.user.id);
+  const userIdFromCookie = readCookie("id");
 
   let bookDetails = {}; 
 
@@ -126,6 +136,18 @@ const BookDetails = () =>{
     return (< Loader />);
   }
 
+  const addNewItemToWishList = () => {
+    addItemToWishList(id, userIdFromCookie).then( response => {
+      if (response.success) {
+        dispatch(wishlist.actions.setWishlits(response.response));
+        dispatch(wishlist.actions.setError(null));
+      } else {
+        dispatch(wishlist.actions.setWishlits([]));
+        dispatch(wishlist.actions.setError(response.response));
+      }
+
+    })
+  }
 
     return (
       <React.Fragment>
@@ -149,7 +171,7 @@ const BookDetails = () =>{
                 <Counter quantity={(item && item.quantity) || 0} productId={bookDetails._id} />
               </CounterWrapper>
               <Icons>
-                <AddButton><i className="fas fa-heart"></i>Add to wishlist</AddButton>
+                <AddButton onClick={addNewItemToWishList}><i className="fas fa-heart"></i>Add to wishlist</AddButton>
               </Icons>
             </BookDetailsContainer>
           </Up>

@@ -32,7 +32,13 @@ const HeaderMainTitle = styled.h1`
 `
 const HorizontalContainer = styled.div`
   display: flex;
-  justify-content:space-between;
+  justify-content: center;
+  flex-direction: column;
+  @media (min-width: 768px){
+    flex-direction: row;
+    justify-content:space-between;
+  }
+
 `
 const UserContainer = styled.div`
   display: flex;
@@ -44,7 +50,7 @@ const UserGreeting = styled.p`
   font-size: 1rem;
   font-weight: 700;
   color: white;
-  margin: 1rem;
+  margin: 1rem 1.5rem;
   text-transform: capitalize;
   @media (min-width: 768px){
     font-size: 1.3rem;
@@ -65,7 +71,6 @@ const Header = () => {
               {user && <UserGreeting>Hello {user}</UserGreeting> }
               {/* <LogoutButton/> */}
             </UserContainer>
- 
             <HeaderIcons />
         </HorizontalContainer>
         </HeaderContainer>

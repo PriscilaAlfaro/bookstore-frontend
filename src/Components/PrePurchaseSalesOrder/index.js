@@ -33,7 +33,7 @@ const Text = styled.p`
   }
 `
 const SpecialText = styled.p`
-  width: 50%;
+  width: 60%;
   font-weight: bold;
   font-size: 1rem;
   color: black;
@@ -41,6 +41,9 @@ const SpecialText = styled.p`
   margin: auto 1rem;
   padding: 1rem 0;
   border-top: 1px solid black;
+  @media (min-width: 768px){
+   width: 50%;
+  }
 `
 
 const PrePurchaseSalesOrder = () => {
