@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { readCookie } from "../../utils/cookies";
 import { getConfirmationFromKlarna } from "../../managers/checkoutManager";
@@ -24,10 +24,10 @@ const Title = styled.h1`
 `
 
 const OrderConfirmation = () => { 
-    
     const dispatch = useDispatch();
     const klarnaOrderId = readCookie("klarnaOrderId");
-
+    const error = useSelector(store => store.salesOrder.error);
+    
 useEffect(()=> {
     
     getConfirmationFromKlarna(klarnaOrderId).then(confirmationPaymentResponse => {
@@ -56,7 +56,7 @@ useEffect(()=> {
 
     return (
         <CheckoutMainContainer>
-            <Title> Order confirmation</Title>
+            <Title>{error ? "Error in the order confirmation. Contact us." : "Order confirmation" } </Title>
             <div id="my-checkout-container"></div>
         </CheckoutMainContainer>
     );

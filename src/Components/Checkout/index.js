@@ -25,6 +25,9 @@ const Title = styled.h1`
 
 const Checkout = () => {
     const checkoutOrderRedux = useSelector(store => store.salesOrder.checkoutOrder);
+    const error = useSelector(store => store.salesOrder.error);
+
+
     useEffect(() => {
         if (checkoutOrderRedux) {
             var checkoutContainer = document.getElementById('my-checkout-container')
@@ -43,7 +46,7 @@ const Checkout = () => {
 
     return (
         <CheckoutMainContainer> 
-            <Title> Proceed with your checkout</Title>
+            <Title>{error ? "Error in the order confirmation. Contact us." : "Proceed with your checkout"} </Title>
             <div id="my-checkout-container"></div>
         </CheckoutMainContainer>
     );

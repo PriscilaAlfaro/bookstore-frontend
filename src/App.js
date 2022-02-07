@@ -13,7 +13,7 @@ import Cart from "./Pages/Cart";
 import Wishlist from "./Pages/Wishlist";
 import Register from './Pages/Register';
 import Payment from './Pages/Payment';
-import PaymentConfirmation from "./Pages/paymentConfirmation";
+import PaymentConfirmation from "./Pages/PaymentConfirmation";
 
 import { books } from './reducers/books';
 import { getBooksFromDataBase } from "./managers/bookManager";
