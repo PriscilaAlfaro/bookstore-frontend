@@ -19,39 +19,38 @@ import animationData from "../../lotties/no-search-item-available.json";
 
 const MainContainer = styled.section`
   background: linear-gradient(0deg, rgba(148,149,153,0.6404936974789917) 35%, rgba(240,240,232,0.24273459383753504) 89%);
-  display: block;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   border-radius: 10px;
-  width: 80%;
+  width: 90%;
   align-content: center;
   margin: 2rem auto 4rem auto;
   @media (min-width: 768px){
+    width: 60%;
     flex-direction: row;
-  }
-  @media (min-width: 992px) {
-    width: 80%;
   }
 `
 
 const ContainerItems = styled.section`
   display: flex;
   margin: 1rem;
-  width: 170px;
   text-align: center;
   box-sizing: border-box;
   flex-wrap: wrap;
+  flex-direction: column;
+  width: 200px;
   `
 
 const ContainerItemDetails = styled.div`
   background: linear-gradient(0deg, rgba(79,172,238,0.20960259103641454) 28%, rgba(197,233,94,0.14237570028011204) 100%);
-  display: block;
+  display: flex;
   margin: 1rem auto;
   width: 95%;
   border-radius: 10px;
   @media (min-width: 768px){
     max-width: 65%;
+
   }
 `
 
@@ -84,11 +83,43 @@ const CardTitle = styled.h1`
   font-weight: normal;
   font-size: 0.7rem;
   color: black;
-  text-align: left;
   margin: 0 auto;
 `
+const AddToCartButton = styled.button`
+  cursor: pointer;
+  font-size: 0.8rem;
+  background-color: black;
+  border: none;
+  color: azure;
+  padding: 8px;
+  margin: 10px auto;
+  border-radius: 3px;
+  &:hover {
+    background-color: green;
+  }
+  @media (min-width: 768px){
+    font-size: 0.9rem;
+  }
+`
 
-const BookInfo = styled.h2`
+const DeleteButton = styled.button`
+  color: black;
+  background: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.5rem;
+  padding: 8px;
+  margin: 0.5rem auto;
+  cursor: pointer;
+  &:hover {
+    background: red;
+  }
+  @media (min-width: 768px){
+    font-size: 0.7rem;
+  }
+`
+
+const CartPrice = styled.h2`
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
@@ -96,49 +127,19 @@ const BookInfo = styled.h2`
   width: 100%;
   color: black;
   margin: 0 auto;
-  text-align: left;
 `
-const ImageContainer = styled.div`
-  width: 200px;
-  height: auto;
-  position: relative;
-`
+
 const CardImage = styled.img`
   width: 170px;
   height: auto;
+  &:hover {
+    filter: brightness(0.80);
+  }
+
+  
 `
 
-const AddToCartButton = styled.button`
-  cursor: pointer;
-  font-size: 1rem;
-  background-color: rgb(67, 111, 138);
-  width: 100%;
-  height: 30px;
-  border: none;
-  color: azure;
-  margin: 10px auto;
-`
-const DeleteButton = styled.button`
-  color: white;
-  background: #0080008c;
-  border: none;
-  border-radius: 10px;
-  font-size: 0.5rem;
-  padding: 8px;
-  position: relative;
-  bottom: -12%;
-  left: 32%;
-  cursor: pointer;
-  &:hover {
-    background: red;
-  }
-  @media (min-width: 768px){
-    font-size: 0.8rem;
-    margin-right: 1rem;
-    margin-left: 2rem;
-    padding: 9px;
-  }
-`
+
 const Wishlist = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -161,10 +162,10 @@ const Wishlist = () => {
     if (userId && accessToken && (cartId !== "" || cartId !== "undefined")) {
       getWishlistFromDatabase(userId).then(response =>{    
         if (response.success) {
-          dispatch(wishlist.actions.setWishlits(response.response));
+          dispatch(wishlist.actions.setWishlist(response.response));
           dispatch(wishlist.actions.setError(null));
         } else {
-          dispatch(wishlist.actions.setWishlits([]));
+          dispatch(wishlist.actions.setWishlist([]));
           dispatch(wishlist.actions.setError(response.response));
         }
       });
@@ -193,10 +194,10 @@ const Wishlist = () => {
 
   const handleDeleteBookFromWishlist = async (productId) => {
     const removeItemReponse = await removeItemFromWishList(productId, userId);
-    const newWislist = removeItemReponse.response;
+    const newWishlist = removeItemReponse.response;
 
     if (removeItemReponse.success) {
-      dispatch(wishlist.actions.setWishlits(newWislist));
+      dispatch(wishlist.actions.setWishlist(newWishlist));
     } else {
       dispatch(wishlist.actions.setError(removeItemReponse.response));
       throw new Error('Error adding item to cart')
@@ -229,13 +230,11 @@ const Wishlist = () => {
                 {itemsInWishlist && itemsInWishlist.map(item => {
                   return ( 
                   <ContainerItems>
-                    <ImageContainer>
-                        <DeleteButton onClick={() => handleDeleteBookFromWishlist(item.productId)}><i className="fas fa-trash"></i></DeleteButton>
-                      <CardImage src={item.url} alt={item.title} />
-                    </ImageContainer>
+                    <Link style={{ textDecoration: 'none' }} to={`/bookDetails/${item.productId}`}><CardImage src={item.url} alt={item.title} /></Link>
                     <CardTitle >{item.title}</CardTitle>
-                    <BookInfo>Price: ${item.price}</BookInfo>
-                      <AddToCartButton onClick={() => handleAddToCartFromWishList(item.productId)}>Add to cart</AddToCartButton>
+                    <CartPrice>Price: ${item.price}</CartPrice>
+                    <DeleteButton onClick={() => handleDeleteBookFromWishlist(item.productId)}>Remove</DeleteButton>
+                    <AddToCartButton onClick={() => handleAddToCartFromWishList(item.productId)}>Add to cart</AddToCartButton>
                   </ContainerItems>
                   )
                   })}

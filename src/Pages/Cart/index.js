@@ -9,7 +9,7 @@ import Footer from "../../Components/Footer";
 import Counter from "../../Components/Counter";
 import PrePurchaseSalesOrder from "../../Components/PrePurchaseSalesOrder";
 
-import { API_URL } from '../../utils/url';
+import { getCartFromDataBase } from '../../managers/cartManager';
 import { cart } from "../../reducers/cart";
 import { salesOrder } from "../../reducers/salesOrder";
 import { createCookie, readCookie, deleteCookie } from "../../utils/cookies";
@@ -56,11 +56,14 @@ const ContainerItemDetails= styled.div`
   }
 `
 const CardImage= styled.img`
-  width: 10%;
+  width: 80%;
   height: auto;
   margin: 10px auto;
   @media (min-width: 768px){
   margin: 10px 20px;
+  &:hover {
+    filter: brightness(0.80);
+  }
 }
 `
 const BookDetailsContainer= styled.div`
@@ -102,6 +105,9 @@ const DeleteButton = styled.button`
   border-radius: 10px;
   font-size: 0.8rem;
   margin: 8px;
+  &:hover {
+    background: red;
+  }
   @media (min-width: 768px){
     font-size: 1rem;
     margin-right: 1rem;
@@ -109,7 +115,7 @@ const DeleteButton = styled.button`
     padding: 10px;
   }
 `
-const Button = styled.button`
+const GoToCheckoutButton = styled.button`
   color: white;
   background: black;
   border: none;
@@ -118,6 +124,9 @@ const Button = styled.button`
   font-size: 0.8rem;
   margin: 0 auto;
   width: 100%;
+   &:hover {
+    background: green;
+  }
   @media (min-width: 768px){
     font-size: 1rem;
     padding: 10px;
@@ -166,25 +175,16 @@ const Cart = () => {
   }
 
   useEffect(() => {
-    const options = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: accessToken,
-      }
-    }
 
     if (userId && accessToken && (cartId !== "" || cartId !== "undefined")) {
 
-      fetch(API_URL(`carts/${userId}/userId`), options)
-        .then(res => res.json())
-        .then(data => {
+      getCartFromDataBase(userId).then(data => {
           console.log(data)
           if (data.success) {
             dispatch(cart.actions.setCart(data.response));
             dispatch(cart.actions.setError(null));
           } else {
-            dispatch(cart.actions.setCart([]));
+            dispatch(cart.actions.setCart({}));
             dispatch(cart.actions.setError(data.response));
           }
         }).catch((error) => {
@@ -252,7 +252,7 @@ const Cart = () => {
                 {itemsInCart && itemsInCart.length > 0 && itemsInCart.map(item=>{
                 return(
                 <BookDetailsContainer key={item.productId}>
-                  <CardImage src={item.url} alt={item.title} />
+                  <Link style={{ textDecoration: 'none' }} to={`/bookDetails/${item.productId}`}><CardImage src={item.url} alt={item.title} /></Link>
                   <TextTitle>{item.title}</TextTitle> 
                   <Text>Price: ${item.price}</Text>
                   <Counter quantity={item.quantity} productId={item.productId}/>
@@ -263,7 +263,7 @@ const Cart = () => {
               { itemsInCart && itemsInCart.length > 0 && 
                   <ContainerCheckout>
                 <PrePurchaseSalesOrder />
-                <Button onClick={callKlarnaAPI}>Go to Checkout</Button>
+                <GoToCheckoutButton onClick={callKlarnaAPI}>Go to Checkout</GoToCheckoutButton>
               </ContainerCheckout> }
         </ContainerItems>
 

@@ -12,7 +12,7 @@ export const wishlist = createSlice({
     initialState,
 
     reducers: {
-        setWishlits: (store, action) => {
+        setWishlist: (store, action) => {
             const { items, userId, _id } = action.payload;
 
             store.items = items;
@@ -22,6 +22,10 @@ export const wishlist = createSlice({
 
         setError: (store, action) => {
             store.error = action.payload;
+        },
+
+        setclearWishlist: () => {
+            return initialState;
         },
 
         //For backoffice

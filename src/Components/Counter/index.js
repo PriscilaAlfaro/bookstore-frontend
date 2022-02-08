@@ -21,7 +21,12 @@ const Button = styled.button`
   background-color: rgb(71, 96, 114);
   color: white;
   padding: 2px 8px;
+  cursor: pointer;
   border: none;
+  &:hover {
+    background: green;
+    transform: scale(1.2);
+  }
   @media (min-width: 768px){
       padding: 5px 12px;
   }

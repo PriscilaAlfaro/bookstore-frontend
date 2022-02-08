@@ -27,6 +27,9 @@ const ButtonHeader = styled.button`
   font-family: 'Roboto Condensed', sans-serif;
   font-size: 0.8rem;
   text-decoration: none;
+  &:hover {
+    background: green;
+  }
   @media (min-width: 768px){
     font-size: 1rem;
   }
@@ -42,7 +45,7 @@ const HeaderIcons = ({handleOnClickSearch}) => {
   const totalItemsInCart = cartItems?.reduce((acc, curr) => acc + curr.quantity, 0);
 
   const wishItems = useSelector(store => store.wishlist.items);
-  const totalItemsInWislist = wishItems?.length;
+  const totalItemsInWishlist = wishItems?.length;
 
   const userId =  readCookie("id");
 
@@ -54,18 +57,24 @@ const HeaderIcons = ({handleOnClickSearch}) => {
     }
   }
 
+  const handleWishlist = () => {
+    if (userId) {
+      navigate('/wishlist');
+    } else {
+      navigate('/register');
+    }
+  }
   const goHome = () => {
     dispatch(books.actions.setBookSearch([]));
     dispatch(books.actions.setError(null));
   }
-
 
     return (
             <HeaderBodyContainer>
               <RightContainer>
                 <ButtonHeader onClick={goHome}><Link to={'/'} style={{ color: 'white' }}><i className="fas fa-home"></i></Link></ButtonHeader>
                 <ButtonHeader><Link to={'/register'} style={{ color: 'white' }}><i className="fas fa-user-circle"></i></Link></ButtonHeader>
-          <ButtonHeader><Link to={'/wishlist'} style={{ color: 'white', textDecoration: 'none' }}><i className="fas fa-heart"></i>&nbsp;{totalItemsInWislist > 0 ? totalItemsInWislist : ""}</Link></ButtonHeader>
+                <ButtonHeader onClick={handleWishlist}><Link to={'/wishlist'} style={{ color: 'white', textDecoration: 'none' }}><i className="fas fa-heart"></i>&nbsp;{totalItemsInWishlist > 0 ? totalItemsInWishlist : ""}</Link></ButtonHeader>
                 <ButtonHeader onClick={handleCart}><Link to={'/cart'} style={{ color: 'white', textDecoration: 'none' }} activestyle={{ color: 'red' }}><i className="fas fa-shopping-cart"></i> &nbsp;{totalItemsInCart > 0 ? totalItemsInCart : "" }</Link></ButtonHeader>
               </RightContainer>
             </HeaderBodyContainer>

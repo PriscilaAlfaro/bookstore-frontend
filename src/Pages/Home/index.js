@@ -37,17 +37,19 @@ const SearchBarContainer = styled.div`
 `
 const SearchButtonContainer = styled.div`
   display: flex;
+  margin: 0;
 `
 const ButtonSearch = styled.button`
   color: white;
   background: rgb(110, 203, 99);
   border: none;
   padding: 10px;
-  margin: 10px;
+  margin: 0 10px;
   border-radius: 10px;
   font-family: 'Roboto Condensed', sans-serif;
   font-size: 0.8rem;
   text-decoration: none;
+  cursor: pointer;
   @media (min-width: 768px){
     font-size: 1rem;
   }
@@ -55,33 +57,13 @@ const ButtonSearch = styled.button`
     font-size: 1.3rem;
   }
 `
-const ButtonLoad = styled.button`
-  color: white;
-  background: rgb(110, 203, 99);
-  border: none;
-  padding: 10px;
-  margin: 1rem auto;
-  border-radius: 10px;
-  font-family: 'Roboto Condensed', sans-serif;
-  font-size: 0.8rem;
-  text-decoration: none;
-  @media (min-width: 768px){
-    font-size: 1rem;
-  }
-  @media (min-width: 992px) {
-    font-size: 1.3rem;
-  }
-`
-const ButtonContainer = styled.div`
-  width: 100%;
-  display: flex;
-`
+
 
 
 
 const Home = () => {
-    const dispatch = useDispatch();
-    const [showSearchBar, setShowSearchBar] = useState(false);
+    // const dispatch = useDispatch();
+    // const [showSearchBar, setShowSearchBar] = useState(false);
     const booksItems = useSelector(store => store.books.bookItems);
     const booksInSearch = useSelector(store => store.books.searchedItems);
 
@@ -94,47 +76,25 @@ const Home = () => {
         }
     }
 
-    const handleOnClickSearch = () => {
-        setShowSearchBar(!showSearchBar)
-    }
+    // const handleOnClickSearch = () => {
+    //     setShowSearchBar(!showSearchBar)
+    // }
 
-    const hadleGetMoreBooks =  () => {
-        getBooksFromDataBase(booksItems).then(data => {
-            if (data.success) {
-                const newArray = [...booksItems, ...data.response]
-                dispatch(books.actions.setBooks(newArray));
-                dispatch(books.actions.setError(null));
-
-            } else {
-                dispatch(books.actions.setBooks([]));
-                dispatch(books.actions.setError(data.response));
-            }
-        }).catch((error) => {
-            console.log('Error in Fetch:' + error.message);
-        });
-    }
+   
 
     return (
         <React.Fragment>
             <Header/>
-     
-            {showSearchBar &&
                 <SearchBarContainer>
                     <SearchBar />
-                </SearchBarContainer>}
+                </SearchBarContainer>
 
-            <SearchButtonContainer>
+            {/* <SearchButtonContainer>
                 <ButtonSearch onClick={handleOnClickSearch}><i className="fas fa-search"></i> search</ButtonSearch>
-            </SearchButtonContainer>
+            </SearchButtonContainer> */}
 
-            {(booksItems.length > 0 || booksInSearch.length > 0)  ? 
-                <React.Fragment>
-                    <BooksContainer/> 
-                    <ButtonContainer>
-                        <ButtonLoad onClick={hadleGetMoreBooks}>See more books</ButtonLoad>
-                    </ButtonContainer>
-                </React.Fragment>
-            :
+            {(booksItems.length > 0 || booksInSearch.length > 0)  ?
+                <BooksContainer/> :
                 <ImageContainer>
                     <Lottie options={defaultOptions} />
                 </ImageContainer>

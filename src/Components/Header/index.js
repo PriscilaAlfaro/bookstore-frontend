@@ -14,11 +14,12 @@ const HeaderContainer = styled.section`
   background-position: center;
   font-family: 'Roboto Condensed', sans-serif;
   width: 100%;
-  height: 470px;
+  height: 400px;
   margin: 0 auto 2rem auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  flex-wrap: wrap;
 `
 const HeaderMainTitle = styled.h1`
   font-family: 'Dancing Script', cursive;
@@ -26,6 +27,8 @@ const HeaderMainTitle = styled.h1`
   color: white;
   font-weight: 700;
   text-align: center;
+  flex-wrap: wrap;
+  margin: 1rem;
   @media (min-width: 768px){
     font-size: 4rem;
   }

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 
 import { createCookie, deleteCookie } from "../../utils/cookies";
-import { createNewUser, createSession } from "../../utils/helper";
+import { createNewUser, createSession } from "../../managers/userManager";
 import { addItemToCart } from "../../managers/cartManager";
 
 import Lottie from "react-lottie";
@@ -110,7 +110,7 @@ const SignUp = () => {
   const accessToken = useSelector((store) => store.user.accessToken);
   const error = useSelector((store) => store.user.error);
   const cartId = useSelector((store) => store.cart._id);
-  const productId = useSelector((store) => store.cart.temporalItem);
+  const temporalItem = useSelector((store) => store.cart.temporalItem);
   const userId = useSelector((store) => store.user.id);
 
 
@@ -126,23 +126,26 @@ const SignUp = () => {
         createSession(newUser);
         deleteCookie("cartId");
         dispatch(user.actions.setUser(newUser));
+        
+        if (temporalItem) {
+          const addItemToCartReponse = await addItemToCart(temporalItem, newUser.id);
+          const newCart = addItemToCartReponse.response;
+
+          if (addItemToCartReponse.success) {
+            createCookie(cartId, newCart._id)
+            dispatch(cart.actions.setCart(newCart));
+            dispatch(cart.actions.setError(null));
+          } else {
+            dispatch(cart.actions.setError(addItemToCartReponse.response));
+            dispatch(cart.actions.setCart({}));
+            throw new Error('Error adding item to cart')
+          }
+        }
       } else {
         dispatch(user.actions.setError(newUser));
         throw new Error('Error creating user')
       }
       
-      if(productId) {
-        const addItemToCartReponse = await addItemToCart(productId, userId);
-        const newCart = addItemToCartReponse.response;
-
-        if (addItemToCartReponse.success) {
-          createCookie(cartId, newCart._id)
-          dispatch(cart.actions.setCart(newCart));
-        } else {
-          dispatch(cart.actions.setError(addItemToCartReponse.response));
-          throw new Error('Error adding item to cart')
-        }
-      }
       navigate('/')
     } catch(error) {
       console.error("Error creating account button", error)
@@ -153,7 +156,7 @@ const SignUp = () => {
     if (accessToken && cartId) {
         navigate('/')
     }
-  }, [accessToken, cartId, dispatch, navigate, productId, userId]);
+  }, [accessToken, cartId, dispatch, navigate, temporalItem, userId]);
 
   const defaultOptions = {
     loop: true,

@@ -6,20 +6,26 @@ import {useDispatch } from 'react-redux';
 
 import { deleteCookie, readCookie } from "../../utils/cookies";
 import { user } from "../../reducers/user";
+import { cart } from "../../reducers/cart";
+import { wishlist } from "../../reducers/wishlist";
 
 const Button = styled.button`
   display: flex;
   background: rgb(67, 111, 138);
   color: azure;
   padding: 5px 10px;
-  font-size: 1.2rem;
+  font-size: 0.8rem;
   border-radius: 5px;
   border: none;
   margin: 1rem auto;
   cursor: pointer;
-  width: 90%;
+  width: 100px;
   @media (min-width: 768px){
-     width: 50%;
+     width: 30%;
+      font-size: 1rem;
+  }
+  &:hover {
+    background-color: red;
   }
 `
 const Text = styled.p`
@@ -43,6 +49,8 @@ const LogoutButton = () => {
         deleteCookie("id");
         deleteCookie("cartId");
         dispatch(user.actions.setclearUser());
+        dispatch(cart.actions.setclearCart());
+        dispatch(wishlist.actions.setclearWishlist());
         navigate('/')
     }
 

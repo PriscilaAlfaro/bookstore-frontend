@@ -3,14 +3,14 @@ import styled from 'styled-components';
 
 import { useDispatch } from 'react-redux';
 
-import { API_URL } from '../../utils/url';
+import { searchBooksFromDataBase } from '../../managers/bookManager';
 import { books } from '../../reducers/books';
 
 
 const SearchBarContainer = styled.div`
   font-family: Roboto;
   display: flex;
-  margin: 2rem auto;
+  margin: 1rem auto;
   width: 80%;
   height: 50px;
   justify-content: center;
@@ -41,6 +41,9 @@ const SearchBarButton = styled.button`
   border-radius:  0 8px 8px 0 ;
   cursor: pointer;
   border: none;
+  &:hover {
+    filter: brightness(0.90);
+  }
 `
 
 const SearchBar = () => {
@@ -54,9 +57,7 @@ const SearchBar = () => {
 
  
   const searchBooksInDataBase = () => {
-    fetch(API_URL(`books/topic/?topic=${userInput}`))
-      .then(res => res.json())
-      .then(data => {
+    searchBooksFromDataBase(userInput).then(data => {
         if (data.success) {
           dispatch(books.actions.setBookSearch(data.response));
           dispatch(books.actions.setError(null));

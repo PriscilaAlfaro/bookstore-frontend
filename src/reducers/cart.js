@@ -30,11 +30,9 @@ export const cart = createSlice({
             store.error = action.payload;
         },
 
-        //For backoffice
-        // addBook
-        // updateBook
-        // deleteBook
-
-        //the total of the cart is just the length of the items// in HeaderICons
+        setclearCart: () => {
+            return initialState;
+        },
+        
     },
 });

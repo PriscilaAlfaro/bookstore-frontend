@@ -11,7 +11,7 @@ const FooterContainer = styled.div`
   align-items: center;
   text-align: center;
   flex-direction: column;
-  margin-top: 2rem;
+  // margin-top: 2rem;
 `
 const FooterCenter = styled.p`
   font-size: 1rem;

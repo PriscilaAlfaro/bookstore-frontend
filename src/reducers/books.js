@@ -24,10 +24,5 @@ export const books = createSlice({
             store.searchedItems = action.payload;
         },
 
-        //For backoffice
-        // addBook
-        // updateBook
-        // deleteBook
-    
     },
 });

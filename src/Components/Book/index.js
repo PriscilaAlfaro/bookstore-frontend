@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch} from 'react-redux'
+import { useDispatch, useSelector} from 'react-redux'
 
 import { cart } from '../../reducers/cart';
 import { readCookie, createCookie } from '../../utils/cookies';
@@ -65,6 +65,9 @@ const AddToCartButton= styled.button`
   border: none;
   color: azure;
   margin: 10px auto;
+  &:hover {
+    background-color: green;
+  }
 `
 
 const CardTitle = styled.h1`
@@ -98,6 +101,24 @@ const BookInfo = styled.h2`
   text-align: left;
 `
 
+const IconCheck = styled.div`
+  color: white;
+  background: rgb(110, 203, 99);
+  border: none;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 0.8rem;
+  text-decoration: none;
+  @media (min-width: 768px){
+    font-size: 1rem;
+  }
+  @media (min-width: 992px) {
+    font-size: 1.3rem;
+  }
+`
+
 const Book = ({book}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -105,6 +126,7 @@ const Book = ({book}) => {
   const userId = readCookie("id");
   const cartIdFromCookie = readCookie("cartId");
   const accessToken = readCookie("accessToken");
+
 
   const handleAddToCartFromHome = async () => {
     if (accessToken && userId ){ 
@@ -120,6 +142,7 @@ const Book = ({book}) => {
       }
 
     } else {
+      dispatch(cart.actions.setTemporalItem({productId: book._id}));
       navigate('/register');
     }
     
@@ -132,7 +155,6 @@ const Book = ({book}) => {
         <ImageContainer>
           <CardImage src={book.thumbnailUrl} alt={book.title}/>
             <Overlay>
-              {/* <IconHeart className="fas fa-heart"></IconHeart> */}
             <Details>More details</Details>
             </Overlay>
         </ImageContainer>

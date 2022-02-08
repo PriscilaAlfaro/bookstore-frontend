@@ -4,12 +4,15 @@ import styled from "styled-components";
 import { useNavigate} from "react-router-dom";
 import { useDispatch, batch, useSelector } from 'react-redux';
 
-import { API_URL } from "../../utils/url";
+import { signInUser } from "../../managers/userManager";
 import { user } from "../../reducers/user";
-import { createSession } from "../../utils/helper";
+import { createSession } from "../../managers/userManager";
 
 import Lottie from "react-lottie";
 import animationData from "../../lotties/two-girls-with-books-and-a-skateboard.json";
+import { cart } from "../../reducers/cart";
+import { addItemToCart } from "../../managers/cartManager";
+import { createCookie } from "../../utils/cookies";
 
 
 const Container = styled.section`
@@ -97,9 +100,11 @@ const SignIn = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const accessToken = useSelector((store) => store.user.accessToken);
+  const temporalItem = useSelector((store) => store.cart.temporalItem);
+  const userId = useSelector((store) => store.user.id);
   const error = useSelector((store) => store.user.error);
+  const cartId = useSelector((store) => store.cart._id);
 
   const defaultOptions = {
     loop: true,
@@ -116,24 +121,10 @@ const SignIn = () => {
     }
   }, [accessToken, navigate]);
 
-  const validateForm = () => {
-    return email.length > 0 && password.length > 0;
-  }
-
   const onFormSubmit = (event) => {
     event.preventDefault();
 
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify({ email, password })
-    }
-
-    fetch(API_URL('users/signin'), options)
-      .then(res => res.json())
-      .then(data => {
+    signInUser(email, password).then(data => {
         if (data.success) {
           batch(() => {
             dispatch(user.actions.setUser({
@@ -150,6 +141,19 @@ const SignIn = () => {
             email: data.response.email,
             accessToken: data.response.accessToken,
           })
+
+          if (temporalItem) {
+            addItemToCart(temporalItem, data.response.id).then(addItemToCartReponse => {
+              if (addItemToCartReponse.success) {
+                createCookie("cartId", addItemToCartReponse._id)
+                dispatch(cart.actions.setCart(addItemToCartReponse.response));
+              } else {
+                dispatch(cart.actions.setError(addItemToCartReponse.response));
+                throw new Error('Error adding item to cart')
+              }
+            });
+          }
+          
         } else {
           dispatch(user.actions.setUser({
             id: null,
@@ -160,6 +164,8 @@ const SignIn = () => {
           dispatch(user.actions.setError(data.response));
         }
       })
+
+
   }
 
 
@@ -204,7 +210,7 @@ const SignIn = () => {
 
           {error && <p className="error">{error}</p>}
 
-          <Button block size="lg" type="submit" disabled={!validateForm()}>
+          <Button block size="lg" type="submit">
               Sign in
           </Button>
         </Form>

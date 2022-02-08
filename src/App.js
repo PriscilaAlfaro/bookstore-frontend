@@ -49,10 +49,10 @@ const App = () => {
       if(userId){
         getWishlistFromDatabase(userId).then(data => {
           if (data.success) {
-            dispatch(wishlist.actions.setWishlits(data.response));
+            dispatch(wishlist.actions.setWishlist(data.response));
             dispatch(wishlist.actions.setError(null));
           } else {
-            dispatch(wishlist.actions.setWishlits([]));
+            dispatch(wishlist.actions.setWishlist([]));
             dispatch(wishlist.actions.setError(data.response));
           }
         }).catch((error) => {
