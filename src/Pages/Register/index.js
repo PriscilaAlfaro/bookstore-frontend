@@ -12,6 +12,7 @@ import Profile from "../../Components/Profile"
 
 import { readCookie } from "../../utils/cookies";
 
+
 const MainContainer = styled.section`
   display: flex;
   flex-wrap: wrap;
@@ -27,20 +28,22 @@ const MainContainer = styled.section`
   }
 `
 
+
 const Register = () => {
-  const user = readCookie("username");
-  const email = readCookie("email");
-  const accessToken = readCookie("accessToken");
   const showSignIn = useSelector((store) => store.user.showSignIn);
+
+  const userFromCookies = readCookie("username");
+  const emailFromCookies = readCookie("email");
+  const accessTokenFromCookies = readCookie("accessToken");
 
   return (
     <React.Fragment>
       <Header />
       <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
       <MainContainer>
-        {user && email && accessToken && <Profile />}
-        {!showSignIn && !user && !email && !accessToken &&  <SignUp /> }
-        {showSignIn && !user && !email && !accessToken && <SignIn />}
+        {userFromCookies && emailFromCookies && accessTokenFromCookies && <Profile />}
+        {!showSignIn && !userFromCookies && !emailFromCookies && !accessTokenFromCookies &&  <SignUp /> }
+        {showSignIn && !userFromCookies && !emailFromCookies && !accessTokenFromCookies && <SignIn />}
       </MainContainer>
       <Footer />
     </React.Fragment>

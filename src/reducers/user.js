@@ -12,7 +12,6 @@ export const user = createSlice({
     name: 'user',
     initialState,
 
-
     reducers: {
         setUser: (store, action) => {
             const { id, username, email, accessToken }= action.payload;
@@ -26,7 +25,6 @@ export const user = createSlice({
 
         setError: (store, action) => {
             store.error = action.payload;
-
         },
         
         setclearUser: () => {
@@ -36,7 +34,5 @@ export const user = createSlice({
         showSignIn: (store) => {
             store.showSignIn = !store.showSignIn;
         }
-
     }
-
 });

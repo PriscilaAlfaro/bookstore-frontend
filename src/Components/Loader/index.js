@@ -16,6 +16,8 @@ const ImageContainer = styled.div`
     width: 30%;
   }
 `
+
+
 export const Loader = () => {
 
   const defaultOptions = {
@@ -28,10 +30,10 @@ export const Loader = () => {
   }
   
   return (
-
-          <ImageContainer>
-              <Lottie options={defaultOptions} />
-          </ImageContainer>
-
+    <ImageContainer>
+      <Lottie options={defaultOptions} />
+    </ImageContainer>
   );
 }
+
+export default Loader;

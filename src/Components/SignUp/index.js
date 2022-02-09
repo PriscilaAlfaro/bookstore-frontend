@@ -4,15 +4,16 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 
+import { user } from "../../reducers/user";
+import { cart } from "../../reducers/cart";
+
 import { createCookie, deleteCookie } from "../../utils/cookies";
-import { createNewUser, createSession } from "../../managers/userManager";
+import { createNewUser, createSessionInCookies } from "../../managers/userManager";
 import { addItemToCart } from "../../managers/cartManager";
 
 import Lottie from "react-lottie";
 import animationData from "../../lotties/bookgirl.json";
 
-import { user } from "../../reducers/user";
-import { cart } from "../../reducers/cart";
 
 const Container= styled.section`
   display: flex;
@@ -28,6 +29,7 @@ const Container= styled.section`
     border-radius: 10px 0 0 10px ;
   }
 `
+
 const Aside = styled.section`
   display: flex;
   flex-wrap: wrap;
@@ -44,15 +46,18 @@ const Aside = styled.section`
     border-radius: 0 10px 10px 0;
   }
 `
+
 const Form= styled.form`
   display: flex;
   justify-content: center;
   flex-direction: column;
   width: 80%;
 `
+
 const Label= styled.label`
   width: 100%;
 `
+
 const Input= styled.input`
   width: 100%;
   background-color: rgb(247, 251, 225);
@@ -60,6 +65,7 @@ const Input= styled.input`
   border: none;
   border-radius: 5px;
 `
+
 const Button= styled.button`
   margin: 1.5rem;
   background: rgb(67, 111, 138);
@@ -68,7 +74,9 @@ const Button= styled.button`
   font-size: 1.2rem;
   border-radius: 5px;
   border: none;
+  cursor: pointer;
 `
+
 const Text= styled.p`
   font-size: 1rem;
   color: white;
@@ -77,6 +85,7 @@ const Text= styled.p`
     font-size: 1.3rem;
   }
 `
+
 const Title= styled.h1`
   font-size: 1rem;
   margin: 2rem;
@@ -86,6 +95,7 @@ const Title= styled.h1`
     font-size: 1.3rem;
   }
 `
+
 const ImageContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -99,31 +109,45 @@ const ImageContainer = styled.div`
   }
 `
 
+
 const SignUp = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const accessToken = useSelector((store) => store.user.accessToken);
   const error = useSelector((store) => store.user.error);
   const cartId = useSelector((store) => store.cart._id);
   const temporalItem = useSelector((store) => store.cart.temporalItem);
-  const userId = useSelector((store) => store.user.id);
 
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice"
+    }
+  }
+
+  useEffect(() => {
+    if (accessToken && cartId) {
+      navigate('/')
+    }
+  }, [accessToken, cartId, navigate]);
 
 
   const handleSubmit = async(event) => {
     event.preventDefault();
-
     try {
       const createUserResponse = await createNewUser(username, email, password);
       const newUser = createUserResponse.response;
 
       if (createUserResponse.success) {
-        createSession(newUser);
+        createSessionInCookies(newUser);
         deleteCookie("cartId");
         dispatch(user.actions.setUser(newUser));
         
@@ -152,20 +176,6 @@ const SignUp = () => {
     }
   }
 
-  useEffect(() => {
-    if (accessToken && cartId) {
-        navigate('/')
-    }
-  }, [accessToken, cartId, dispatch, navigate, temporalItem, userId]);
-
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice"
-    }
-  }
 
   const goToSingIn = () => {
     dispatch(user.actions.showSignIn());
@@ -177,12 +187,13 @@ const SignUp = () => {
 
         <Form onSubmit={handleSubmit}>
           <Label htmlFor="username">
-            <Text>Username</Text>
+            <Text>Name</Text>
             <Input 
               id="username"
               type="text"
               value={username}
               required
+              minlength="5"
               onChange={(e) => setUsername(e.target.value)}
             />
           </Label>
@@ -229,5 +240,6 @@ const SignUp = () => {
     </React.Fragment>
     );
 }
+
 
 export default SignUp;

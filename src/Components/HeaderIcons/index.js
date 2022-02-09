@@ -13,10 +13,12 @@ const HeaderBodyContainer = styled.section`
   display: flex;
   justify-content: space-between;
 `
+
 const RightContainer = styled.div`
   display: flex;
   margin: 0 1rem;
 `
+
 const ButtonHeader = styled.button`
   color: white;
   background: rgb(110, 203, 99);
@@ -27,6 +29,7 @@ const ButtonHeader = styled.button`
   font-family: 'Roboto Condensed', sans-serif;
   font-size: 0.8rem;
   text-decoration: none;
+  cursor: pointer;
   &:hover {
     background: green;
   }
@@ -38,19 +41,20 @@ const ButtonHeader = styled.button`
   }
 `
 
-const HeaderIcons = ({handleOnClickSearch}) => {
+
+const HeaderIcons = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const userIdFromCookies = readCookie("id");
+  
   const cartItems = useSelector(store => store.cart.items);
   const totalItemsInCart = cartItems?.reduce((acc, curr) => acc + curr.quantity, 0);
-
   const wishItems = useSelector(store => store.wishlist.items);
   const totalItemsInWishlist = wishItems?.length;
 
-  const userId =  readCookie("id");
-
   const handleCart = () => {
-    if (userId){
+    if (userIdFromCookies){
       navigate('/cart'); 
     }else{
       navigate('/register'); 
@@ -58,7 +62,7 @@ const HeaderIcons = ({handleOnClickSearch}) => {
   }
 
   const handleWishlist = () => {
-    if (userId) {
+    if (userIdFromCookies) {
       navigate('/wishlist');
     } else {
       navigate('/register');

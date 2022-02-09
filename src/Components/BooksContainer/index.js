@@ -2,7 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 import { useSelector, useDispatch } from 'react-redux';
+
 import Book from "../Book";
+
 import { books } from "../../reducers/books";
 import { getBooksFromDataBase } from '../../managers/bookManager';
 
@@ -17,6 +19,7 @@ const BooksMainContainer= styled.div`
   justify-content: center;
   text-decoration: none;
 `
+
 const ImageContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -29,20 +32,22 @@ const ImageContainer = styled.div`
     width: 30%;
   }
 `
+
 const Results = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin: 0 auto;
-
 `
+
 const Text = styled.p`
   font-size: 1rem;
   color: gray;
   margin: 0 auto;
   @media(min - width: 768px) {
-      font - size: 1.3rem;
+    font - size: 1.3rem;
   }
 `
+
 const ButtonLoad = styled.button`
   color: white;
   background: rgb(110, 203, 99);
@@ -61,13 +66,16 @@ const ButtonLoad = styled.button`
     font-size: 1.3rem;
   }
 `
+
 const ButtonContainer = styled.div`
   width: 100%;
   display: flex;
 `
 
+
 const BooksContainer = () => {
   const dispatch = useDispatch();
+
   const booksItems = useSelector(store => store.books.bookItems);
   const booksInSearch = useSelector(store => store.books.searchedItems);
   const error = useSelector(store => store.books.error);
@@ -90,6 +98,7 @@ const BooksContainer = () => {
     }
   }
 
+
   const hadleGetMoreBooks = () => {
     getBooksFromDataBase(booksItems).then(data => {
       if (data.success) {
@@ -105,6 +114,8 @@ const BooksContainer = () => {
       console.log('Error in Fetch:' + error.message);
     });
   }
+
+
   if (booksInSearch.length > 0 ){
     return (
       <React.Fragment>
@@ -138,16 +149,15 @@ const BooksContainer = () => {
           <BooksMainContainer>
               {booksItems.map(book => {
               return <Book book={book} key={book._id} />
-            })}
-          <ButtonContainer>
-            <ButtonLoad onClick={hadleGetMoreBooks}>See more books</ButtonLoad>
-          </ButtonContainer>
+              })}
+            <ButtonContainer>
+              <ButtonLoad onClick={hadleGetMoreBooks}>See more books</ButtonLoad>
+            </ButtonContainer>
           </BooksMainContainer>
-
       </React.Fragment>
     )
   } else{
-    (
+    return (
       <BooksMainContainer>
         <ImageContainer>
           <Lottie options={defaultOptions} />
@@ -157,4 +167,6 @@ const BooksContainer = () => {
   }
 }
 
+
 export default BooksContainer;
+

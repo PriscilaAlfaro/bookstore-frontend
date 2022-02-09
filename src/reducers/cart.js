@@ -33,6 +33,5 @@ export const cart = createSlice({
         setclearCart: () => {
             return initialState;
         },
-        
     },
 });

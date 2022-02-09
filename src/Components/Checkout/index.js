@@ -21,12 +21,9 @@ const Title = styled.h1`
   margin: 1rem auto;
 `
 
-
-
 const Checkout = () => {
     const checkoutOrderRedux = useSelector(store => store.salesOrder.checkoutOrder);
     const error = useSelector(store => store.salesOrder.error);
-
 
     useEffect(() => {
         if (checkoutOrderRedux) {
@@ -51,5 +48,6 @@ const Checkout = () => {
         </CheckoutMainContainer>
     );
 }
+
 
 export default Checkout;

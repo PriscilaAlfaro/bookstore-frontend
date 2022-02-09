@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 import { Link } from "react-router-dom";
-import { useSelector } from 'react-redux';
 
 import Footer from "../../Components/Footer";
 import Header from "../../Components/Header";
@@ -25,20 +24,17 @@ const MainContainer = styled.section`
 `
 
 const PaymentConfirmation = () => {
-
-
   return (
     <React.Fragment>
       <Header />
       <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
       <MainContainer>
         <OrderConfirmation/> 
-   
-        
       </MainContainer>
       <Footer />
     </React.Fragment>
   )
 }
+
 
 export default PaymentConfirmation;

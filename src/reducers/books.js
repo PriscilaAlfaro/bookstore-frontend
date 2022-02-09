@@ -11,7 +11,6 @@ export const books = createSlice({
     initialState,
 
     reducers: {
-
         setBooks: (store, action) => {
             store.bookItems = action.payload;
         },
@@ -23,6 +22,5 @@ export const books = createSlice({
         setBookSearch: (store, action) => {
             store.searchedItems = action.payload;
         },
-
     },
 });

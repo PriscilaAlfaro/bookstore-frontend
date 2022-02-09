@@ -1,10 +1,9 @@
 import React from "react";
 import styled from 'styled-components/macro';
 
-import { readCookie } from "../../utils/cookies";
-
 import HeaderIcons from "../HeaderIcons";
-// import LogoutButton from "../LogoutButton";
+
+import { readCookie } from "../../utils/cookies";
 
 const HeaderContainer = styled.section`
   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
@@ -21,6 +20,7 @@ const HeaderContainer = styled.section`
   justify-content: space-between;
   flex-wrap: wrap;
 `
+
 const HeaderMainTitle = styled.h1`
   font-family: 'Dancing Script', cursive;
   font-size: 3.5rem;
@@ -33,6 +33,7 @@ const HeaderMainTitle = styled.h1`
     font-size: 4rem;
   }
 `
+
 const HorizontalContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -41,14 +42,15 @@ const HorizontalContainer = styled.div`
     flex-direction: row;
     justify-content:space-between;
   }
-
 `
+
 const UserContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
 `
+
 const UserGreeting = styled.p`
   font-size: 1rem;
   font-weight: 700;
@@ -61,23 +63,21 @@ const UserGreeting = styled.p`
 `
 
 
-
 const Header = () => {
-  const user = readCookie("username");
+  const userFromCookie = readCookie("username");
 
     return (
         <HeaderContainer>
-            <HeaderMainTitle>Sweden Tech Library</HeaderMainTitle>
-
-        <HorizontalContainer>
+          <HeaderMainTitle>Sweden Tech Library</HeaderMainTitle>
+          <HorizontalContainer>
             <UserContainer>
-              {user && <UserGreeting>Hello {user}</UserGreeting> }
-              {/* <LogoutButton/> */}
+              {userFromCookie && <UserGreeting>Hello {userFromCookie}</UserGreeting> }
             </UserContainer>
             <HeaderIcons />
-        </HorizontalContainer>
+          </HorizontalContainer>
         </HeaderContainer>
     )
 }
+
 
 export default Header;

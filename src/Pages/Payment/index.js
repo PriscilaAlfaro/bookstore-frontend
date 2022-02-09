@@ -29,7 +29,7 @@ const Payment = () => {
       <Header />
       <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
       <MainContainer>
-          <Checkout/>
+        <Checkout/>
       </MainContainer>
       <Footer />
     </React.Fragment>

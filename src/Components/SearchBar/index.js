@@ -16,6 +16,7 @@ const SearchBarContainer = styled.div`
   justify-content: center;
 }
 `
+
 const SearchBarInput = styled.input`
   background-color: D1D4C9
   font-size: 1.1rem;
@@ -29,6 +30,7 @@ const SearchBarInput = styled.input`
     border: 1px solid cadetblue;
   }
 `
+
 const SearchBarButton = styled.button`
   background: rgb(67, 138, 94);
   font-size: 0.8rem;
@@ -45,6 +47,7 @@ const SearchBarButton = styled.button`
     filter: brightness(0.90);
   }
 `
+
 
 const SearchBar = () => {
   const dispatch = useDispatch();
@@ -68,9 +71,7 @@ const SearchBar = () => {
       }).catch((error) => {
         console.log('Error in Fetch:' + error.message);
       });
-
-
-    }
+  }
 
     return (
       <React.Fragment>
@@ -80,16 +81,15 @@ const SearchBar = () => {
               type="text"
               onChange={onChange}
               value={userInput}
-              onKeyPress={(e) => {
+              onKeyPress={e => {
               if (e.key === "Enter") {
-                searchBooksInDataBase();
-              }
-            }}
-          />
-      <SearchBarButton onClick={searchBooksInDataBase}><i className="fas fa-search"></i></SearchBarButton>
-      </SearchBarContainer>
+                searchBooksInDataBase();}
+          }}/>
+          <SearchBarButton onClick={searchBooksInDataBase}><i className="fas fa-search"></i></SearchBarButton>
+        </SearchBarContainer>
       </React.Fragment>
     );
 }
+
 
 export default SearchBar;

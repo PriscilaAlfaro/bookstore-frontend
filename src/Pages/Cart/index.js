@@ -9,9 +9,10 @@ import Footer from "../../Components/Footer";
 import Counter from "../../Components/Counter";
 import PrePurchaseSalesOrder from "../../Components/PrePurchaseSalesOrder";
 
-import { getCartFromDataBase } from '../../managers/cartManager';
 import { cart } from "../../reducers/cart";
 import { salesOrder } from "../../reducers/salesOrder";
+import { getCartFromDataBase } from '../../managers/cartManager';
+
 import { createCookie, readCookie, deleteCookie } from "../../utils/cookies";
 import { removeItemFromCart } from "../../managers/cartManager";
 import { createOrderInKlarna } from "../../managers/checkoutManager";
@@ -31,6 +32,7 @@ const ContainerItems= styled.section`
     flex-direction: row;
   }
 `
+
 const ContainerCheckout = styled.div`
   align-self: flex-start;
   display: flex;
@@ -41,10 +43,11 @@ const ContainerCheckout = styled.div`
   flex-direction: column;
   border-radius: 10px;
   width: 100%;
-   @media (min-width: 768px){
-     max-width: 30%;
+  @media (min-width: 768px){
+    max-width: 30%;
   }
 `
+
 const ContainerItemDetails= styled.div`
   background: linear-gradient(0deg, rgba(79,172,238,0.20960259103641454) 28%, rgba(197,233,94,0.14237570028011204) 100%);
   display: block;
@@ -55,6 +58,7 @@ const ContainerItemDetails= styled.div`
     max-width: 65%;
   }
 `
+
 const CardImage= styled.img`
   width: 80%;
   height: auto;
@@ -66,6 +70,7 @@ const CardImage= styled.img`
   }
 }
 `
+
 const BookDetailsContainer= styled.div`
   display: flex;
   flex-direction: row;
@@ -75,10 +80,10 @@ const BookDetailsContainer= styled.div`
   width: 100%;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
   @media (min-width: 768px){
-     justify-content: space-around;
+    justify-content: space-around;
   }
-
 `
+
 const TextTitle = styled.div`
   margin: auto 10px;
   font-size: 0.7rem;
@@ -89,6 +94,7 @@ const TextTitle = styled.div`
     width: 200px;
   }
 `
+
 const Text= styled.h2`
   font-size: 0.7rem;
   margin: 0.1rem;
@@ -97,6 +103,7 @@ const Text= styled.h2`
     margin: 0 1rem;
   }
 `
+
 const DeleteButton = styled.button`
   color: white;
   background: rgb(85, 110, 83);
@@ -105,6 +112,7 @@ const DeleteButton = styled.button`
   border-radius: 10px;
   font-size: 0.8rem;
   margin: 8px;
+  cursor: pointer;
   &:hover {
     background: red;
   }
@@ -115,6 +123,7 @@ const DeleteButton = styled.button`
     padding: 10px;
   }
 `
+
 const GoToCheckoutButton = styled.button`
   color: white;
   background: black;
@@ -124,7 +133,8 @@ const GoToCheckoutButton = styled.button`
   font-size: 0.8rem;
   margin: 0 auto;
   width: 100%;
-   &:hover {
+  cursor: pointer;
+  &:hover {
     background: green;
   }
   @media (min-width: 768px){
@@ -133,6 +143,7 @@ const GoToCheckoutButton = styled.button`
     width: 50%;
   }
 `
+
 const ImageContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -145,6 +156,7 @@ const ImageContainer = styled.div`
     width: 40%;
   }
 `
+
 const ErrorText = styled.h2`
   font-size: 0.7rem;
   margin: 1rem auto;
@@ -152,18 +164,21 @@ const ErrorText = styled.h2`
   text-align: center;
   @media (min-width: 768px){
     font-size: 1rem;
-  
   }
 `
+
 
 const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const itemsInCart = useSelector(store => store.cart.items);
-  const cartId = readCookie("cartId");
-  const userId = readCookie("id");
-  const accessToken = readCookie("accessToken");
   const error = useSelector(store => store.cart.error);
+
+  const cartIdFromCookies = readCookie("cartId");
+  const userIdFromCookies = readCookie("id");
+  const accessTokenFromCookies = readCookie("accessToken");
+
 
   const defaultOptions = {
     loop: true,
@@ -175,10 +190,8 @@ const Cart = () => {
   }
 
   useEffect(() => {
-
-    if (userId && accessToken && (cartId !== "" || cartId !== "undefined")) {
-
-      getCartFromDataBase(userId).then(data => {
+    if (userIdFromCookies && accessTokenFromCookies && (cartIdFromCookies !== "" || cartIdFromCookies !== "undefined")) {
+      getCartFromDataBase(userIdFromCookies).then(data => {
           console.log(data)
           if (data.success) {
             dispatch(cart.actions.setCart(data.response));
@@ -191,12 +204,12 @@ const Cart = () => {
           console.log('Error in Fetch:' + error.message);
         });
     }
-    
-  }, [accessToken, cartId, dispatch, userId]);
+  }, [accessTokenFromCookies, cartIdFromCookies, dispatch, userIdFromCookies]);
+
 
   const deleteBookFromCart = async (productId) => {
     const removeLine = true;
-    const removeItemToCartReponse = await removeItemFromCart(productId, userId, removeLine);
+    const removeItemToCartReponse = await removeItemFromCart(productId, userIdFromCookies, removeLine);
     const newCart = removeItemToCartReponse.response;
 
     if (removeItemToCartReponse.success) {
@@ -208,15 +221,15 @@ const Cart = () => {
     }
   }
 
-
   const callKlarnaAPI = async () => {
-    const callCheckoutReponse = await createOrderInKlarna(userId);
+    const callCheckoutReponse = await createOrderInKlarna(userIdFromCookies);
     dispatch(salesOrder.actions.setCheckoutOrder(callCheckoutReponse.response));
     deleteCookie("klarnaOrderId");
     createCookie("klarnaOrderId", callCheckoutReponse.response.order_id);
     navigate('/payment');
   }
   
+
   if(error){
     return (
       <React.Fragment>
@@ -240,36 +253,41 @@ const Cart = () => {
         <Header/>
         <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
         <ContainerItems>
-            <ContainerItemDetails>
-                {itemsInCart && itemsInCart.length === 0  && 
-                  <React.Fragment>
-                    <ErrorText>There are no items in this cart</ErrorText>
-                    <ImageContainer>
-                      <Lottie options={defaultOptions} />
-                    </ImageContainer>
-                    <ErrorText><Link to={"/"}>Go Home and start buying!</Link></ErrorText>
-                  </React.Fragment>}
-                {itemsInCart && itemsInCart.length > 0 && itemsInCart.map(item=>{
-                return(
-                <BookDetailsContainer key={item.productId}>
-                  <Link style={{ textDecoration: 'none' }} to={`/bookDetails/${item.productId}`}><CardImage src={item.url} alt={item.title} /></Link>
-                  <TextTitle>{item.title}</TextTitle> 
-                  <Text>Price: ${item.price}</Text>
-                  <Counter quantity={item.quantity} productId={item.productId}/>
-                  <DeleteButton onClick={() => deleteBookFromCart(item.productId)}><i className="fas fa-trash"></i></DeleteButton>
-                </BookDetailsContainer>
-              )})}
-              </ContainerItemDetails>
-              { itemsInCart && itemsInCart.length > 0 && 
-                  <ContainerCheckout>
+          <ContainerItemDetails>
+
+            {itemsInCart && itemsInCart.length === 0  && 
+              <React.Fragment>
+                <ErrorText>There are no items in this cart</ErrorText>
+                <ImageContainer>
+                  <Lottie options={defaultOptions} />
+                </ImageContainer>
+                <ErrorText><Link to={"/"}>Go Home and start buying!</Link></ErrorText>
+              </React.Fragment>}
+            
+            {itemsInCart && itemsInCart.length > 0 && itemsInCart.map(item => {
+              return(
+              <BookDetailsContainer key={item.productId}>
+                <Link style={{ textDecoration: 'none' }} to={`/bookDetails/${item.productId}`}><CardImage src={item.url} alt={item.title} /></Link>
+                <TextTitle>{item.title}</TextTitle> 
+                <Text>Price: ${item.price}</Text>
+                <Counter quantity={item.quantity} productId={item.productId}/>
+                <DeleteButton onClick={() => deleteBookFromCart(item.productId)}><i className="fas fa-trash"></i></DeleteButton>
+              </BookDetailsContainer>
+            )})}
+
+          </ContainerItemDetails>
+            {itemsInCart && itemsInCart.length > 0 && 
+              <ContainerCheckout>
                 <PrePurchaseSalesOrder />
                 <GoToCheckoutButton onClick={callKlarnaAPI}>Go to Checkout</GoToCheckoutButton>
-              </ContainerCheckout> }
+              </ContainerCheckout> 
+            }
         </ContainerItems>
 
         <Footer/>
       </React.Fragment>
   );
 }
+
 
 export default Cart;

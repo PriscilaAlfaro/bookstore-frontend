@@ -4,10 +4,12 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import {useDispatch } from 'react-redux';
 
-import { deleteCookie, readCookie } from "../../utils/cookies";
 import { user } from "../../reducers/user";
 import { cart } from "../../reducers/cart";
 import { wishlist } from "../../reducers/wishlist";
+
+import { readCookie } from "../../utils/cookies";
+import { deleteSessionFromCookies } from "../../managers/userManager";
 
 const Button = styled.button`
   display: flex;
@@ -21,13 +23,14 @@ const Button = styled.button`
   cursor: pointer;
   width: 100px;
   @media (min-width: 768px){
-     width: 30%;
-      font-size: 1rem;
+    width: 30%;
+    font-size: 1rem;
   }
   &:hover {
     background-color: red;
   }
 `
+
 const Text = styled.p`
   color: white;
   margin: 0 auto;
@@ -43,11 +46,7 @@ const LogoutButton = () => {
     const idFromCookie = readCookie("id");
 
     const handleLogout = () => {
-        deleteCookie("username");
-        deleteCookie("email");
-        deleteCookie("accessToken");
-        deleteCookie("id");
-        deleteCookie("cartId");
+      deleteSessionFromCookies();
         dispatch(user.actions.setclearUser());
         dispatch(cart.actions.setclearCart());
         dispatch(wishlist.actions.setclearWishlist());
@@ -58,11 +57,12 @@ const LogoutButton = () => {
       <React.Fragment>
         {userFromCookie && emailFromCookie && accessTokenFromCookie && idFromCookie && 
         <Button onClick={handleLogout}>
-            <Text>Log out</Text> 
+          <Text>Log out</Text> 
         </Button>
         }
       </React.Fragment>
     );
 }
+
 
 export default LogoutButton;

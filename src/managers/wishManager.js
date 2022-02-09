@@ -14,10 +14,8 @@ export const addItemToWishList = (productId, userId) => {
         }
     }
 
-
     return fetch(API_URL(`wishlists/${userId}/items/${productId}`), options)
         .then(res => res.json());
-
 }
 
 
@@ -35,7 +33,6 @@ export const removeItemFromWishList = (productId, userId) => {
 
     return fetch(API_URL(`wishlists/${userId}/items/${productId}`), options)
         .then(res => res.json());
-
 }
 
 
@@ -51,6 +48,4 @@ export const getWishlistFromDatabase = (userId) => {
 
     return fetch(API_URL(`wishlists/${userId}/userId`), options)
             .then(res => res.json())
-
-
 }

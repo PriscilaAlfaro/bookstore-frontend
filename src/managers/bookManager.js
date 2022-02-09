@@ -12,8 +12,8 @@ export const getBooksFromDataBase = (booksArray) => {
     }
     return fetch(API_URL(`books/?limit=20&offset=${offset}`), options)  //?limit=3&offset=1
         .then(res => res.json())
-
 }
+
 
 export const searchBooksFromDataBase = (userInput) => {
     const options = {
@@ -24,7 +24,6 @@ export const searchBooksFromDataBase = (userInput) => {
     }
     return fetch(API_URL(`books/topic/?topic=${userInput}`), options)
         .then(res => res.json())
-
 }
 
 

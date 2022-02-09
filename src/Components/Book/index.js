@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import { Link, useNavigate } from 'react-router-dom'
@@ -65,6 +65,7 @@ const AddToCartButton= styled.button`
   border: none;
   color: azure;
   margin: 10px auto;
+  cursor: pointer;
   &:hover {
     background-color: green;
   }
@@ -101,42 +102,27 @@ const BookInfo = styled.h2`
   text-align: left;
 `
 
-const IconCheck = styled.div`
-  color: white;
-  background: rgb(110, 203, 99);
-  border: none;
-  padding: 10px;
-  margin: 10px;
-  border-radius: 10px;
-  font-family: 'Roboto Condensed', sans-serif;
-  font-size: 0.8rem;
-  text-decoration: none;
-  @media (min-width: 768px){
-    font-size: 1rem;
-  }
-  @media (min-width: 992px) {
-    font-size: 1.3rem;
-  }
-`
-
 const Book = ({book}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const userId = readCookie("id");
+  const userIdFromCookie = readCookie("id");
   const cartIdFromCookie = readCookie("cartId");
-  const accessToken = readCookie("accessToken");
+  const accessTokenFromCookie = readCookie("accessToken");
+
+  const cartItems = useSelector(store => store.cart.items);
+  const bookInCart = cartItems?.find(item => book._id === item.productId);
 
 
+  //Keep it as example of async-await function 
   const handleAddToCartFromHome = async () => {
-    if (accessToken && userId ){ 
-      const addItemToCartReponse = await addItemToCart(book._id, userId);
+    if (accessTokenFromCookie && userIdFromCookie ){ 
+      const addItemToCartReponse = await addItemToCart(book._id, userIdFromCookie);
       const newCart = addItemToCartReponse.response;
 
       if (addItemToCartReponse.success) {
         dispatch(cart.actions.setCart(newCart));
         cartIdFromCookie === "undefined" &&  createCookie("cartId", newCart._id);
-
       } else {
         throw new Error('Error adding item to cart')
       }
@@ -151,21 +137,22 @@ const Book = ({book}) => {
   if(book){
     return (
         <Container>
-        <Link style={{ textDecoration: 'none' }} to={`/bookDetails/${book._id}`}>
-        <ImageContainer>
-          <CardImage src={book.thumbnailUrl} alt={book.title}/>
+          <Link style={{ textDecoration: 'none' }} to={`/bookDetails/${book._id}`}>
+          <ImageContainer>
+            <CardImage src={book.thumbnailUrl} alt={book.title}/>
             <Overlay>
             <Details>More details</Details>
             </Overlay>
-        </ImageContainer>
-        </Link> 
-            <AddToCartButton onClick={handleAddToCartFromHome}>Add to cart</AddToCartButton>
-            <CardTitle >{book.title}</CardTitle>
-            <CardSubTitle>{book.authors.map(author => author)}</CardSubTitle>
-            <BookInfo>Price: ${book.price}</BookInfo>
+          </ImageContainer>
+          </Link> 
+          <AddToCartButton onClick={handleAddToCartFromHome} style={bookInCart && { backgroundColor: "green" }}>{bookInCart ? " Already in cart" : " Add to cart"}</AddToCartButton>
+          <CardTitle >{book.title}</CardTitle>
+          <CardSubTitle>{book.authors.map(author => author)}</CardSubTitle>
+          <BookInfo>Price: ${book.price}</BookInfo>
         </Container>
     );
   }
 }
+
 
 export default Book;

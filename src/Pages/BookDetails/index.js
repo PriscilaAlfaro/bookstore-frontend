@@ -1,23 +1,20 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import styled from "styled-components";
 import moment from "moment";
-
-import Header from "../../Components/Header";
-import NotFound from '../NotFound';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, Link, useNavigate } from 'react-router-dom'
 
-// import { addItemToCart } from "../../managers/cartManager";
-import { addItemToWishList } from "../../managers/wishManager";
-import { getBookByIdFromDataBase } from "../../managers/bookManager";
-import { Loader } from "../../Components/Loader";
-// import { cart } from "../../reducers/cart";
-import { wishlist } from "../../reducers/wishlist";
-import { readCookie } from "../../utils/cookies";
-import { books } from "../../reducers/books";
-import { addItemToCart } from "../../managers/cartManager";
+import Header from "../../Components/Header";
+import NotFound from '../NotFound';
+import Loader from "../../Components/Loader";
+
 import { cart } from "../../reducers/cart";
+import { wishlist } from "../../reducers/wishlist";
+
+import { readCookie } from "../../utils/cookies";
+import { addItemToWishList } from "../../managers/wishManager";
+import { addItemToCart } from "../../managers/cartManager";
 
 
 const Container= styled.section`
@@ -55,7 +52,6 @@ const BookDetailsContainer= styled.div`
   display: flex;
   flex-direction: column;
   margin: auto 30px;
-  
 `
 
 const Details= styled.p`
@@ -99,6 +95,7 @@ const AddButton = styled.button`
   border-radius: 10px;
   font-family: 'Roboto Condensed', sans-serif;
   font-size: 0.8rem;
+  cursor: pointer;
   &:hover {
     filter: brightness(0.90);
   }
@@ -116,24 +113,27 @@ const Icons= styled.div`
   margin: 0;
 `
 
+
 const BookDetails = () => {
-  const { id } = useParams();
+  const { bookIdFromParams } = useParams();
   const dispatch = useDispatch();
   const navigate= useNavigate();
+
   const booksItems = useSelector(store => store.books.bookItems);
   const booksItemsFromSearch = useSelector(store => store.books.searchedItems);
-  const userIdFromCookie = readCookie("id");
   const wishlistItems = useSelector(store => store.wishlist.items);
-
-  const bookInWishlist = wishlistItems?.find(item => id === item.productId);
-  console.log(bookInWishlist);
-
+  const bookInWishlist = wishlistItems?.find(item => bookIdFromParams === item.productId);
+  const cartItems = useSelector(store => store.cart.items);
+  const bookInCart = cartItems?.find(item => bookIdFromParams === item.productId);
   const booksError = useSelector(store => store.books.error);
+
+  const userIdFromCookie = readCookie("id");
  
+
   let bookDetails = null; 
 
-  if (id) {
-    bookDetails = booksItems.find(book => book._id === id) || booksItemsFromSearch.find(book => book._id === id);
+  if (bookIdFromParams) {
+    bookDetails = booksItems.find(book => book._id === bookIdFromParams) || booksItemsFromSearch.find(book => book._id === bookIdFromParams);
   } else {
     return <NotFound />
   }
@@ -143,7 +143,7 @@ const BookDetails = () => {
     if (!userIdFromCookie) {
       navigate('/register');
     } else {
-      addItemToWishList(id, userIdFromCookie).then(addItemToWishResponse => {
+      addItemToWishList(bookIdFromParams, userIdFromCookie).then(addItemToWishResponse => {
         if (addItemToWishResponse.success) {
           dispatch(wishlist.actions.setWishlist(addItemToWishResponse.response));
           dispatch(wishlist.actions.setError(null));
@@ -156,20 +156,19 @@ const BookDetails = () => {
     }
   }
 
-  const addNewItemToCart = async() => {
+  const addNewItemToCart = () => {
     if (!userIdFromCookie) {
       navigate('/register');
     } else {
-      addItemToCart(id, userIdFromCookie).then(addItemToCartReponse=>{
+      addItemToCart(bookIdFromParams, userIdFromCookie).then(addItemToCartReponse => {
+
         if (addItemToCartReponse.success) {
           dispatch(cart.actions.setCart(addItemToCartReponse.response));
           dispatch(cart.actions.setError(null));
-
         } else {
           dispatch(cart.actions.setCart([]));
           dispatch(cart.actions.setError(addItemToCartReponse.response));
           throw new Error('Error adding item to cart')
-
         }
       });
     }
@@ -183,47 +182,46 @@ const BookDetails = () => {
     );
   }
 
+  return (
+    <React.Fragment>
+      <Header/>
+      <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
+      <Container>
+        
+        { bookDetails && (
+          <React.Fragment>
+            <Up>
+              <CardImage src={bookDetails.thumbnailUrl} alt={bookDetails.title}/>
+              <BookDetailsContainer>
+                <Title>{bookDetails.title}</Title>
+                <Details>Author: {bookDetails.authors?.map(author => author).join(', ') || "No details available"}</Details>
+                <Details>Published: {moment(bookDetails.publishedDate).format('LL') || "No details available"}</Details>
+                <Details>Categories: {bookDetails.categories?.length > 0 ? bookDetails.categories?.map(cat => cat).join(', ') : "No categories available"}</Details>
+                <Details>Language: {bookDetails.language || "No details available"}</Details>
+                <Details>Pages: {bookDetails.pageCount || "No details available"}</Details>
+                <Details>Isbn: {bookDetails.isbn || "No details available"}</Details>
+                <Details>Availability: {bookDetails.availability || "No details available"}</Details>
+                <SubTitle>Price: ${bookDetails.price || "No details available"}</SubTitle>
+                <Icons>
+                  <AddButton onClick={addNewItemToCart} style={bookInCart && { backgroundColor: "green" }}><i className="fas fa-shopping-cart"></i>{bookInCart ? " Already in cart" : " Add to cart"}</AddButton>
+                  <AddButton onClick={addNewItemToWishList} style={bookInWishlist && {backgroundColor: "green"}}><i className="fas fa-heart"></i>{bookInWishlist ? " Already in wishlist" : " Add to wishlist"}</AddButton>
+                </Icons>
+              </BookDetailsContainer>
+              </Up>
 
-    return (
-      <React.Fragment>
-        <Header/>
-        <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
-        <Container>
-          
-         { bookDetails && (
-           <React.Fragment>
-              <Up>
-                <CardImage src={bookDetails.thumbnailUrl} alt={bookDetails.title}/>
-                  <BookDetailsContainer>
-                    <Title>{bookDetails.title}</Title>
-                  <Details>Author: {bookDetails.authors?.map(author => author).join(', ') || "No details available"}</Details>
-                    <Details>Published: {moment(bookDetails.publishedDate).format('LL') || "No details available"}</Details>
-                  <Details>Categories: {bookDetails.categories?.length > 0 ? bookDetails.categories?.map(cat => cat).join(', ') : "No categories available"}</Details>
-                  <Details>Language: {bookDetails.language || "No details available"}</Details>
-                    <Details>Pages: {bookDetails.pageCount || "No details available"}</Details>
-                  <Details>Isbn: {bookDetails.isbn || "No details available"}</Details>
-                  <Details>Availability: {bookDetails.availability || "No details available"}</Details>
-                  <SubTitle>Price: ${bookDetails.price || "No details available"}</SubTitle>
-    
-                    <Icons>
-                      <AddButton onClick={addNewItemToCart}><i className="fas fa-shopping-cart"></i>Add to cart</AddButton>
-                    <AddButton onClick={addNewItemToWishList} disabled={bookInWishlist}><i className="fas fa-heart"></i>{bookInWishlist ? "Already in wishlist" : "Add to wishlist"}</AddButton>
-                    </Icons>
-                  </BookDetailsContainer>
-                </Up>
-
-                <Synopsis>
-                  <SubTitle>Synopsis:</SubTitle>
-                  <Text>{(bookDetails.longDescription && bookDetails.longDescription) || 
-                  (bookDetails.shortDescription && bookDetails.shortDescription) || 
-                  "There is no sinopsis available"}</Text>
-                </Synopsis>
-            </React.Fragment>)
-          }
-          {booksError && booksError}
-        </Container>
-        </React.Fragment>
-    );
+              <Synopsis>
+                <SubTitle>Synopsis:</SubTitle>
+                <Text>{(bookDetails.longDescription && bookDetails.longDescription) || 
+                (bookDetails.shortDescription && bookDetails.shortDescription) || 
+                "There is no sinopsis available"}</Text>
+              </Synopsis>
+          </React.Fragment>)
+        }
+        {booksError && <Up>booksError</Up>}
+      </Container>
+    </React.Fragment>
+  );
 }
+
 
 export default BookDetails;

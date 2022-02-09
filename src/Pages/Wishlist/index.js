@@ -7,8 +7,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
 
-import { wishlist } from "../../reducers/wishlist";
 import { cart } from "../../reducers/cart";
+import { wishlist } from "../../reducers/wishlist";
+
 import { readCookie, createCookie} from "../../utils/cookies";
 import { getWishlistFromDatabase, removeItemFromWishList } from "../../managers/wishManager";
 import { addItemToCart } from "../../managers/cartManager";
@@ -40,7 +41,7 @@ const ContainerItems = styled.section`
   flex-wrap: wrap;
   flex-direction: column;
   width: 200px;
-  `
+`
 
 const ContainerItemDetails = styled.div`
   background: linear-gradient(0deg, rgba(79,172,238,0.20960259103641454) 28%, rgba(197,233,94,0.14237570028011204) 100%);
@@ -50,7 +51,6 @@ const ContainerItemDetails = styled.div`
   border-radius: 10px;
   @media (min-width: 768px){
     max-width: 65%;
-
   }
 `
 
@@ -66,6 +66,7 @@ const ImageContainerLottie = styled.div`
     width: 40%;
   }
 `
+
 const ErrorText = styled.h2`
   font-size: 0.7rem;
   margin: 1rem auto;
@@ -73,7 +74,6 @@ const ErrorText = styled.h2`
   text-align: center;
   @media (min-width: 768px){
     font-size: 1rem;
-  
   }
 `
 
@@ -85,6 +85,7 @@ const CardTitle = styled.h1`
   color: black;
   margin: 0 auto;
 `
+
 const AddToCartButton = styled.button`
   cursor: pointer;
   font-size: 0.8rem;
@@ -102,7 +103,7 @@ const AddToCartButton = styled.button`
   }
 `
 
-const DeleteButton = styled.button`
+const DeleteButtonFromWishlist = styled.button`
   color: black;
   background: white;
   border: none;
@@ -135,20 +136,22 @@ const CardImage = styled.img`
   &:hover {
     filter: brightness(0.80);
   }
-
-  
 `
 
 
 const Wishlist = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const itemsInWishlist = useSelector(store => store.wishlist.items);
-  const cartId = readCookie("cartId");
-  const userId = readCookie("id");
-  const accessToken = readCookie("accessToken");
   const error = useSelector(store => store.cart.error);
-  
+  const cartItems = useSelector(store => store.cart.items);
+
+  const cartIdFromCookies = readCookie("cartId");
+  const userIdFromCookies = readCookie("id");
+  const accessTokenFromCookies = readCookie("accessToken");
+
+
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -159,8 +162,8 @@ const Wishlist = () => {
   }
 
   useEffect(() => {
-    if (userId && accessToken && (cartId !== "" || cartId !== "undefined")) {
-      getWishlistFromDatabase(userId).then(response =>{    
+    if (userIdFromCookies && accessTokenFromCookies && (cartIdFromCookies !== "" || cartIdFromCookies !== "undefined")) {
+      getWishlistFromDatabase(userIdFromCookies).then(response => {    
         if (response.success) {
           dispatch(wishlist.actions.setWishlist(response.response));
           dispatch(wishlist.actions.setError(null));
@@ -170,22 +173,20 @@ const Wishlist = () => {
         }
       });
     }
-
-  }, [accessToken, cartId, dispatch, userId]);
+  }, [accessTokenFromCookies, cartIdFromCookies, dispatch, userIdFromCookies]);
 
   const handleAddToCartFromWishList = async (productId) => {
-    if (accessToken && userId) {
-      const addItemToCartReponse = await addItemToCart(productId, userId);
+    if (accessTokenFromCookies && userIdFromCookies) {
+      const addItemToCartReponse = await addItemToCart(productId, userIdFromCookies);
       const newCart = addItemToCartReponse.response;
 
       if (addItemToCartReponse.success) {
         dispatch(cart.actions.setCart(newCart));
-        cartId === "undefined" && createCookie("cartId", newCart._id);
+        cartIdFromCookies === "undefined" && createCookie("cartId", newCart._id);
 
       } else {
         throw new Error('Error adding item to cart')
       }
-
     } else {
       navigate('/register');
     }
@@ -193,7 +194,7 @@ const Wishlist = () => {
   }
 
   const handleDeleteBookFromWishlist = async (productId) => {
-    const removeItemReponse = await removeItemFromWishList(productId, userId);
+    const removeItemReponse = await removeItemFromWishList(productId, userIdFromCookies);
     const newWishlist = removeItemReponse.response;
 
     if (removeItemReponse.success) {
@@ -222,26 +223,27 @@ const Wishlist = () => {
   }
 
 
-    return (
-        <React.Fragment>
-            <Header/>
-            <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
-              <MainContainer>
-                {itemsInWishlist && itemsInWishlist.map(item => {
-                  return ( 
-                  <ContainerItems>
-                    <Link style={{ textDecoration: 'none' }} to={`/bookDetails/${item.productId}`}><CardImage src={item.url} alt={item.title} /></Link>
-                    <CardTitle >{item.title}</CardTitle>
-                    <CartPrice>Price: ${item.price}</CartPrice>
-                    <DeleteButton onClick={() => handleDeleteBookFromWishlist(item.productId)}>Remove</DeleteButton>
-                    <AddToCartButton onClick={() => handleAddToCartFromWishList(item.productId)}>Add to cart</AddToCartButton>
-                  </ContainerItems>
-                  )
-                  })}
-              </MainContainer>
-            <Footer/>
-        </React.Fragment>
-    );
+  return (
+    <React.Fragment>
+      <Header/>
+      <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
+      <MainContainer>
+        {itemsInWishlist && itemsInWishlist.map(item => {
+          const bookInCart = cartItems?.find(book => book.productId === item.productId);
+          return ( 
+            <ContainerItems key={item.productId}>
+              <Link style={{ textDecoration: 'none' }} to={`/bookDetails/${item.productId}`}><CardImage src={item.url} alt={item.title} /></Link>
+              <CardTitle >{item.title}</CardTitle>
+              <CartPrice>Price: ${item.price}</CartPrice>
+              <DeleteButtonFromWishlist onClick={() => handleDeleteBookFromWishlist(item.productId)}>Remove</DeleteButtonFromWishlist>
+              <AddToCartButton onClick={() => handleAddToCartFromWishList(item.productId)} style={bookInCart && { backgroundColor: "green" }}>{bookInCart ? " Already in cart" : " Add to cart"}</AddToCartButton>
+            </ContainerItems>
+          )
+          })}
+      </MainContainer>
+      <Footer/>
+    </React.Fragment>
+  );
 }
 
 export default Wishlist;

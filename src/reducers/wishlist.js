@@ -28,11 +28,5 @@ export const wishlist = createSlice({
             return initialState;
         },
 
-        //For backoffice
-        // addBook
-        // updateBook
-        // deleteBook
-
-        //the total of the cart is just the length of the items// in HeaderICons
     },
 });

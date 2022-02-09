@@ -15,7 +15,6 @@ export const salesOrder = createSlice({
     initialState,
 
     reducers: {
-
         setSalesOrder: (store, action) => {
             const { details, userId, _id, timestamp } = action.payload;
 
@@ -23,7 +22,6 @@ export const salesOrder = createSlice({
             store.userId = userId;
             store.details = details;
             store.timestamp = timestamp;
-            
         },
 
         setCheckoutOrder: (store, action) => {
@@ -37,6 +35,5 @@ export const salesOrder = createSlice({
         setError: (store, action) => {
             store.error = action.payload;
         },
-
     },
 });

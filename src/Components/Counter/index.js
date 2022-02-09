@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components/macro';
 
 import { useDispatch } from 'react-redux';
+
 import { cart } from '../../reducers/cart';
 
 import { addItemToCart, removeItemFromCart } from '../../managers/cartManager';
@@ -28,7 +29,7 @@ const Button = styled.button`
     transform: scale(1.2);
   }
   @media (min-width: 768px){
-      padding: 5px 12px;
+    padding: 5px 12px;
   }
 `
 
@@ -37,17 +38,17 @@ const Count = styled.p`
   font-size: 0.8rem;
   margin: auto 8px;
   @media (min-width: 768px){
-      font-size: 1rem;
-      margin: auto 10px;
+    font-size: 1rem;
+    margin: auto 10px;
   }
 `
 
 const Counter = ({ quantity, productId}) => {
   const dispatch = useDispatch();
-  const userId = readCookie("id");
+  const userIdFromCookie = readCookie("id");
 
   const handleOnClickPlus = async () => {
-    const addItemToCartReponse = await addItemToCart(productId, userId);
+    const addItemToCartReponse = await addItemToCart(productId, userIdFromCookie);
     const newCart = addItemToCartReponse.response;
 
     if (addItemToCartReponse.success) {
@@ -61,7 +62,7 @@ const Counter = ({ quantity, productId}) => {
   }
 
   const handleOnClickReduce = async() => {
-    const removeItemToCartReponse = await removeItemFromCart(productId, userId);
+    const removeItemToCartReponse = await removeItemFromCart(productId, userIdFromCookie);
     const newCart = removeItemToCartReponse.response;
 
     if (removeItemToCartReponse.success) {
@@ -75,9 +76,9 @@ const Counter = ({ quantity, productId}) => {
 
   return (
       <Container>
-      <Button onClick={handleOnClickReduce}>-</Button>
-      <Count>{quantity}</Count>
-      <Button onClick={handleOnClickPlus}>+</Button>
+        <Button onClick={handleOnClickReduce}>-</Button>
+        <Count>{quantity}</Count>
+        <Button onClick={handleOnClickPlus}>+</Button>
       </Container>
   );
 }

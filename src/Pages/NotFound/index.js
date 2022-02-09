@@ -6,8 +6,6 @@ import { Link } from "react-router-dom";
 import Lottie from "react-lottie";
 import animationData from "../../lotties/website-error-404-animation.json";
 
-
-
 const NotFoundContainer = styled.footer`
   width: 80%;
   heigth: auto;
@@ -23,6 +21,7 @@ const NotFoundContainer = styled.footer`
     width: 30%;
   }
 `
+
 const LinkWrapper = styled.footer`
   margin: 2rem auto;
 `

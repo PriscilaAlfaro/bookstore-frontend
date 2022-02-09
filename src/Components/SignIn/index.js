@@ -4,15 +4,15 @@ import styled from "styled-components";
 import { useNavigate} from "react-router-dom";
 import { useDispatch, batch, useSelector } from 'react-redux';
 
-import { signInUser } from "../../managers/userManager";
+import { cart } from "../../reducers/cart";
 import { user } from "../../reducers/user";
-import { createSession } from "../../managers/userManager";
+
+import { createCookie } from "../../utils/cookies";
+import { addItemToCart } from "../../managers/cartManager";
+import { signInUser, createSessionInCookies } from "../../managers/userManager";
 
 import Lottie from "react-lottie";
 import animationData from "../../lotties/two-girls-with-books-and-a-skateboard.json";
-import { cart } from "../../reducers/cart";
-import { addItemToCart } from "../../managers/cartManager";
-import { createCookie } from "../../utils/cookies";
 
 
 const Container = styled.section`
@@ -30,6 +30,7 @@ const Container = styled.section`
     border-radius: 0 10px 10px 0;
   }
 `
+
 const Aside = styled.section`
   display: flex;
   flex-wrap: wrap;
@@ -47,15 +48,18 @@ const Aside = styled.section`
     border-radius: 10px 0 0 10px ;
   }
 `
+
 const Form= styled.form`
   display: flex;
   justify-content: center;
   flex-direction: column;
   width: 80%;
 `
+
 const Label= styled.label`
   width: 100%;
 `
+
 const Input= styled.input`
   width: 100%;
   background-color: rgb(247, 251, 225);
@@ -63,6 +67,7 @@ const Input= styled.input`
   border: none;
   border-radius: 5px;
 `
+
 const Button= styled.button`
   margin: 1.5rem;
   background: rgb(67, 111, 138);
@@ -71,17 +76,21 @@ const Button= styled.button`
   font-size: 1.2rem;
   border-radius: 5px;
   border: none;
+  cursor: pointer;
 `
+
 const Text= styled.p`
   font-size: 1.3rem;
   color: white;
   margin: 2rem 0 0.5rem 0;
 `
+
 const Title= styled.h1`
   font-size: 1.3rem;
   margin: 2rem;
   text-align: center;
 `
+
 const ImageContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -95,16 +104,17 @@ const ImageContainer = styled.div`
   }
 `
 
+
 const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const accessToken = useSelector((store) => store.user.accessToken);
   const temporalItem = useSelector((store) => store.cart.temporalItem);
-  const userId = useSelector((store) => store.user.id);
   const error = useSelector((store) => store.user.error);
-  const cartId = useSelector((store) => store.cart._id);
 
   const defaultOptions = {
     loop: true,
@@ -135,7 +145,7 @@ const SignIn = () => {
             }));
             dispatch(user.actions.setError(null));
           });
-          createSession({
+          createSessionInCookies({
             id: data.response.id,
             username: data.response.username,
             email: data.response.email,
@@ -182,6 +192,7 @@ const SignIn = () => {
           <Lottie options={defaultOptions} />
         </ImageContainer>
       </Aside>
+
       <Container>
         <Form onSubmit={onFormSubmit}>
           <Label htmlFor="email">
@@ -218,5 +229,6 @@ const SignIn = () => {
     </React.Fragment>
   );
 }
+
 
 export default SignIn;

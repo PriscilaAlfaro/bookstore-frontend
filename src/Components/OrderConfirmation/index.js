@@ -3,9 +3,11 @@ import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
 
+import { salesOrder } from "../../reducers/salesOrder";
+
 import { readCookie } from "../../utils/cookies";
 import { getConfirmationFromKlarna } from "../../managers/checkoutManager";
-import { salesOrder } from "../../reducers/salesOrder";
+
 
 const CheckoutMainContainer = styled.div`
   heigth: auto;
@@ -13,6 +15,7 @@ const CheckoutMainContainer = styled.div`
   display: block;
   margin: 1rem auto;
 `
+
 const Title = styled.h1`
   width: 100%;
   font-style: normal;
@@ -25,12 +28,14 @@ const Title = styled.h1`
 
 const OrderConfirmation = () => { 
     const dispatch = useDispatch();
-    const klarnaOrderId = readCookie("klarnaOrderId");
+
+    const klarnaOrderIdFromCookies = readCookie("klarnaOrderId");
+
     const error = useSelector(store => store.salesOrder.error);
     
 useEffect(()=> {
     
-    getConfirmationFromKlarna(klarnaOrderId).then(confirmationPaymentResponse => {
+    getConfirmationFromKlarna(klarnaOrderIdFromCookies).then(confirmationPaymentResponse => {
 
         if(confirmationPaymentResponse.success){
         const confirmationPayment = confirmationPaymentResponse.response;
@@ -52,7 +57,7 @@ useEffect(()=> {
         }
 
     });
-}, [dispatch, klarnaOrderId])
+}, [dispatch, klarnaOrderIdFromCookies])
 
     return (
         <CheckoutMainContainer>
@@ -61,5 +66,6 @@ useEffect(()=> {
         </CheckoutMainContainer>
     );
 }
+
 
 export default OrderConfirmation;

@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-import { readCookie } from "../../utils/cookies";
-
 import LogoutButton from "../../Components/LogoutButton";
+
+import { readCookie } from "../../utils/cookies";
 
 import Lottie from "react-lottie";
 import animationData from "../../lotties/astronaut-read-book.json";
@@ -26,6 +26,7 @@ const ProfileMainContainer = styled.div`
     width: 80%;
   }
 `
+
 const Title = styled.h1`
   width: 100%;
   font-style: normal;
@@ -35,6 +36,7 @@ const Title = styled.h1`
   text-align: left;
   margin: 1rem auto;
 `
+
 const Text = styled.p`
   width: 100%;
   font-style: normal;
@@ -46,6 +48,7 @@ const Text = styled.p`
    font-size: 1.4rem;
   }
 `
+
 const SpecialText = styled.p`
   width: 100%;
   font-style: italic;
@@ -54,6 +57,7 @@ const SpecialText = styled.p`
   text-align: left;
   margin: 1rem auto;
 `
+
 const TextContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -66,6 +70,7 @@ const TextContainer = styled.div`
     width: 40%;
   }
 `
+
 const ImageContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -79,9 +84,10 @@ const ImageContainer = styled.div`
   }
 `
 
+
 const Profile = () => {
-  const user = readCookie("username");
-  const email = readCookie("email");
+  const userFromCookies = readCookie("username");
+  const emailFromCookies = readCookie("email");
   const cartIdFromCookie = readCookie("cartId");
 
   const defaultOptions = {
@@ -97,8 +103,8 @@ const Profile = () => {
     <ProfileMainContainer>
       <TextContainer>
         <Title>Your profile</Title>
-        <Text>Username: {user}</Text>
-        <Text>Email: {email}</Text>
+        <Text>Username: {userFromCookies}</Text>
+        <Text>Email: {emailFromCookies}</Text>
         {cartIdFromCookie && <SpecialText>You have an active cart</SpecialText>}
       </TextContainer>
       <ImageContainer>
@@ -108,5 +114,6 @@ const Profile = () => {
     </ProfileMainContainer>
   );
 }
+
 
 export default Profile;

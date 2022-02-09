@@ -18,7 +18,6 @@ export const createOrderInKlarna = (userId) => {
 }
 
 
-
 export const getConfirmationFromKlarna = (klarnaOrderId) => {
     const accessToken = readCookie("accessToken");
     const options = {
