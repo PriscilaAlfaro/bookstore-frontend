@@ -1,5 +1,5 @@
 # Final Project Technigo Bootcamp
-# BookStore Sweden Tech Library
+# BookStore: Sweden Tech Library
 
 
 ## Idea  
