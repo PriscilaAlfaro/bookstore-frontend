@@ -21,6 +21,7 @@ I decided to work with the frontend and [backend](https://github.com/PriscilaAlf
 
 ## Pages
 
+```
 1. Home
 2. Book details 
 3. Sign in/ Sign up/ Profile
@@ -29,10 +30,10 @@ I decided to work with the frontend and [backend](https://github.com/PriscilaAlf
 6. Payment (checkout)
 7. Payment confirmation (checkout confirmation)
 8. Not found
-
+```
 
 ## General design ideas
-Even though I'm not a designer, I developed a general idea about how I wanted the page to look and also a general description of my data modeling  in a simple [jamboard document] (https://jamboard.google.com/d/1P-4nCIT4J0eBcKg9AAa4y0nALJxTdqozpYkcxH2C2EM/viewer?f=5)
+Even though I'm not a designer, I developed a general idea about how I wanted the page to look and also a general description of my data modeling  in a simple [jamboard document](https://jamboard.google.com/d/1P-4nCIT4J0eBcKg9AAa4y0nALJxTdqozpYkcxH2C2EM/viewer?f=5)
 
 ## Installation development mode
 
