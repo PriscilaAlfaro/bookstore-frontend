@@ -26,7 +26,7 @@ const ImageContainer= styled.div`
 
 const CardImage= styled.img`
   width: 100%;
-  height: auto;
+  height: 250px;
   z-index: 0;
 `
 

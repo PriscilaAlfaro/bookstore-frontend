@@ -21,15 +21,39 @@ import Lottie from "react-lottie";
 import animationData from "../../lotties/no-search-item-available.json";
 
 
-const ContainerItems= styled.section`
+const MainContainer= styled.section`
   display: flex;
   flex-wrap: wrap;
-  margin: 2rem auto;
+  margin: 1rem auto;
   justify-content: center;
-  width: 95%;
+  align-content: center;
+  width: 90%;
   flex-direction: column;
   @media (min-width: 768px){
     flex-direction: row;
+    margin: 2rem auto;
+  }
+   @media (min-width: 992px) {
+      width: 80%;
+  }
+`
+
+const ContainerItemDetails = styled.div`
+  background: linear-gradient(0deg, rgba(79,172,238,0.20960259103641454) 28%, rgba(197,233,94,0.14237570028011204) 100%);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin: 1rem auto;
+  width: 90%;
+  align-self: center;
+  justify-content: center;
+  border-radius: 10px;
+  @media (min-width: 768px){
+    max-width: 65%;
+  }
+   @media (min-width: 992px) {
+    max-width: 55%;
   }
 `
 
@@ -48,58 +72,46 @@ const ContainerCheckout = styled.div`
   }
 `
 
-const ContainerItemDetails= styled.div`
-  background: linear-gradient(0deg, rgba(79,172,238,0.20960259103641454) 28%, rgba(197,233,94,0.14237570028011204) 100%);
-  display: block;
-  margin: 1rem auto;
-  width: 95%;
-  border-radius: 10px;
+const BookDetailsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 10px auto;
+  align-items: center;
+  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
   @media (min-width: 768px){
-    max-width: 65%;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 95%;
   }
 `
 
 const CardImage= styled.img`
+  max-height: 200px;
+  min-width: 50px;
   width: 80%;
-  height: auto;
-  margin: 10px auto;
-  @media (min-width: 768px){
-  margin: 10px 20px;
+  margin: 10px 0 10px 2px;
   &:hover {
     filter: brightness(0.80);
+  }
+  @media (min-width: 768px){
+    margin: auto 0.5rem;
   }
 }
 `
 
-const BookDetailsContainer= styled.div`
-  display: flex;
-  flex-direction: row;
-  margin: 10px auto;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
-  @media (min-width: 768px){
-    justify-content: space-around;
-  }
-`
-
-const TextTitle = styled.div`
+const BookTitle = styled.div`
   margin: auto 10px;
-  font-size: 0.7rem;
-  max-width: 100px;
+  font-size: 0.9rem;
+  max-width: 150px;
   @media (min-width: 768px){
     width: 300px;
-    font-size: 1rem;
-    width: 200px;
   }
 `
 
-const Text= styled.h2`
-  font-size: 0.7rem;
-  margin: 0.1rem;
+const BookPrice= styled.h2`
+  font-size: 0.9rem;
   @media (min-width: 768px){
-    font-size: 1rem;
     margin: 0 1rem;
   }
 `
@@ -111,7 +123,7 @@ const DeleteButton = styled.button`
   padding: 8px;
   border-radius: 10px;
   font-size: 0.8rem;
-  margin: 8px;
+  margin: 1rem 0.5rem;
   cursor: pointer;
   &:hover {
     background: red;
@@ -132,7 +144,7 @@ const GoToCheckoutButton = styled.button`
   border-radius: 10px;
   font-size: 0.8rem;
   margin: 0 auto;
-  width: 100%;
+  width: 90%;
   cursor: pointer;
   &:hover {
     background: green;
@@ -140,7 +152,7 @@ const GoToCheckoutButton = styled.button`
   @media (min-width: 768px){
     font-size: 1rem;
     padding: 10px;
-    width: 50%;
+    width: 45%;
   }
 `
 
@@ -148,7 +160,6 @@ const ImageContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin: 3rem auto;
-  width: 60%;
   @media (min-width: 768px){
     width: 50%;
   }
@@ -246,15 +257,15 @@ const Cart = () => {
       <React.Fragment>
         <Header/>
         <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
-        <ContainerItems>
+        <MainContainer>
           <ContainerItemDetails>
 
           {itemsInCart && itemsInCart.length > 0 && itemsInCart.map(item => {
             return (
               <BookDetailsContainer key={item.productId}>
                 <Link style={{ textDecoration: 'none' }} to={`/bookDetails/${item.productId}`}><CardImage src={item.url} alt={item.title} /></Link>
-                <TextTitle>{item.title}</TextTitle>
-                <Text>Price: {item.price} Kr</Text>
+                <BookTitle>{item.title}</BookTitle>
+                <BookPrice>Price: {item.price} Kr</BookPrice>
                 <Counter quantity={item.quantity} productId={item.productId} />
                 <DeleteButton onClick={() => deleteBookFromCart(item.productId)}><i className="fas fa-trash"></i></DeleteButton>
               </BookDetailsContainer>
@@ -287,7 +298,7 @@ const Cart = () => {
                 <GoToCheckoutButton onClick={callKlarnaAPI}>Go to Checkout</GoToCheckoutButton>
               </ContainerCheckout> 
             }
-        </ContainerItems>
+        </MainContainer>
 
         <Footer/>
       </React.Fragment>
