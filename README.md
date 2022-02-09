@@ -3,8 +3,8 @@
 
 
 ## Idea  
-I created an online bookstore named 'Sweden Tech Library'. The users have the possibility to find books related to technology like programming languages, databases, code, and more. The user also has the chance to search for a specific title, author, or category, and see more details for every book. 
-They have their own session using singup/in and with that session activated they can see the profile page, make a wishlist, add books to a cart, and finally buy books. 
+I created an online bookstore named ***Sweden Tech Library***. The users have the possibility to find books related to technology like programming languages, databases, code, and more. The user also has the chance to search for a specific title, author, or category, and see more details for every book.  
+They have their own session using singup/in and with that session activated they can see the profile page, make a wishlist, add books to a cart, and finally buy books.  
 This is the final project of [Technigo Bootcamp to become a Web Developer](https://www.technigo.io/program). 
 I decided to work with the frontend and [backend](https://github.com/PriscilaAlfaro/bookstore-backend) in separated repositories for the project.
 
@@ -37,8 +37,9 @@ Even though I'm not a designer, I developed a general idea about how I wanted th
 
 ## Installation development mode
 
-Install all dependencies `npm install`
-Start the project `npm start`. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Install all dependencies with `npm install`  
+Start the project with `npm start`.  
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 ## Live
 This project was deployed in Nettlify.
