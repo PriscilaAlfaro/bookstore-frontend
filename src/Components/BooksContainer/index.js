@@ -42,7 +42,7 @@ const Results = styled.div`
 const Text = styled.p`
   font-size: 1rem;
   color: gray;
-  margin: 0 auto;
+  margin: 0.5rem auto;
   @media(min - width: 768px) {
     font - size: 1.3rem;
   }
@@ -151,7 +151,7 @@ const BooksContainer = () => {
               return <Book book={book} key={book._id} />
               })}
             <ButtonContainer>
-              <ButtonLoad onClick={hadleGetMoreBooks}>See more books</ButtonLoad>
+            {booksItems.length < 425 ? <ButtonLoad onClick={hadleGetMoreBooks}>See more books</ButtonLoad> : <Text> Final line</Text>}
             </ButtonContainer>
           </BooksMainContainer>
       </React.Fragment>
