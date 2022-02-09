@@ -16,6 +16,8 @@ import { readCookie } from "../../utils/cookies";
 import { addItemToWishList } from "../../managers/wishManager";
 import { addItemToCart } from "../../managers/cartManager";
 
+import Lottie from "react-lottie";
+import animationData from "../../lotties/no-search-item-available.json";
 
 const Container= styled.section`
   display: flex;
@@ -113,27 +115,70 @@ const Icons= styled.div`
   margin: 0;
 `
 
+const ImageContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin: 3rem auto;
+  width: 60%;
+  @media (min-width: 768px){
+    width: 50%;
+  }
+  @media (min-width: 992px) {
+    width: 40%;
+  }
+`
+
+const ErrorText = styled.h2`
+  font-size: 0.7rem;
+  margin: 1rem auto;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  color: green;
+  @media (min-width: 768px){
+    font-size: 1rem;
+  }
+`
+
+const OptionalTitle = styled.h1`
+  font-size: 1rem;
+  margin: 1rem auto;
+  padding: 2rem;
+  text-align: center;
+  color: black;
+  @media (min-width: 768px){
+    font-size: 1rem;
+  }
+`
 
 const BookDetails = () => {
-  const { bookIdFromParams } = useParams();
+  const { bookId } = useParams();
   const dispatch = useDispatch();
   const navigate= useNavigate();
 
   const booksItems = useSelector(store => store.books.bookItems);
   const booksItemsFromSearch = useSelector(store => store.books.searchedItems);
   const wishlistItems = useSelector(store => store.wishlist.items);
-  const bookInWishlist = wishlistItems?.find(item => bookIdFromParams === item.productId);
+  const bookInWishlist = wishlistItems?.find(item => bookId === item.productId);
   const cartItems = useSelector(store => store.cart.items);
-  const bookInCart = cartItems?.find(item => bookIdFromParams === item.productId);
+  const bookInCart = cartItems?.find(item => bookId === item.productId);
   const booksError = useSelector(store => store.books.error);
 
   const userIdFromCookie = readCookie("id");
  
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice"
+    }
+  }
 
   let bookDetails = null; 
 
-  if (bookIdFromParams) {
-    bookDetails = booksItems.find(book => book._id === bookIdFromParams) || booksItemsFromSearch.find(book => book._id === bookIdFromParams);
+  if (bookId) {
+    bookDetails = booksItems.find(book => book._id === bookId) || booksItemsFromSearch.find(book => book._id === bookId);
   } else {
     return <NotFound />
   }
@@ -143,7 +188,7 @@ const BookDetails = () => {
     if (!userIdFromCookie) {
       navigate('/register');
     } else {
-      addItemToWishList(bookIdFromParams, userIdFromCookie).then(addItemToWishResponse => {
+      addItemToWishList(bookId, userIdFromCookie).then(addItemToWishResponse => {
         if (addItemToWishResponse.success) {
           dispatch(wishlist.actions.setWishlist(addItemToWishResponse.response));
           dispatch(wishlist.actions.setError(null));
@@ -160,7 +205,7 @@ const BookDetails = () => {
     if (!userIdFromCookie) {
       navigate('/register');
     } else {
-      addItemToCart(bookIdFromParams, userIdFromCookie).then(addItemToCartReponse => {
+      addItemToCart(bookId, userIdFromCookie).then(addItemToCartReponse => {
 
         if (addItemToCartReponse.success) {
           dispatch(cart.actions.setCart(addItemToCartReponse.response));
@@ -201,7 +246,7 @@ const BookDetails = () => {
                 <Details>Pages: {bookDetails.pageCount || "No details available"}</Details>
                 <Details>Isbn: {bookDetails.isbn || "No details available"}</Details>
                 <Details>Availability: {bookDetails.availability || "No details available"}</Details>
-                <SubTitle>Price: ${bookDetails.price || "No details available"}</SubTitle>
+                <SubTitle>Price: {bookDetails.price + "Kr" || "No details available"}</SubTitle>
                 <Icons>
                   <AddButton onClick={addNewItemToCart} style={bookInCart && { backgroundColor: "green" }}><i className="fas fa-shopping-cart"></i>{bookInCart ? " Already in cart" : " Add to cart"}</AddButton>
                   <AddButton onClick={addNewItemToWishList} style={bookInWishlist && {backgroundColor: "green"}}><i className="fas fa-heart"></i>{bookInWishlist ? " Already in wishlist" : " Add to wishlist"}</AddButton>
@@ -217,7 +262,15 @@ const BookDetails = () => {
               </Synopsis>
           </React.Fragment>)
         }
-        {booksError && <Up>booksError</Up>}
+        
+        {booksError && 
+          <Up>
+            <OptionalTitle>There is no book to shows</OptionalTitle>
+            <ImageContainer>
+              <Lottie options={defaultOptions} />
+            </ImageContainer>
+            <ErrorText>{booksError}</ErrorText>
+          </Up>}
       </Container>
     </React.Fragment>
   );

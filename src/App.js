@@ -87,7 +87,7 @@ useEffect(() => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/bookDetails/:id" element={ <BookDetails/>} />
+          <Route path="/bookDetails/:bookId" element={ <BookDetails/>} />
           <Route path="/cart" element={ <Cart/>} />
           <Route path="/wishlist" element={ <Wishlist/>} />
           <Route path="/register" element={<Register />} />

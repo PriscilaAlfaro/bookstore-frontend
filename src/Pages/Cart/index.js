@@ -162,11 +162,23 @@ const ErrorText = styled.h2`
   margin: 1rem auto;
   padding: 2rem;
   text-align: center;
+  cursor: pointer;
+  color: green;
   @media (min-width: 768px){
     font-size: 1rem;
   }
 `
 
+const OptionalTitle = styled.h1`
+  font-size: 1rem;
+  margin: 1rem auto;
+  padding: 2rem;
+  text-align: center;
+  color: black;
+  @media (min-width: 768px){
+    font-size: 1rem;
+  }
+`
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -230,24 +242,6 @@ const Cart = () => {
   }
   
 
-  if(error){
-    return (
-      <React.Fragment>
-        <Header />
-        <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
-        <ContainerItemDetails>
-          <ErrorText>There are no items in this cart</ErrorText>
-          <ImageContainer>
-            <Lottie options={defaultOptions} />
-          </ImageContainer>
-          <ErrorText><Link to={"/"}>Go Home and start buying!</Link></ErrorText>
-        </ContainerItemDetails>
-        <Footer />
-      </React.Fragment>
-    )
-  }
-
-
   return (
       <React.Fragment>
         <Header/>
@@ -255,25 +249,36 @@ const Cart = () => {
         <ContainerItems>
           <ContainerItemDetails>
 
+          {itemsInCart && itemsInCart.length > 0 && itemsInCart.map(item => {
+            return (
+              <BookDetailsContainer key={item.productId}>
+                <Link style={{ textDecoration: 'none' }} to={`/bookDetails/${item.productId}`}><CardImage src={item.url} alt={item.title} /></Link>
+                <TextTitle>{item.title}</TextTitle>
+                <Text>Price: {item.price} Kr</Text>
+                <Counter quantity={item.quantity} productId={item.productId} />
+                <DeleteButton onClick={() => deleteBookFromCart(item.productId)}><i className="fas fa-trash"></i></DeleteButton>
+              </BookDetailsContainer>
+            )
+          })}
+
             {itemsInCart && itemsInCart.length === 0  && 
               <React.Fragment>
-                <ErrorText>There are no items in this cart</ErrorText>
+                <OptionalTitle>There are no items in this cart</OptionalTitle>
+                  <ImageContainer>
+                    <Lottie options={defaultOptions} />
+                  </ImageContainer>
+                <Link to={"/"} style={{ textDecoration: 'none' }}><ErrorText> <i className="fas fa-chevron-circle-left"></i> Go Home and start buying!</ErrorText></Link>
+              </React.Fragment>}
+            
+            {error && 
+              <React.Fragment>
+                <OptionalTitle>There are no items in this cart</OptionalTitle>
                 <ImageContainer>
                   <Lottie options={defaultOptions} />
                 </ImageContainer>
-                <ErrorText><Link to={"/"}>Go Home and start buying!</Link></ErrorText>
-              </React.Fragment>}
-            
-            {itemsInCart && itemsInCart.length > 0 && itemsInCart.map(item => {
-              return(
-              <BookDetailsContainer key={item.productId}>
-                <Link style={{ textDecoration: 'none' }} to={`/bookDetails/${item.productId}`}><CardImage src={item.url} alt={item.title} /></Link>
-                <TextTitle>{item.title}</TextTitle> 
-                <Text>Price: ${item.price}</Text>
-                <Counter quantity={item.quantity} productId={item.productId}/>
-                <DeleteButton onClick={() => deleteBookFromCart(item.productId)}><i className="fas fa-trash"></i></DeleteButton>
-              </BookDetailsContainer>
-            )})}
+                <ErrorText>{error}</ErrorText>
+              </React.Fragment>
+            }
 
           </ContainerItemDetails>
             {itemsInCart && itemsInCart.length > 0 && 

@@ -148,7 +148,7 @@ const Book = ({book}) => {
           <AddToCartButton onClick={handleAddToCartFromHome} style={bookInCart && { backgroundColor: "green" }}>{bookInCart ? " Already in cart" : " Add to cart"}</AddToCartButton>
           <CardTitle >{book.title}</CardTitle>
           <CardSubTitle>{book.authors.map(author => author)}</CardSubTitle>
-          <BookInfo>Price: ${book.price}</BookInfo>
+          <BookInfo>Price: {book.price} Kr</BookInfo>
         </Container>
     );
   }

@@ -43,22 +43,11 @@ const ContainerItems = styled.section`
   width: 200px;
 `
 
-const ContainerItemDetails = styled.div`
-  background: linear-gradient(0deg, rgba(79,172,238,0.20960259103641454) 28%, rgba(197,233,94,0.14237570028011204) 100%);
-  display: flex;
-  margin: 1rem auto;
-  width: 95%;
-  border-radius: 10px;
-  @media (min-width: 768px){
-    max-width: 65%;
-  }
-`
-
 const ImageContainerLottie = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin: 3rem auto;
-  width: 60%;
+  width: 70%;
   @media (min-width: 768px){
     width: 50%;
   }
@@ -67,11 +56,24 @@ const ImageContainerLottie = styled.div`
   }
 `
 
-const ErrorText = styled.h2`
+const OptionalText = styled.h2`
   font-size: 0.7rem;
   margin: 1rem auto;
   padding: 2rem;
   text-align: center;
+  color: green;
+  cursor: pointer;
+  @media (min-width: 768px){
+    font-size: 1rem;
+  }
+`
+
+const OptionalTitle = styled.h1`
+  font-size: 1rem;
+  margin: 1rem auto;
+  padding: 2rem;
+  text-align: center;
+  color: black;
   @media (min-width: 768px){
     font-size: 1rem;
   }
@@ -205,41 +207,45 @@ const Wishlist = () => {
     }
   }
 
-  if (error) {
-    return (
-      <React.Fragment>
-        <Header />
-        <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
-        <ContainerItemDetails>
-          <ErrorText>There are no items in this wishlist</ErrorText>
-          <ImageContainerLottie>
-            <Lottie options={defaultOptions} />
-          </ImageContainerLottie>
-          <ErrorText><Link to={"/"}>Go Home and start adding items!</Link></ErrorText>
-        </ContainerItemDetails>
-        <Footer />
-      </React.Fragment>
-    )
-  }
-
-
   return (
     <React.Fragment>
-      <Header/>
+      <Header />
       <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
       <MainContainer>
-        {itemsInWishlist && itemsInWishlist.map(item => {
+        {itemsInWishlist && itemsInWishlist.length > 0 && itemsInWishlist.map(item => {
           const bookInCart = cartItems?.find(book => book.productId === item.productId);
           return ( 
             <ContainerItems key={item.productId}>
               <Link style={{ textDecoration: 'none' }} to={`/bookDetails/${item.productId}`}><CardImage src={item.url} alt={item.title} /></Link>
               <CardTitle >{item.title}</CardTitle>
-              <CartPrice>Price: ${item.price}</CartPrice>
+              <CartPrice>Price: {item.price} Kr</CartPrice>
               <DeleteButtonFromWishlist onClick={() => handleDeleteBookFromWishlist(item.productId)}>Remove</DeleteButtonFromWishlist>
               <AddToCartButton onClick={() => handleAddToCartFromWishList(item.productId)} style={bookInCart && { backgroundColor: "green" }}>{bookInCart ? " Already in cart" : " Add to cart"}</AddToCartButton>
             </ContainerItems>
           )
           })}
+
+
+        {itemsInWishlist && itemsInWishlist.length === 0 &&
+          <React.Fragment>
+            <ContainerItems>
+              <OptionalTitle>There are no items in this wishlist</OptionalTitle>
+              <ImageContainerLottie>
+                <Lottie options={defaultOptions} />
+              </ImageContainerLottie>
+              <Link to={"/"} style={{ textDecoration: 'none' }}><OptionalText><i className="fas fa-chevron-circle-left"></i> Go to see more books and start adding them!</OptionalText></Link>
+            </ContainerItems>
+          </React.Fragment>}
+
+        {error &&   
+          <React.Fragment>
+            <OptionalTitle>There are no items in this wishlist</OptionalTitle>
+              <ImageContainerLottie>
+                <Lottie options={defaultOptions} />
+              </ImageContainerLottie>
+              <OptionalText>{error}</OptionalText>
+            </React.Fragment>
+          }
       </MainContainer>
       <Footer/>
     </React.Fragment>

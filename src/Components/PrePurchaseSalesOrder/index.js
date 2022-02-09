@@ -55,15 +55,15 @@ const PrePurchaseSalesOrder = () => {
   const subTotal = itemsInCart?.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0);
   const taxes = Math.round((subTotal * 0.13) * 100) / 100;
   const total = subTotal + taxes;
-  
+
 
   return (
     <MainContainer>
       <Title>Order Summary</Title>
-      <Text>Subtotal: ${subTotal || 0}</Text>
-      <Text>Shipping: 0</Text>
-      <Text>Estimated tax: ${taxes}</Text>
-      <SpecialText>TOTAL: ${total}</SpecialText>
+      <Text>Subtotal: {subTotal || 0} Kr</Text>
+      <Text>Shipping: 0 Kr</Text>
+      <Text>Estimated tax: {taxes} Kr</Text>
+      <SpecialText>TOTAL: {total} Kr</SpecialText>
     </MainContainer>
   );
 }
