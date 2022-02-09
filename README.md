@@ -1,10 +1,10 @@
 # Final Project Technigo Bootcamp
-# BookStore
+# BookStore Sweden Tech Library
 
 
 ## Idea  
-I created an online bookstore named ***Sweden Tech Library***. The users have the possibility to find books related to technology like programming languages, databases, code, and more. The user also has the chance to search for a specific title, author, or category, and see more details for every book.  
-They have their own session using singup/in and with that session activated they can see the profile page, make a wishlist, add books to a cart, and finally buy books.  
+I created an online bookstore named ***Sweden Tech Library***. The users have the possibility to find books related to technology like programming languages, databases, code, and more.   
+The user also has the chance to search for a specific title, author, or category, and see more details for every book. They have their own session using singup/in and with that session activated they can see the profile page, make a wishlist, add books to a cart, and finally buy books.  
 This is the final project of [Technigo Bootcamp to become a Web Developer](https://www.technigo.io/program). 
 I decided to work with the frontend and [backend](https://github.com/PriscilaAlfaro/bookstore-backend) in separated repositories for the project.
 
