@@ -13,24 +13,29 @@ const HeaderContainer = styled.section`
   background-position: center;
   font-family: 'Roboto Condensed', sans-serif;
   width: 100%;
-  height: 400px;
-  margin: 0 auto 2rem auto;
+  height: 270px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-wrap: wrap;
+  @media (min-width: 768px){
+      height: 300px;
+      justify-content: space-between;
+  }
 `
 
 const HeaderMainTitle = styled.h1`
   font-family: 'Dancing Script', cursive;
-  font-size: 3.5rem;
+  font-size: 2.5rem;
   color: white;
   font-weight: 700;
   text-align: center;
   flex-wrap: wrap;
-  margin: 1rem;
+  margin: 0.5rem auto;
   @media (min-width: 768px){
     font-size: 4rem;
+    margin: 1rem auto;
   }
 `
 
@@ -52,6 +57,7 @@ const UserContainer = styled.div`
 `
 
 const UserGreeting = styled.p`
+  background: radial-gradient(circle, rgba(1,1,1,0.7147233893557423) 0%, rgba(188,188,196,0) 100%);
   font-size: 1rem;
   font-weight: 700;
   color: white;

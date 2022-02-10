@@ -6,46 +6,63 @@ import { useSelector } from "react-redux";
 const MainContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  margin: 2rem auto;
+  margin: 1rem auto;
   width: 90%;
   justify-content: center;
   flex-direction: column;
   border-radius: 10px;
   background: linear-gradient(180deg, rgba(249,250,245,0.25442051820728295) 0%, rgba(153,150,187,0.5765493697478992) 72%);
+   @media (min-width: 768px){
+      width: 85%;
+  }
 `
 
 const Title = styled.h1`
-  width: 100%;
+  width: 90%;
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: 1rem;
   color: black;
   text-align: left;
-  margin: 1rem auto;
+  margin: 1rem;
+  @media (min-width: 768px){
+    font-size: 1.2rem;
+  }
+  @media (min-width: 992px) {
+     font-size: 1.5rem;
+  }
 `
 
 const Text = styled.p`
   width: 100%;
   font-style: normal;
-  font-size: 1rem;
+  font-size: 0.7rem;
   color: black;
   text-align: left;
   margin: 0.3rem 1rem;
   @media (min-width: 768px){
-   font-size: 1rem;
+   font-size: 0.8rem;
+  }
+ @media (min-width: 992px) {
+    font-size: 1rem;
   }
 `
 
 const SpecialText = styled.p`
   width: 60%;
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 0.8rem;
   color: black;
   text-align: left;
   margin: auto 1rem;
   padding: 1rem 0;
   border-top: 1px solid black;
   @media (min-width: 768px){
-   width: 50%;
+    width: 70%;
+    font-size: 0.9rem;
+  }
+   @media (min-width: 992px) {
+    width: 80%;
+    font-size: 1rem;
   }
 `
 

@@ -10,7 +10,7 @@ import { addItemToCart } from '../../managers/cartManager';
 
 
 const Container= styled.section`
-  width: 200px;
+  width: 180px;
   height: auto;
   margin: 1.5rem;
   text-align: center;
@@ -18,15 +18,13 @@ const Container= styled.section`
 `
 
 const ImageContainer= styled.div`
-  width: 200px;
-  height: auto;
   position: relative;
   cursor: pointer;
 `
 
 const CardImage= styled.img`
-  width: 100%;
-  height: 250px;
+  width: 180px;
+  height: 230px;
   z-index: 0;
 `
 
@@ -66,8 +64,16 @@ const AddToCartButton= styled.button`
   color: azure;
   margin: 10px auto;
   cursor: pointer;
+  border-radius: 3px;
   &:hover {
     background-color: green;
+
+  }
+  &:disabled {
+    opacity: 0.5;
+  }
+  &:active {
+    box-shadow: 0 0 8px green;
   }
 `
 
@@ -145,7 +151,7 @@ const Book = ({book}) => {
             </Overlay>
           </ImageContainer>
           </Link> 
-          <AddToCartButton onClick={handleAddToCartFromHome} style={bookInCart && { backgroundColor: "green" }}>{bookInCart ? " Already in cart" : " Add to cart"}</AddToCartButton>
+        <AddToCartButton onClick={handleAddToCartFromHome} disabled={bookInCart} style={bookInCart && { backgroundColor: "green" }}>{bookInCart ? " Already in cart" : " Add to cart"}</AddToCartButton>
           <CardTitle >{book.title}</CardTitle>
           <CardSubTitle>{book.authors.map(author => author)}</CardSubTitle>
           <BookInfo>Price: {book.price} Kr</BookInfo>

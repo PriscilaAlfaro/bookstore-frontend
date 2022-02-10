@@ -1,15 +1,23 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styled from "styled-components";
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
 import BooksContainer from "../../Components/BooksContainer";
 import SearchBar from "../../Components/SearchBar";
 
+import { readCookie } from '../../utils/cookies';
+import { cart } from "../../reducers/cart";
+import { wishlist } from "../../reducers/wishlist";
+
+import { getWishlistFromDatabase} from "../../managers/wishManager";
+import { getCartFromDataBase} from "../../managers/cartManager";
+
 import Lottie from "react-lottie";
 import animationData from "../../lotties/books-draw.json";
+
 
 const ImageContainer = styled.div`
   display: flex;
@@ -26,7 +34,7 @@ const ImageContainer = styled.div`
 
 const SearchBarContainer = styled.div`
   width: 100%;
-  margin-top: -1rem;
+  // margin-top: -1rem;
   margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
@@ -47,6 +55,44 @@ const Home = () => {
           preserveAspectRatio: "xMidYMid slice"
       }
   }
+
+  const dispatch = useDispatch();
+  const accessTokenFromCookies = readCookie("accessToken");
+  const cartIdFromCookies = readCookie("cartId");
+  const userIdFromCookies = readCookie("id");
+
+  useEffect(() => {
+
+    if (accessTokenFromCookies && userIdFromCookies && cartIdFromCookies !== "undefined") {
+      getCartFromDataBase(userIdFromCookies).then(data => {
+        if (data.success) {
+          dispatch(cart.actions.setCart(data.response));
+          dispatch(cart.actions.setError(null));
+        } else {
+          dispatch(cart.actions.setCart([]));
+          dispatch(cart.actions.setError(data.response));
+        }
+      }).catch((error) => {
+        console.log('Error in Fetch:' + error.message);
+      });
+    }
+
+
+    if (userIdFromCookies) {
+      getWishlistFromDatabase(userIdFromCookies).then(data => {
+        if (data.success) {
+          dispatch(wishlist.actions.setWishlist(data.response));
+          dispatch(wishlist.actions.setError(null));
+        } else {
+          dispatch(wishlist.actions.setWishlist([]));
+          dispatch(wishlist.actions.setError(data.response));
+        }
+      }).catch((error) => {
+        console.log('Error in Fetch:' + error.message);
+      });
+    }
+
+  }, [accessTokenFromCookies, cartIdFromCookies, dispatch, userIdFromCookies]);
 
   return (
     <React.Fragment>

@@ -18,6 +18,7 @@ import { addItemToCart } from "../../managers/cartManager";
 
 import Lottie from "react-lottie";
 import animationData from "../../lotties/no-search-item-available.json";
+import Footer from "../../Components/Footer";
 
 const Container= styled.section`
   display: flex;
@@ -58,21 +59,30 @@ const BookDetailsContainer= styled.div`
 
 const Details= styled.p`
   display: flex;
-  flex-direction: column;
-  color: gray;
-  margin: 5px;
+  flex-direction: row;
+  align-items: center;
+  color: #494848;
+  margin: 5px; 
+  padding: 0;
+`
+
+const Bold = styled.span`
+  color: black;
+  font-weight: 500;
+  padding: 0;
 `
 
 const Synopsis= styled.div`
   display: flex;
+  color:  #494848;
   background: linear-gradient(0deg, rgba(79,238,148,0.11528361344537819) 28%, rgba(197,233,94,0.14237570028011204) 100%);
   flex-direction: column;
   margin-top: 2rem;
   padding: 20px;
+  border-radius: 15px;
   @media (min-width: 768px){
     width: 100%;
   }
-
 `
 
 const Title= styled.h1`
@@ -82,6 +92,7 @@ const Title= styled.h1`
 const SubTitle= styled.h2`
   font-size: 1rem;
   margin: 1rem 5px;
+  color: black;
 `
 
 const Text= styled.p`
@@ -90,22 +101,24 @@ const Text= styled.p`
 
 const AddButton = styled.button`
   color: white;
-  background: rgb(186, 201, 100);
+  background: black;
   border: none;
   padding: 10px;
   margin: 10px;
-  border-radius: 10px;
-  font-family: 'Roboto Condensed', sans-serif;
+  border-radius: 7px;
   font-size: 0.8rem;
   cursor: pointer;
   &:hover {
     filter: brightness(0.90);
   }
+  &:disabled {
+    opacity: 0.5;
+  }
+  &:active {
+    box-shadow: 0 0 8px green;
+  }
   @media (min-width: 768px){
     font-size: 1rem;
-  }
-  @media (min-width: 992px) {
-    font-size: 1.3rem;
   }
 `
 
@@ -150,6 +163,7 @@ const OptionalTitle = styled.h1`
     font-size: 1rem;
   }
 `
+
 
 const BookDetails = () => {
   const { bookId } = useParams();
@@ -203,6 +217,7 @@ const BookDetails = () => {
 
   const addNewItemToCart = () => {
     if (!userIdFromCookie) {
+      dispatch(cart.actions.setTemporalItem({ productId: bookId}));
       navigate('/register');
     } else {
       addItemToCart(bookId, userIdFromCookie).then(addItemToCartReponse => {
@@ -239,17 +254,17 @@ const BookDetails = () => {
               <CardImage src={bookDetails.thumbnailUrl} alt={bookDetails.title}/>
               <BookDetailsContainer>
                 <Title>{bookDetails.title}</Title>
-                <Details>Author: {bookDetails.authors?.map(author => author).join(', ') || "No details available"}</Details>
-                <Details>Published: {moment(bookDetails.publishedDate).format('LL') || "No details available"}</Details>
-                <Details>Categories: {bookDetails.categories?.length > 0 ? bookDetails.categories?.map(cat => cat).join(', ') : "No categories available"}</Details>
-                <Details>Language: {bookDetails.language || "No details available"}</Details>
-                <Details>Pages: {bookDetails.pageCount || "No details available"}</Details>
-                <Details>Isbn: {bookDetails.isbn || "No details available"}</Details>
-                <Details>Availability: {bookDetails.availability || "No details available"}</Details>
-                <SubTitle>Price: {bookDetails.price + "Kr" || "No details available"}</SubTitle>
+                <Details><Bold>Author:&nbsp;</Bold>{bookDetails.authors?.map(author => author).join(', ') || "No details available"}</Details>
+                <Details><Bold>Published:&nbsp;</Bold> {moment(bookDetails.publishedDate).format('LL') || "No details available"}</Details>
+                <Details><Bold>Categories:&nbsp;</Bold> {bookDetails.categories?.length > 0 ? bookDetails.categories?.map(cat => cat).join(', ') : "No categories available"}</Details>
+                <Details><Bold>Language:&nbsp;</Bold> {bookDetails.language || "No details available"}</Details>
+                <Details><Bold>Pages:&nbsp;</Bold> {bookDetails.pageCount || "No details available"}</Details>
+                <Details><Bold>Isbn:&nbsp;</Bold> {bookDetails.isbn || "No details available"}</Details>
+                <Details><Bold>Availability:&nbsp;</Bold> {bookDetails.availability || "No details available"}</Details>
+                <SubTitle>Price: {bookDetails.price + " Kr" || "No details available"}</SubTitle>
                 <Icons>
-                  <AddButton onClick={addNewItemToCart} style={bookInCart && { backgroundColor: "green" }}><i className="fas fa-shopping-cart"></i>{bookInCart ? " Already in cart" : " Add to cart"}</AddButton>
-                  <AddButton onClick={addNewItemToWishList} style={bookInWishlist && {backgroundColor: "green"}}><i className="fas fa-heart"></i>{bookInWishlist ? " Already in wishlist" : " Add to wishlist"}</AddButton>
+                  <AddButton onClick={addNewItemToCart} disabled={bookInCart} style={bookInCart && { backgroundColor: "green" }}><i className="fas fa-shopping-cart"></i>{bookInCart ? " Already in cart" : " Add to cart"}</AddButton>
+                  <AddButton onClick={addNewItemToWishList} disabled={bookInWishlist} style={bookInWishlist && {backgroundColor: "green"}}><i className="fas fa-heart"></i>{bookInWishlist ? " Already in wishlist" : " Add to wishlist"}</AddButton>
                 </Icons>
               </BookDetailsContainer>
               </Up>
@@ -272,6 +287,7 @@ const BookDetails = () => {
             <ErrorText>{booksError}</ErrorText>
           </Up>}
       </Container>
+      <Footer/>
     </React.Fragment>
   );
 }

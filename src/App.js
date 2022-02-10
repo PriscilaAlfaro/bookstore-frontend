@@ -14,54 +14,54 @@ import Register from './Pages/Register';
 import Wishlist from "./Pages/Wishlist";
 
 import { books } from './reducers/books';
-import { cart } from './reducers/cart';
-import { wishlist } from "./reducers/wishlist";
+  // import { cart } from './reducers/cart';
+  // import { wishlist } from "./reducers/wishlist";
 
-import { readCookie } from './utils/cookies'; 
+  // import { readCookie } from './utils/cookies'; 
 import { getBooksFromDataBase } from "./managers/bookManager";
 
-import { getWishlistFromDatabase } from "./managers/wishManager";
-import { getCartFromDataBase } from "./managers/cartManager";
+// import { getWishlistFromDatabase } from "./managers/wishManager";
+// import { getCartFromDataBase } from "./managers/cartManager";
 
 
 const App = () => {
   const dispatch = useDispatch();
-  const accessTokenFromCookies = readCookie("accessToken");
-  const cartIdFromCookies = readCookie("cartId");
-  const userIdFromCookies = readCookie("id");
+  // const accessTokenFromCookies = readCookie("accessToken");
+  // const cartIdFromCookies = readCookie("cartId");
+  // const userIdFromCookies = readCookie("id");
   const booksArray = useSelector(store => store.books.bookItems);
 
-  useEffect(() => { 
+//   useEffect(() => { 
 
-    if (accessTokenFromCookies && userIdFromCookies && cartIdFromCookies !== "undefined") {
-      getCartFromDataBase(userIdFromCookies).then(data => {
-        if (data.success) {
-          dispatch(cart.actions.setCart(data.response));
-          dispatch(cart.actions.setError(null));
-        } else {
-          dispatch(cart.actions.setCart([]));
-          dispatch(cart.actions.setError(data.response));
-        }
-      }).catch((error) => {
-        console.log('Error in Fetch:' + error.message);
-      });}
+//     if (accessTokenFromCookies && userIdFromCookies && cartIdFromCookies !== "undefined") {
+//       getCartFromDataBase(userIdFromCookies).then(data => {
+//         if (data.success) {
+//           dispatch(cart.actions.setCart(data.response));
+//           dispatch(cart.actions.setError(null));
+//         } else {
+//           dispatch(cart.actions.setCart([]));
+//           dispatch(cart.actions.setError(data.response));
+//         }
+//       }).catch((error) => {
+//         console.log('Error in Fetch:' + error.message);
+//       });}
 
 
-      if(userIdFromCookies){
-        getWishlistFromDatabase(userIdFromCookies).then(data => {
-          if (data.success) {
-            dispatch(wishlist.actions.setWishlist(data.response));
-            dispatch(wishlist.actions.setError(null));
-          } else {
-            dispatch(wishlist.actions.setWishlist([]));
-            dispatch(wishlist.actions.setError(data.response));
-          }
-        }).catch((error) => {
-          console.log('Error in Fetch:' + error.message);
-        });
-      }
+//       if(userIdFromCookies){
+//         getWishlistFromDatabase(userIdFromCookies).then(data => {
+//           if (data.success) {
+//             dispatch(wishlist.actions.setWishlist(data.response));
+//             dispatch(wishlist.actions.setError(null));
+//           } else {
+//             dispatch(wishlist.actions.setWishlist([]));
+//             dispatch(wishlist.actions.setError(data.response));
+//           }
+//         }).catch((error) => {
+//           console.log('Error in Fetch:' + error.message);
+//         });
+//       }
    
-}, [accessTokenFromCookies, cartIdFromCookies, dispatch, userIdFromCookies]);
+// }, [accessTokenFromCookies, cartIdFromCookies, dispatch, userIdFromCookies]);
 
 
 useEffect(() => {

@@ -10,10 +10,14 @@ import { books } from '../../reducers/books';
 const SearchBarContainer = styled.div`
   font-family: Roboto;
   display: flex;
-  margin: 1rem auto;
+  margin: 10px auto;
   width: 80%;
-  height: 50px;
+  height: 30px;
   justify-content: center;
+  @media (min-width: 768px){
+    height: 35px;
+    width: 90%;
+  }
 }
 `
 
@@ -28,6 +32,12 @@ const SearchBarInput = styled.input`
   &:focus {
     outline: none;
     border: 1px solid cadetblue;
+  }
+  @media (min-width: 768px){
+    width: 60%;
+  }
+  @media (min-width: 992px) {
+    width: 40%;
   }
 `
 

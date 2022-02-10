@@ -19,16 +19,18 @@ import animationData from "../../lotties/no-search-item-available.json";
 
 
 const MainContainer = styled.section`
-  background: linear-gradient(0deg, rgba(148,149,153,0.6404936974789917) 35%, rgba(240,240,232,0.24273459383753504) 89%);
+  background: linear-gradient(0deg,rgba(148,149,153,0.6404936974789917) 35%,rgb(159 237 83 / 24%) 89%);
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   border-radius: 10px;
   width: 90%;
   align-content: center;
+  justify-content: center;
+  text-align: center;
+  align-self: center;
   margin: 2rem auto 4rem auto;
   @media (min-width: 768px){
-    width: 60%;
     flex-direction: row;
   }
 `
@@ -37,17 +39,26 @@ const ContainerItems = styled.section`
   display: flex;
   margin: 1rem;
   text-align: center;
+  justify-content: center;
   box-sizing: border-box;
   flex-wrap: wrap;
+`
+
+const BookDetailsContainer = styled.div`
+  display: flex;
   flex-direction: column;
-  width: 200px;
+  margin: 0.6rem;
+  padding: 10px;
+  border-radius: 9px;
+  width: 220px;
+  background: silver;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
 `
 
 const ImageContainerLottie = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin: 3rem auto;
-  width: 70%;
   @media (min-width: 768px){
     width: 50%;
   }
@@ -61,8 +72,8 @@ const OptionalText = styled.h2`
   margin: 1rem auto;
   padding: 2rem;
   text-align: center;
-  color: green;
   cursor: pointer;
+  color: green;
   @media (min-width: 768px){
     font-size: 1rem;
   }
@@ -71,7 +82,6 @@ const OptionalText = styled.h2`
 const OptionalTitle = styled.h1`
   font-size: 1rem;
   margin: 1rem auto;
-  padding: 2rem;
   text-align: center;
   color: black;
   @media (min-width: 768px){
@@ -94,11 +104,17 @@ const AddToCartButton = styled.button`
   background-color: black;
   border: none;
   color: azure;
-  padding: 8px;
+  padding: 8px 10px;
   margin: 10px auto;
   border-radius: 3px;
   &:hover {
     background-color: green;
+  }
+  &:disabled {
+    opacity: 0.5;
+  }
+  &:active {
+    box-shadow: 0 0 8px green;
   }
   @media (min-width: 768px){
     font-size: 0.9rem;
@@ -117,6 +133,9 @@ const DeleteButtonFromWishlist = styled.button`
   &:hover {
     background: red;
   }
+  &:active {
+    box-shadow: 0 0 8px red;
+  }
   @media (min-width: 768px){
     font-size: 0.7rem;
   }
@@ -133,8 +152,8 @@ const CartPrice = styled.h2`
 `
 
 const CardImage = styled.img`
-  width: 170px;
-  height: auto;
+  width: 150px;
+  height: 190px;
   &:hover {
     filter: brightness(0.80);
   }
@@ -212,29 +231,30 @@ const Wishlist = () => {
       <Header />
       <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
       <MainContainer>
+        <ContainerItems>
         {itemsInWishlist && itemsInWishlist.length > 0 && itemsInWishlist.map(item => {
           const bookInCart = cartItems?.find(book => book.productId === item.productId);
           return ( 
-            <ContainerItems key={item.productId}>
+            <BookDetailsContainer key={item.productId}>
               <Link style={{ textDecoration: 'none' }} to={`/bookDetails/${item.productId}`}><CardImage src={item.url} alt={item.title} /></Link>
               <CardTitle >{item.title}</CardTitle>
               <CartPrice>Price: {item.price} Kr</CartPrice>
-              <DeleteButtonFromWishlist onClick={() => handleDeleteBookFromWishlist(item.productId)}>Remove</DeleteButtonFromWishlist>
-              <AddToCartButton onClick={() => handleAddToCartFromWishList(item.productId)} style={bookInCart && { backgroundColor: "green" }}>{bookInCart ? " Already in cart" : " Add to cart"}</AddToCartButton>
-            </ContainerItems>
+              <DeleteButtonFromWishlist onClick={() => handleDeleteBookFromWishlist(item.productId)}>Delete from wishlist</DeleteButtonFromWishlist>
+              <AddToCartButton onClick={() => handleAddToCartFromWishList(item.productId)} disabled={bookInCart} style={bookInCart && { backgroundColor: "green" }}>{bookInCart ? "Already in cart" : "Add to cart"}</AddToCartButton>
+            </BookDetailsContainer>
           )
           })}
 
 
         {itemsInWishlist && itemsInWishlist.length === 0 &&
           <React.Fragment>
-            <ContainerItems>
+  
               <OptionalTitle>There are no items in this wishlist</OptionalTitle>
               <ImageContainerLottie>
                 <Lottie options={defaultOptions} />
               </ImageContainerLottie>
               <Link to={"/"} style={{ textDecoration: 'none' }}><OptionalText><i className="fas fa-chevron-circle-left"></i> Go to see more books and start adding them!</OptionalText></Link>
-            </ContainerItems>
+   
           </React.Fragment>}
 
         {error &&   
@@ -243,9 +263,10 @@ const Wishlist = () => {
               <ImageContainerLottie>
                 <Lottie options={defaultOptions} />
               </ImageContainerLottie>
-              <OptionalText>{error}</OptionalText>
+              <OptionalText>We can't show the wishlist now</OptionalText>
             </React.Fragment>
           }
+        </ContainerItems>
       </MainContainer>
       <Footer/>
     </React.Fragment>

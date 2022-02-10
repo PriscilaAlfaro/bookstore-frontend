@@ -34,7 +34,7 @@ const MainContainer= styled.section`
     margin: 2rem auto;
   }
    @media (min-width: 992px) {
-      width: 80%;
+    width: 80%;
   }
 `
 
@@ -45,12 +45,12 @@ const ContainerItemDetails = styled.div`
   flex-direction: column;
   flex-wrap: wrap;
   margin: 1rem auto;
-  width: 90%;
+  min-width: 240px;
   align-self: center;
   justify-content: center;
   border-radius: 10px;
   @media (min-width: 768px){
-    max-width: 65%;
+    width: 90%;
   }
    @media (min-width: 992px) {
     max-width: 55%;
@@ -104,6 +104,7 @@ const BookTitle = styled.div`
   margin: auto 10px;
   font-size: 0.9rem;
   max-width: 150px;
+  min-width: 80px;
   @media (min-width: 768px){
     width: 300px;
   }
@@ -168,7 +169,7 @@ const ImageContainer = styled.div`
   }
 `
 
-const ErrorText = styled.h2`
+const OptionalText = styled.h2`
   font-size: 0.7rem;
   margin: 1rem auto;
   padding: 2rem;
@@ -215,7 +216,6 @@ const Cart = () => {
   useEffect(() => {
     if (userIdFromCookies && accessTokenFromCookies && (cartIdFromCookies !== "" || cartIdFromCookies !== "undefined")) {
       getCartFromDataBase(userIdFromCookies).then(data => {
-          console.log(data)
           if (data.success) {
             dispatch(cart.actions.setCart(data.response));
             dispatch(cart.actions.setError(null));
@@ -278,7 +278,7 @@ const Cart = () => {
                   <ImageContainer>
                     <Lottie options={defaultOptions} />
                   </ImageContainer>
-                <Link to={"/"} style={{ textDecoration: 'none' }}><ErrorText> <i className="fas fa-chevron-circle-left"></i> Go Home and start buying!</ErrorText></Link>
+                <Link to={"/"} style={{ textDecoration: 'none' }}><OptionalText> <i className="fas fa-chevron-circle-left"></i> Go Home and start buying!</OptionalText></Link>
               </React.Fragment>}
             
             {error && 
@@ -287,7 +287,7 @@ const Cart = () => {
                 <ImageContainer>
                   <Lottie options={defaultOptions} />
                 </ImageContainer>
-                <ErrorText>{error}</ErrorText>
+                <OptionalText>We can't show the cart now</OptionalText>
               </React.Fragment>
             }
 
