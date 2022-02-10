@@ -44,4 +44,4 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 ## Live
 This project was deployed in Nettlify.
 
-You can see:  
+You can see:  https://bookstore-project-fronted.netlify.app/
