@@ -34,7 +34,6 @@ const ImageContainer = styled.div`
 
 const SearchBarContainer = styled.div`
   width: 100%;
-  // margin-top: -1rem;
   margin-bottom: 1rem;
   display: flex;
   flex-direction: column;

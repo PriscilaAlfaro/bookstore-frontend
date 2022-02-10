@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
 import Counter from "../../Components/Counter";
+import ReturnHome from "../../Components/ReturnHome";
 import PrePurchaseSalesOrder from "../../Components/PrePurchaseSalesOrder";
 
 import { cart } from "../../reducers/cart";
@@ -19,6 +20,7 @@ import { createOrderInKlarna } from "../../managers/checkoutManager";
 
 import Lottie from "react-lottie";
 import animationData from "../../lotties/no-search-item-available.json";
+
 
 
 const MainContainer= styled.section`
@@ -97,7 +99,6 @@ const CardImage= styled.img`
   @media (min-width: 768px){
     margin: auto 0.5rem;
   }
-}
 `
 
 const BookTitle = styled.div`
@@ -256,7 +257,7 @@ const Cart = () => {
   return (
       <React.Fragment>
         <Header/>
-        <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
+        <ReturnHome/>
         <MainContainer>
           <ContainerItemDetails>
 

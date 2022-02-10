@@ -1,14 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Link } from "react-router-dom";
-
 import Footer from "../../Components/Footer";
 import Header from "../../Components/Header";
 import OrderConfirmation from "../../Components/OrderConfirmation";
+import ReturnHome from "../../Components/ReturnHome";
+
 
 const MainContainer = styled.section`
-  background: silver;
+  background: radial-gradient(circle, rgba(64,62,62,0.7147233893557423) 0%, rgba(190,238,141,0.30575980392156865) 100%);
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
@@ -27,7 +27,7 @@ const PaymentConfirmation = () => {
   return (
     <React.Fragment>
       <Header />
-      <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
+     <ReturnHome/>
       <MainContainer>
         <OrderConfirmation/> 
       </MainContainer>

@@ -2,13 +2,13 @@ import React from "react";
 import styled from "styled-components";
 
 import { useSelector } from 'react-redux';
-import { Link } from "react-router-dom";
 
 import SignUp from "../../Components/SignUp";
 import SignIn from "../../Components/SignIn";
 import Footer from "../../Components/Footer";
 import Header from "../../Components/Header";
-import Profile from "../../Components/Profile"
+import Profile from "../../Components/Profile";
+import ReturnHome from "../../Components/ReturnHome";
 
 import { readCookie } from "../../utils/cookies";
 
@@ -39,7 +39,7 @@ const Register = () => {
   return (
     <React.Fragment>
       <Header />
-      <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
+      <ReturnHome/>
       <MainContainer>
         {userFromCookies && emailFromCookies && accessTokenFromCookies && <Profile />}
         {!showSignIn && !userFromCookies && !emailFromCookies && !accessTokenFromCookies &&  <SignUp /> }

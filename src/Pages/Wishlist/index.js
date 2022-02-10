@@ -16,6 +16,7 @@ import { addItemToCart } from "../../managers/cartManager";
 
 import Lottie from "react-lottie";
 import animationData from "../../lotties/no-search-item-available.json";
+import ReturnHome from "../../Components/ReturnHome";
 
 
 const MainContainer = styled.section`
@@ -32,6 +33,7 @@ const MainContainer = styled.section`
   margin: 2rem auto 4rem auto;
   @media (min-width: 768px){
     flex-direction: row;
+  width: 70%;
   }
 `
 
@@ -55,12 +57,23 @@ const BookDetailsContainer = styled.div`
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
 `
 
+
+const EmptyContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 0.6rem;
+  padding: 10px;
+  border-radius: 9px;
+  // box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+`
+
 const ImageContainerLottie = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin: 3rem auto;
+  width: 45%;
   @media (min-width: 768px){
-    width: 50%;
+    width: 43%;
   }
   @media (min-width: 992px) {
     width: 40%;
@@ -165,7 +178,7 @@ const Wishlist = () => {
   const navigate = useNavigate();
 
   const itemsInWishlist = useSelector(store => store.wishlist.items);
-  const error = useSelector(store => store.cart.error);
+  const error = useSelector(store => store.wishlist.error);
   const cartItems = useSelector(store => store.cart.items);
 
   const cartIdFromCookies = readCookie("cartId");
@@ -229,7 +242,7 @@ const Wishlist = () => {
   return (
     <React.Fragment>
       <Header />
-      <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
+      <ReturnHome/>
       <MainContainer>
         <ContainerItems>
         {itemsInWishlist && itemsInWishlist.length > 0 && itemsInWishlist.map(item => {
@@ -247,24 +260,23 @@ const Wishlist = () => {
 
 
         {itemsInWishlist && itemsInWishlist.length === 0 &&
-          <React.Fragment>
-  
+              <EmptyContainer>
               <OptionalTitle>There are no items in this wishlist</OptionalTitle>
               <ImageContainerLottie>
                 <Lottie options={defaultOptions} />
               </ImageContainerLottie>
               <Link to={"/"} style={{ textDecoration: 'none' }}><OptionalText><i className="fas fa-chevron-circle-left"></i> Go to see more books and start adding them!</OptionalText></Link>
-   
-          </React.Fragment>}
+              </EmptyContainer>
+          }
 
         {error &&   
-          <React.Fragment>
+            <EmptyContainer>
             <OptionalTitle>There are no items in this wishlist</OptionalTitle>
               <ImageContainerLottie>
                 <Lottie options={defaultOptions} />
               </ImageContainerLottie>
               <OptionalText>We can't show the wishlist now</OptionalText>
-            </React.Fragment>
+            </EmptyContainer>
           }
         </ContainerItems>
       </MainContainer>

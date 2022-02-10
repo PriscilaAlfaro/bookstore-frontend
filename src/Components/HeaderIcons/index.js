@@ -41,6 +41,15 @@ const ButtonHeader = styled.button`
   }
 `
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  cursor: pointer;
+  color: white;
+  &:hover {
+    color: black;
+  }
+`
+
 
 const HeaderIcons = () => {
   const navigate = useNavigate();
@@ -76,10 +85,10 @@ const HeaderIcons = () => {
     return (
             <HeaderBodyContainer>
               <RightContainer>
-                <ButtonHeader onClick={goHome}><Link to={'/'} style={{ color: 'white' }}><i className="fas fa-home"></i></Link></ButtonHeader>
-                <ButtonHeader><Link to={'/register'} style={{ color: 'white' }}><i className="fas fa-user-circle"></i></Link></ButtonHeader>
-                <ButtonHeader onClick={handleWishlist}><Link to={'/wishlist'} style={{ color: 'white', textDecoration: 'none' }}><i className="fas fa-heart"></i>&nbsp;{totalItemsInWishlist > 0 ? totalItemsInWishlist : ""}</Link></ButtonHeader>
-                <ButtonHeader onClick={handleCart}><Link to={'/cart'} style={{ color: 'white', textDecoration: 'none' }} activestyle={{ color: 'red' }}><i className="fas fa-shopping-cart"></i> &nbsp;{totalItemsInCart > 0 ? totalItemsInCart : "" }</Link></ButtonHeader>
+                <ButtonHeader onClick={goHome}><StyledLink to={'/'}><i className="fas fa-home"></i></StyledLink></ButtonHeader>
+                <ButtonHeader><StyledLink to={'/register'} ><i className="fas fa-user-circle"></i></StyledLink></ButtonHeader>
+                <ButtonHeader onClick={handleWishlist}><StyledLink to={'/wishlist'} ><i className="fas fa-heart"></i>&nbsp;{totalItemsInWishlist > 0 ? totalItemsInWishlist : ""}</StyledLink></ButtonHeader>
+                <ButtonHeader onClick={handleCart}><StyledLink to={'/cart'} ><i className="fas fa-shopping-cart"></i> &nbsp;{totalItemsInCart > 0 ? totalItemsInCart : ""}</StyledLink></ButtonHeader>
               </RightContainer>
             </HeaderBodyContainer>
     )

@@ -69,6 +69,16 @@ const Ancor = styled.a`
   }
 `
 
+const StyledLink = styled(Link)`
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  color: #323232;
+  &:hover {
+    color: white;
+  }
+`;
+
 
 const Footer = () => {
     return (
@@ -89,9 +99,9 @@ const Footer = () => {
                 </FooterColumn>
                 <FooterColumn>
                   <ColumnTitle>My account</ColumnTitle>
-                  <Link to={"/cart"} style={{ textDecoration: "none", color: "#323232", cursor: "pointer" }}><FooterElement>Cart</FooterElement></Link>
-                  <Link to={"/wishlist"} style={{ textDecoration: "none", color: "#323232", cursor: "pointer" }}><FooterElement>Wishlist</FooterElement></Link>
-                  <Link to={"/register"} style={{ textDecoration: "none", color: "#323232", cursor: "pointer" }}><FooterElement>Profile</FooterElement></Link>
+                  <StyledLink to={"/cart"}><FooterElement>Cart</FooterElement></StyledLink>
+                  <StyledLink to={"/wishlist"}><FooterElement>Wishlist</FooterElement></StyledLink>
+                  <StyledLink to={"/register"}><FooterElement>Profile</FooterElement></StyledLink>
                 </FooterColumn>
             </FooterColumns>
             <FooterSubCenter>©Copyright 2022/bookStore Project</FooterSubCenter>

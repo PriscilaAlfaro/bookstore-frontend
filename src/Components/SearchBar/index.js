@@ -18,7 +18,6 @@ const SearchBarContainer = styled.div`
     height: 35px;
     width: 90%;
   }
-}
 `
 
 const SearchBarInput = styled.input`

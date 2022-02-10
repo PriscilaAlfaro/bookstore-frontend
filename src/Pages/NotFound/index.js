@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 
-import { Link } from "react-router-dom";
+import ReturnHome from '../../Components/ReturnHome';
 
 import Lottie from "react-lottie";
 import animationData from "../../lotties/website-error-404-animation.json";
+
 
 const NotFoundContainer = styled.footer`
   width: 80%;
@@ -22,10 +23,6 @@ const NotFoundContainer = styled.footer`
   }
 `
 
-const LinkWrapper = styled.footer`
-  margin: 2rem auto;
-`
-
 const NotFound = () => {
 
   const defaultOptions = {
@@ -39,10 +36,8 @@ const NotFound = () => {
 
   return (
     <NotFoundContainer>
-      <LinkWrapper>
-        <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
-      </LinkWrapper>
-      <Lottie options={defaultOptions} maxHeight={100} maxWidth={100} />
+       <ReturnHome/>
+        <Lottie options={defaultOptions} maxHeight={100} maxWidth={100} />
     </NotFoundContainer>
   );
 }

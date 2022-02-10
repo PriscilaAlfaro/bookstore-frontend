@@ -3,11 +3,13 @@ import styled from "styled-components";
 import moment from "moment";
 
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams, Link, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 import Header from "../../Components/Header";
 import NotFound from '../NotFound';
 import Loader from "../../Components/Loader";
+import Footer from "../../Components/Footer";
+import ReturnHome from "../../Components/ReturnHome";
 
 import { cart } from "../../reducers/cart";
 import { wishlist } from "../../reducers/wishlist";
@@ -18,7 +20,7 @@ import { addItemToCart } from "../../managers/cartManager";
 
 import Lottie from "react-lottie";
 import animationData from "../../lotties/no-search-item-available.json";
-import Footer from "../../Components/Footer";
+
 
 const Container= styled.section`
   display: flex;
@@ -245,7 +247,7 @@ const BookDetails = () => {
   return (
     <React.Fragment>
       <Header/>
-      <Link to={"/"}><i className="fas fa-chevron-circle-left"> Return Home</i></Link>
+      <ReturnHome/>
       <Container>
         
         { bookDetails && (
@@ -280,7 +282,7 @@ const BookDetails = () => {
         
         {booksError && 
           <Up>
-            <OptionalTitle>There is no book to shows</OptionalTitle>
+            <OptionalTitle>There is no book to show</OptionalTitle>
             <ImageContainer>
               <Lottie options={defaultOptions} />
             </ImageContainer>
