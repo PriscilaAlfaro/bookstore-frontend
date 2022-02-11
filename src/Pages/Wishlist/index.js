@@ -74,9 +74,6 @@ const ImageContainerLottie = styled.div`
   @media (min-width: 768px){
     width: 50%;
   }
-  @media (min-width: 992px) {
-    width: 40%;
-  }
 `
 
 const OptionalText = styled.h2`
