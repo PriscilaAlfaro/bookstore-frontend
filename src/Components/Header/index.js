@@ -13,7 +13,7 @@ const HeaderContainer = styled.section`
   background-position: center;
   font-family: 'Roboto Condensed', sans-serif;
   width: 100%;
-  height: 270px;
+  height: 400px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
