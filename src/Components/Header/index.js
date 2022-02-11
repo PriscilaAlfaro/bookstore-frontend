@@ -13,14 +13,14 @@ const HeaderContainer = styled.section`
   background-position: center;
   font-family: 'Roboto Condensed', sans-serif;
   width: 100%;
-  height: 400px;
+  height: 300px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   flex-wrap: wrap;
   @media (min-width: 768px){
-      height: 300px;
+      height: 400px;
       justify-content: space-between;
   }
 `
