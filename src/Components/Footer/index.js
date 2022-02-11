@@ -12,7 +12,7 @@ const FooterContainer = styled.div`
   align-items: center;
   text-align: center;
   flex-direction: column;
-  margin-top: 2.5rem,
+  margin-top: 4rem,
   @media (min-width: 768px) {
     position: fixed;
     bottom: 0;

@@ -30,10 +30,10 @@ const MainContainer = styled.section`
   justify-content: center;
   text-align: center;
   align-self: center;
-  margin: 2rem auto 4rem auto;
+  margin: 3rem auto 4rem auto;
   @media (min-width: 768px){
     flex-direction: row;
-  width: 70%;
+    width: 70%;
   }
 `
 
@@ -64,16 +64,15 @@ const EmptyContainer = styled.div`
   margin: 0.6rem;
   padding: 10px;
   border-radius: 9px;
-  // box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+
 `
 
 const ImageContainerLottie = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin: 3rem auto;
-  width: 45%;
   @media (min-width: 768px){
-    width: 43%;
+    width: 50%;
   }
   @media (min-width: 992px) {
     width: 40%;
