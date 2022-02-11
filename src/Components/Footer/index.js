@@ -11,6 +11,13 @@ const FooterContainer = styled.div`
   align-items: center;
   text-align: center;
   flex-direction: column;
+  margin-top: 1rem,
+  @media (min-width: 992px) {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+  }
+  
 `
 
 const FooterCenter = styled.p`
