@@ -22,6 +22,7 @@ const MainContainer = styled.section`
   margin: 3rem auto 4rem auto;
   @media (min-width: 768px){
     flex-direction: row;
+    padding: 3rem;
   }
   @media (min-width: 992px) {
     width: 60%;
