@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { Link } from "react-router-dom";
 
+
 const FooterContainer = styled.div`
   width: 100%;
   height: auto;
@@ -11,13 +12,12 @@ const FooterContainer = styled.div`
   align-items: center;
   text-align: center;
   flex-direction: column;
-  margin-top: 1rem,
-  @media (min-width: 992px) {
+  margin-top: 2.5rem,
+  @media (min-width: 768px) {
     position: fixed;
     left: 0;
     bottom: 0;
   }
-  
 `
 
 const FooterCenter = styled.p`
