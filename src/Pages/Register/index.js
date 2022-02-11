@@ -19,7 +19,7 @@ const MainContainer = styled.section`
   flex-direction: column;
   border-radius: 10px;
   width: 90%;
-  margin: 2rem auto 4rem auto;
+  margin: 3rem auto 4rem auto;
   @media (min-width: 768px){
     flex-direction: row;
   }

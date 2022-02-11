@@ -15,7 +15,6 @@ const FooterContainer = styled.div`
   margin-top: 2.5rem,
   @media (min-width: 768px) {
     position: fixed;
-    left: 0;
     bottom: 0;
   }
 `
